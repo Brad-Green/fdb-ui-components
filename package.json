@@ -1,10 +1,15 @@
 {
   "name": "fdb-ui-components",
   "version": "1.0.0",
-  "description": "",
+  "description": "Monorepo for shadcn/ui React components styled from Tokens Studio design tokens.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "pnpm --filter ui dev",
+    "build": "pnpm --filter ui build",
+    "lint": "pnpm --filter ui lint",
+    "tokens:sync": "pnpm --filter @fdb/tokens tokens:sync",
+    "tokens:fix": "pnpm --filter @fdb/tokens tokens:fix",
+    "tokens:build": "pnpm --filter @fdb/tokens tokens:build"
   },
   "keywords": [],
   "author": "",

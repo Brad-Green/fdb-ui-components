@@ -1,0 +1,41 @@
+# @fdb/ui
+
+shadcn/ui-style React components, with a Vite demo (`src/dev/ComponentGallery.tsx`).
+
+## Styling + tokens
+
+This package does **not** maintain its own theme colors. It imports generated CSS artifacts from `@fdb/tokens`:
+
+- `@fdb/tokens/dist/tokens.css`: full token set as CSS variables
+- `@fdb/tokens/dist/shadcn-theme.css`: shadcn contract vars (`--background`, `--primary`, etc.)
+
+Those are imported in `src/index.css`, and Tailwind maps the shadcn color keys to `hsl(var(--...))`.
+
+## Commands
+
+From the workspace root:
+
+```bash
+pnpm dev
+```
+
+Or run just this package:
+
+```bash
+pnpm --filter ui dev
+```
+
+Build (includes token generation via `prebuild`):
+
+```bash
+pnpm --filter ui build
+```
+
+## Token updates
+
+This package delegates token operations to `@fdb/tokens`:
+
+```bash
+pnpm --filter ui tokens:sync
+pnpm --filter ui tokens:build
+```
