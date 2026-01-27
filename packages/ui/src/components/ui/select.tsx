@@ -11,28 +11,29 @@ const SelectGroup = SelectPrimitive.Group
 
 const SelectValue = SelectPrimitive.Value
 
+export type FieldDecoration = "none" | "leftIcon" | "rightIcon" | "both"
+
 const selectTriggerVariants = cva(
   "flex w-full items-center justify-between border border-input bg-background text-sm shadow-sm transition-colors " +
     "placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 " +
-    "disabled:cursor-not-allowed disabled:opacity-50 data-[state=open]:ring-2 data-[state=open]:ring-ring",
+    "disabled:cursor-not-allowed disabled:opacity-50 data-[state=open]:ring-2 data-[state=open]:ring-ring " +
+    "aria-[invalid=true]:border-destructive aria-[invalid=true]:ring-ring-error aria-[invalid=true]:data-[state=open]:ring-ring-error",
   {
     variants: {
       size: {
         regular: "h-10 px-3",
         large: "h-12 px-4 text-base",
       },
-      type: {
+      variant: {
         default: "",
         destructive:
-          "border-destructive text-destructive focus:ring-destructive data-[state=open]:ring-destructive",
+          "border-destructive text-destructive focus:ring-ring-error data-[state=open]:ring-ring-error",
       },
-      hasLeftIcon: {
-        true: "pl-9",
-        false: "",
-      },
-      hasRightIcon: {
-        true: "pr-9",
-        false: "",
+      decoration: {
+        none: "",
+        leftIcon: "pl-9",
+        rightIcon: "pr-9",
+        both: "pl-9 pr-9",
       },
       roundness: {
         default: "rounded-md",
@@ -41,19 +42,15 @@ const selectTriggerVariants = cva(
     },
     defaultVariants: {
       size: "regular",
-      type: "default",
-      hasLeftIcon: false,
-      hasRightIcon: false,
+      variant: "default",
+      decoration: "none",
       roundness: "default",
     },
   }
 )
 
 interface SelectTriggerProps
-  extends Omit<
-      React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>,
-      "type"
-    >,
+  extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>,
     VariantProps<typeof selectTriggerVariants> {}
 
 const SelectTrigger = React.forwardRef<
@@ -64,9 +61,8 @@ const SelectTrigger = React.forwardRef<
     {
       className,
       size,
-      type,
-      hasLeftIcon,
-      hasRightIcon,
+      variant,
+      decoration,
       roundness,
       children,
       ...props
@@ -78,13 +74,16 @@ const SelectTrigger = React.forwardRef<
       className={cn(
         selectTriggerVariants({
           size,
-          type,
-          hasLeftIcon,
-          hasRightIcon,
+          variant,
+          decoration,
           roundness,
         }),
         className
       )}
+      data-size={size}
+      data-variant={variant}
+      data-roundness={roundness}
+      data-decoration={decoration}
       {...props}
     >
       {children}

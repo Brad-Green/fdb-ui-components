@@ -1,22 +1,52 @@
 import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 
-const Textarea = React.forwardRef<
-  HTMLTextAreaElement,
-  React.ComponentProps<"textarea">
->(({ className, ...props }, ref) => {
-  return (
-    <textarea
-      className={cn(
-        "flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
-        className
-      )}
-      ref={ref}
-      {...props}
-    />
-  )
-})
+const textareaVariants = cva(
+  "flex min-h-[80px] w-full bg-transparent px-3 py-2 text-sm shadow-sm " +
+  "rounded-md border border-input " +
+  "placeholder:text-muted-foreground " +
+  "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring " +
+  "aria-[invalid=true]:border-destructive " +
+  "aria-[invalid=true]:ring-ring-error " +
+  "disabled:cursor-not-allowed disabled:opacity-50",
+  {
+    variants: {
+      size: {
+        regular: "min-h-[80px] px-3 py-2",
+        large: "min-h-[120px] px-4 py-3 text-base",
+        small: "min-h-[64px] px-2 py-1.5 text-sm",
+        mini: "min-h-[48px] px-2 py-1 text-xs",
+      },
+      roundness: {
+        default: "rounded-md",
+        round: "rounded-xl",
+      },
+    },
+    defaultVariants: {
+      size: "regular",
+      roundness: "default",
+    },
+  }
+)
+
+export interface TextareaProps
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+    VariantProps<typeof textareaVariants> {}
+
+const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
+  ({ className, size, roundness, ...props }, ref) => {
+    return (
+      <textarea
+        ref={ref}
+        className={cn(textareaVariants({ size, roundness }), className)}
+        {...props}
+      />
+    )
+  }
+)
+
 Textarea.displayName = "Textarea"
 
-export { Textarea }
+export { Textarea, textareaVariants }

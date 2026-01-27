@@ -3,11 +3,16 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 
+export type FieldDecoration = "none" | "leftIcon" | "rightIcon" | "both"
+
 const inputVariants = cva(
-  "flex w-full border border-input bg-background text-sm shadow-sm transition-colors " +
-    "file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground " +
-    "placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 " +
-    "focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+  "flex w-full bg-transparent px-3 py-1 text-base shadow-sm transition-colors md:text-sm " +
+  "rounded-md border border-input " +
+  "placeholder:text-muted-foreground " +
+  "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring " +
+  "aria-[invalid=true]:border-destructive " +
+  "aria-[invalid=true]:ring-ring-error " +
+  "disabled:cursor-not-allowed disabled:opacity-50",
   {
     variants: {
       size: {
@@ -20,20 +25,17 @@ const inputVariants = cva(
         default: "rounded-md",
         round: "rounded-full",
       },
-      hasLeftIcon: {
-        true: "pl-9",
-        false: "",
-      },
-      hasRightIcon: {
-        true: "pr-9",
-        false: "",
+      decoration: {
+        none: "",
+        leftIcon: "pl-9",
+        rightIcon: "pr-9",
+        both: "pl-9 pr-9",
       },
     },
     defaultVariants: {
       size: "regular",
       roundness: "default",
-      hasLeftIcon: false,
-      hasRightIcon: false,
+      decoration: "none",
     },
   }
 )
@@ -49,8 +51,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       type,
       size,
       roundness,
-      hasLeftIcon,
-      hasRightIcon,
+      decoration,
       ...props
     },
     ref
@@ -59,10 +60,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <input
         type={type}
         className={cn(
-          inputVariants({ size, roundness, hasLeftIcon, hasRightIcon }),
+          inputVariants({ size, roundness, decoration }),
           className
         )}
         ref={ref}
+        data-size={size}
+        data-roundness={roundness}
+        data-decoration={decoration}
         {...props}
       />
     )

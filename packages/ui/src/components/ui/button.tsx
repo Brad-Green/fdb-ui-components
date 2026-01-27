@@ -5,25 +5,31 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all " +
+    "disabled:pointer-events-none disabled:opacity-50 " +
+    "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 " +
+    "outline-none focus-visible:border-ring focus-visible:ring-ring focus-visible:ring-[3px] " +
+    "aria-[invalid=true]:ring-ring-error aria-[invalid=true]:border-destructive",
   {
     variants: {
       variant: {
-        primary: "bg-primary text-primary-foreground hover:bg-primary/90",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        primary: "bg-primary text-primary-foreground hover:bg-primary-hover",
+        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary-hover",
+        outline:
+          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
         ghost: "hover:bg-accent hover:text-accent-foreground",
-        destructive: "bg-destructive text-primary-foreground hover:bg-destructive/90",
+        destructive:
+          "bg-destructive text-destructive-foreground hover:bg-destructive-hover",
         ghostMuted: "text-muted-foreground hover:bg-muted",
       },
-    
+
       size: {
         regular: "h-10 px-4 py-2",
         large: "h-12 px-6 text-base",
         small: "h-9 px-3 text-sm",
         mini: "h-8 px-2 text-xs",
       },
-    
+
       roundness: {
         default: "rounded-md",
         round: "rounded-full",
@@ -37,35 +43,60 @@ const buttonVariants = cva(
   }
 )
 
-function Button({
-  className,
-  variant = "primary",
-  size = "regular",
-  roundness = "default",
-  asChild = false,
-  ...props
-}: React.ComponentProps<"button"> &
-  VariantProps<typeof buttonVariants> & {
-    asChild?: boolean
-  }) {
-  const Comp = asChild ? Slot : "button"
-
-  return (
-    <Comp
-      data-slot="button"
-      data-variant={variant}
-      data-size={size}
-      data-roundness={roundness}
-      className={cn(buttonVariants({ variant, size, roundness, className }))}
-      {...props}
-    />
-  )
+export interface ButtonProps
+  extends React.ComponentProps<"button">,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean
+  leftIcon?: React.ReactNode
+  rightIcon?: React.ReactNode
 }
 
-type ButtonProps = React.ComponentProps<"button"> &
-  VariantProps<typeof buttonVariants> & {
-    asChild?: boolean
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      className,
+      variant,
+      size,
+      roundness,
+      asChild = false,
+      leftIcon,
+      rightIcon,
+      children,
+      ...props
+    },
+    ref
+  ) => {
+    const Comp = asChild ? Slot : "button"
+
+    return (
+      <Comp
+        ref={ref}
+        data-slot="button"
+        data-variant={variant}
+        data-size={size}
+        className={cn(buttonVariants({ variant, size, roundness }), className)}
+        {...props}
+      >
+        {leftIcon && (
+          <span className="inline-flex items-center justify-center">
+            {leftIcon}
+          </span>
+        )}
+
+        <span className="inline-flex items-center justify-center">
+          {children}
+        </span>
+
+        {rightIcon && (
+          <span className="inline-flex items-center justify-center">
+            {rightIcon}
+          </span>
+        )}
+      </Comp>
+    )
   }
+)
+
+Button.displayName = "Button"
 
 export { Button, buttonVariants }
-export type { ButtonProps }

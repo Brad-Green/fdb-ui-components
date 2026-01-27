@@ -11,7 +11,7 @@ const alertVariants = cva(
         // Default alert uses muted surface + muted foreground (matches design intent)
         default: "bg-muted text-foreground [&>div]:text-muted-foreground",
         destructive:
-          "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
+          "border-destructive-border text-destructive [&>svg]:text-destructive",
       },
     },
     defaultVariants: {

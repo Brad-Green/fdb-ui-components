@@ -51,13 +51,20 @@ function hexToRgb(hex) {
     const r = parseInt(cleaned[0] + cleaned[0], 16)
     const g = parseInt(cleaned[1] + cleaned[1], 16)
     const b = parseInt(cleaned[2] + cleaned[2], 16)
-    return { r, g, b }
+    return { r, g, b, a: 1 }
   }
   if (cleaned.length === 6) {
     const r = parseInt(cleaned.slice(0, 2), 16)
     const g = parseInt(cleaned.slice(2, 4), 16)
     const b = parseInt(cleaned.slice(4, 6), 16)
-    return { r, g, b }
+    return { r, g, b, a: 1 }
+  }
+  if (cleaned.length === 8) {
+    const r = parseInt(cleaned.slice(0, 2), 16)
+    const g = parseInt(cleaned.slice(2, 4), 16)
+    const b = parseInt(cleaned.slice(4, 6), 16)
+    const a = parseInt(cleaned.slice(6, 8), 16) / 255
+    return { r, g, b, a }
   }
   return null
 }
@@ -105,10 +112,35 @@ function rgbToHslChannels({ r, g, b }) {
 function valueToHslChannels(value) {
   if (typeof value !== "string") return null
   const v = value.trim()
+  if (v.startsWith("rgba(") || v.startsWith("rgb(")) {
+    // Supports:
+    //  - rgba(r, g, b, a)
+    //  - rgb(r, g, b)
+    const m = v.match(/^rgba?\((.+)\)$/)
+    if (!m) return null
+    const parts = m[1]
+      .split(",")
+      .map((p) => p.trim())
+      .filter(Boolean)
+    if (parts.length < 3) return null
+    const r = Number(parts[0])
+    const g = Number(parts[1])
+    const b = Number(parts[2])
+    const a = parts.length >= 4 ? Number(parts[3]) : 1
+    if (![r, g, b, a].every((n) => Number.isFinite(n))) return null
+    const channels = rgbToHslChannels({ r, g, b })
+    if (a >= 0.999) return channels
+    const aPct = Math.round(clamp(a * 100, 0, 100))
+    return `${channels} / ${aPct}%`
+  }
   if (v.startsWith("#")) {
     const rgb = hexToRgb(v)
     if (!rgb) return null
-    return rgbToHslChannels(rgb)
+    const channels = rgbToHslChannels(rgb)
+    const a = typeof rgb.a === "number" ? rgb.a : 1
+    if (a >= 0.999) return channels
+    const aPct = Math.round(clamp(a * 100, 0, 100))
+    return `${channels} / ${aPct}%`
   }
   return null
 }
@@ -126,13 +158,23 @@ StyleDictionary.registerFormat({
       foreground: byName(dictionary, "semanticColorsFdbGeneralForeground")?.value,
       primary: byName(dictionary, "semanticColorsFdbGeneralPrimary")?.value,
       primaryForeground: byName(dictionary, "semanticColorsFdbGeneralPrimaryForeground")?.value,
+      primaryHover: byName(dictionary, "semanticColorsFdbUnofficialPrimaryHover")?.value,
       secondary: byName(dictionary, "semanticColorsFdbGeneralSecondary")?.value,
       secondaryForeground: byName(dictionary, "semanticColorsFdbGeneralSecondaryForeground")?.value,
+      secondaryHover: byName(dictionary, "semanticColorsFdbUnofficialSecondaryHover")?.value,
       muted: byName(dictionary, "semanticColorsFdbGeneralMuted")?.value,
       mutedForeground: byName(dictionary, "semanticColorsFdbGeneralMutedForeground")?.value,
       accent: byName(dictionary, "semanticColorsFdbGeneralAccent")?.value,
       accentForeground: byName(dictionary, "semanticColorsFdbGeneralAccentForeground")?.value,
+      ghostHover: byName(dictionary, "semanticColorsFdbUnofficialGhostHover")?.value,
+      outlineHover: byName(dictionary, "semanticColorsFdbUnofficialOutlineHover")?.value,
       destructive: byName(dictionary, "semanticColorsFdbGeneralDestructive")?.value,
+      destructiveBorder: byName(dictionary, "semanticColorsFdbUnofficialDestructiveBorder")?.value,
+      // Destructive buttons need a light foreground in light mode.
+      // Prefer an explicit white token (matches shadcn defaults).
+      destructiveForeground:
+        byName(dictionary, "rawColorsMode1White")?.value ??
+        byName(dictionary, "semanticColorsFdbGeneralPrimaryForeground")?.value,
       border: byName(dictionary, "semanticColorsFdbGeneralBorder")?.value,
       // shadcn's `--input` is the default control border/track color, not the input background.
       // Prefer the FDB "unofficial" border level used for form controls; fall back to general border.
@@ -140,6 +182,8 @@ StyleDictionary.registerFormat({
         byName(dictionary, "semanticColorsFdbUnofficialBorder3")?.value ??
         byName(dictionary, "semanticColorsFdbGeneralBorder")?.value,
       ring: byName(dictionary, "semanticColorsFdbFocusRing")?.value,
+      ringError: byName(dictionary, "semanticColorsFdbFocusRingError")?.value,
+      backdrop: byName(dictionary, "semanticColorsFdbUnofficialBackdrop")?.value,
       card: byName(dictionary, "semanticColorsFdbCardCard")?.value,
       cardForeground: byName(dictionary, "semanticColorsFdbCardCardForeground")?.value,
       // Figma/Obra "popover" surfaces (menus, dropdowns, selects) are light in the design system.
@@ -160,16 +204,24 @@ StyleDictionary.registerFormat({
       foreground: byName(dictionary, "rawColorsMode1Slate50")?.value,
       primary: byName(dictionary, "semanticColorsFdbGeneralPrimary")?.value,
       primaryForeground: byName(dictionary, "rawColorsMode1Slate50")?.value,
+      primaryHover: byName(dictionary, "semanticColorsFdbUnofficialPrimaryHover")?.value,
       secondary: byName(dictionary, "rawColorsMode1Slate900")?.value,
       secondaryForeground: byName(dictionary, "rawColorsMode1Slate50")?.value,
+      secondaryHover: byName(dictionary, "semanticColorsFdbUnofficialSecondaryHover")?.value,
       muted: byName(dictionary, "rawColorsMode1Slate900")?.value,
       mutedForeground: byName(dictionary, "rawColorsMode1Slate300")?.value,
       accent: byName(dictionary, "rawColorsMode1Slate900")?.value,
       accentForeground: byName(dictionary, "rawColorsMode1Slate50")?.value,
+      ghostHover: byName(dictionary, "semanticColorsFdbUnofficialGhostHover")?.value,
+      outlineHover: byName(dictionary, "semanticColorsFdbUnofficialOutlineHover")?.value,
       destructive: byName(dictionary, "rawColorsMode1Red900")?.value,
+      destructiveBorder: byName(dictionary, "semanticColorsFdbUnofficialDestructiveBorder")?.value,
+      destructiveForeground: byName(dictionary, "rawColorsMode1Slate50")?.value,
       border: byName(dictionary, "rawColorsMode1Slate900")?.value,
       input: byName(dictionary, "rawColorsMode1Slate900")?.value,
       ring: byName(dictionary, "rawColorsMode1Slate300")?.value,
+      ringError: byName(dictionary, "rawColorsMode1Red300")?.value,
+      backdrop: byName(dictionary, "semanticColorsFdbUnofficialBackdrop")?.value,
       card: byName(dictionary, "rawColorsMode1Slate950")?.value,
       cardForeground: byName(dictionary, "rawColorsMode1Slate50")?.value,
       popover: byName(dictionary, "rawColorsMode1Slate950")?.value,
@@ -185,18 +237,24 @@ StyleDictionary.registerFormat({
         ["--foreground", vars.foreground],
         ["--primary", vars.primary],
         ["--primary-foreground", vars.primaryForeground],
+        ["--primary-hover", vars.primaryHover],
         ["--secondary", vars.secondary],
         ["--secondary-foreground", vars.secondaryForeground],
+        ["--secondary-hover", vars.secondaryHover],
         ["--muted", vars.muted],
         ["--muted-foreground", vars.mutedForeground],
         ["--accent", vars.accent],
         ["--accent-foreground", vars.accentForeground],
+        ["--ghost-hover", vars.ghostHover],
+        ["--outline-hover", vars.outlineHover],
         ["--destructive", vars.destructive],
-        // shadcn expects destructive-foreground; derive from light foreground if missing
-        ["--destructive-foreground", vars.foreground],
+        ["--destructive-border", vars.destructiveBorder],
+        ["--destructive-foreground", vars.destructiveForeground ?? vars.foreground],
         ["--border", vars.border],
         ["--input", vars.input],
         ["--ring", vars.ring],
+        ["--ring-error", vars.ringError],
+        ["--backdrop", vars.backdrop],
         ["--card", vars.card],
         ["--card-foreground", vars.cardForeground],
         ["--popover", vars.popover],

@@ -13,28 +13,41 @@ export default {
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',
+  			'ring-error': 'hsl(var(--ring-error))',
+  			backdrop: 'hsl(var(--backdrop))',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			primary: {
   				DEFAULT: 'hsl(var(--primary))',
   				foreground: 'hsl(var(--primary-foreground))'
   			},
+  			'primary-hover': 'hsl(var(--primary-hover))',
+  			'primary-subtle': 'hsl(var(--primary) / 0.1)',
+  			'primary-soft': 'hsl(var(--primary) / 0.2)',
+  			'primary-border-subtle': 'hsl(var(--primary) / 0.5)',
   			secondary: {
   				DEFAULT: 'hsl(var(--secondary))',
   				foreground: 'hsl(var(--secondary-foreground))'
   			},
+  			'secondary-hover': 'hsl(var(--secondary-hover))',
   			destructive: {
   				DEFAULT: 'hsl(var(--destructive))',
   				foreground: 'hsl(var(--destructive-foreground))'
   			},
+  			'destructive-hover': 'hsl(var(--destructive) / 0.9)',
+  			'destructive-border': 'hsl(var(--destructive-border))',
   			muted: {
   				DEFAULT: 'hsl(var(--muted))',
   				foreground: 'hsl(var(--muted-foreground))'
   			},
+  			'muted-soft': 'hsl(var(--muted) / 0.5)',
   			accent: {
   				DEFAULT: 'hsl(var(--accent))',
   				foreground: 'hsl(var(--accent-foreground))'
   			},
+  			'accent-soft': 'hsl(var(--accent) / 0.5)',
+  			'ghost-hover': 'hsl(var(--ghost-hover))',
+  			'outline-hover': 'hsl(var(--outline-hover))',
   			popover: {
   				DEFAULT: 'hsl(var(--popover))',
   				foreground: 'hsl(var(--popover-foreground))'
