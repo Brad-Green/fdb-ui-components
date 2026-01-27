@@ -1,8 +1,15 @@
 {
   "name": "@fdb/tokens",
-  "private": true,
+  "private": false,
   "version": "0.0.0",
   "type": "module",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "scripts": {
     "tokens:sync": "curl -L https://raw.githubusercontent.com/Brad-Green/FDB-Design-Tokens/refs/heads/main/fdb-design-tokens.json -o tokens/tokens.json && node scripts/fix-tokens.js",
     "tokens:fix": "node scripts/fix-tokens.js",
@@ -10,8 +17,7 @@
   },
   "devDependencies": {
     "@tokens-studio/sd-transforms": "^2.0.3",
-    "style-dictionary": "^5.1.4",
-    "style-dictionary-utils": "^6.0.1"
+    "style-dictionary": "^5.1.4"
   }
 }
 

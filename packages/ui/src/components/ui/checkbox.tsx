@@ -40,6 +40,8 @@ const Checkbox = React.forwardRef<
   <CheckboxPrimitive.Root
     ref={ref}
     className={cn(checkboxVariants({ size, roundness }), className)}
+    data-size={size}
+    data-roundness={roundness}
     {...props}
   >
     <CheckboxPrimitive.Indicator

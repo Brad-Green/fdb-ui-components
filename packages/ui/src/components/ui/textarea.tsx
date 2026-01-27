@@ -41,6 +41,8 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       <textarea
         ref={ref}
         className={cn(textareaVariants({ size, roundness }), className)}
+        data-size={size}
+        data-roundness={roundness}
         {...props}
       />
     )

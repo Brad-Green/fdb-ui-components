@@ -38,6 +38,7 @@ const RadioGroupItem = React.forwardRef<
     <RadioGroupPrimitive.Item
       ref={ref}
       className={cn(radioItemVariants({ size }), className)}
+      data-size={size}
       {...props}
     >
       <RadioGroupPrimitive.Indicator className="flex items-center justify-center">

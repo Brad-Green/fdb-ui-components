@@ -27,6 +27,7 @@ const Alert = React.forwardRef<
   <div
     ref={ref}
     role="alert"
+    data-variant={variant}
     className={cn(alertVariants({ variant }), className)}
     {...props}
   />

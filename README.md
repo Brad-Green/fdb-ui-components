@@ -7,7 +7,7 @@ Monorepo for **shadcn/ui React components** styled from a **Tokens Studio (Figma
 - `packages/tokens`: **source of truth** for tokens + generated artifacts
   - Source: `packages/tokens/tokens/tokens.json`
   - Outputs (generated): `packages/tokens/dist/`
-- `packages/ui`: shadcn/ui component set + Vite demo that **imports generated token CSS**
+- `packages/ui`: shadcn/ui component set + Vite demo that **imports generated token CSS** (intended for shadcn-style copy/paste into consuming apps)
 
 ## Quick start
 
@@ -16,6 +16,14 @@ Install:
 ```bash
 pnpm install
 ```
+
+Consuming these components in an app (copy/paste contract):
+
+- See `CONSUME_IN_APP.md`
+- API conventions checklist (for contributors / AI agents):
+  - See `API_CONVENTIONS.md`
+- Phase 5 Figma → props mappings (source of truth for prop/state/data-* contracts):
+  - See `PHASE5_MAPPINGS.md`
 
 Run the component gallery:
 

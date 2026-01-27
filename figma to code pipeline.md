@@ -1,7 +1,7 @@
 🎯 Design System → Code System (Shadcn + Tokens + Figma Code Connect)
 ✅ Goal
 
-Create a single monorepo UI package containing all shadcn/ui components, fully:
+Create a single monorepo containing the canonical shadcn/ui-style component implementations, fully:
 
 Styled via design tokens exported from Figma
 
@@ -16,13 +16,17 @@ This repo will become the source of truth design system.
 🧱 Current Architecture (Completed)
 Monorepo
 packages/
-  ui/                    ← design system package
+  tokens/                ← token source + generated artifacts
+    tokens/tokens.json   ← Tokens Studio export (synced)
+    dist/
+      tokens.css         ← generated CSS custom properties
+      shadcn-theme.css   ← shadcn contract vars (e.g. --background, --primary, --border)
+  ui/                    ← component source + Vite demo
     src/
       components/ui/     ← all shadcn components live here
       lib/utils.ts
-    styles/
-      tokens.css         ← generated from Figma tokens
-    tailwind.config.ts
+      lib/types.ts       ← shared UI types (e.g. FieldDecoration)
+    tailwind.config.js
     postcss.config.js
 
 Tokens
@@ -31,22 +35,25 @@ Tokens exported from Figma → JSON
 
 Transformed via Style Dictionary
 
-Output to tokens.css
+Output to:
+
+- `packages/tokens/dist/tokens.css`
+- `packages/tokens/dist/shadcn-theme.css`
 
 Tailwind uses semantic CSS variables:
 
---color-border
---color-input
---color-primary
---color-destructive
+--border
+--input
+--primary
+--destructive
 etc.
 
 
 Mapped in Tailwind:
 
 colors: {
-  border: "hsl(var(--color-border))",
-  input: "hsl(var(--color-input))",
+  border: "hsl(var(--border))",
+  input: "hsl(var(--input))",
   primary: ...
 }
 
@@ -81,6 +88,7 @@ Component gallery page exists for visual testing.
 - ✅ **Hardcoded color audit**: replaced any Tailwind palette colors / hardcoded colors found in UI components (ex: toast destructive close/action styles)
 - ✅ **Opacity “drift” audit (Option B)**: removed all `bg-*/NN`, `text-*/NN`, `border-*/NN`, `ring-*/NN` alpha utilities from `packages/ui/src/components/ui`
   - Added explicit semantic/theme-backed values instead (ex: `bg-backdrop`, `bg-primary-subtle`, `bg-primary-soft`, `border-primary-border-subtle`, `bg-muted-soft`)
+  - Note: we still allow defining *semantic* colors that include alpha in `tailwind.config.js` (e.g. `primary-subtle`), but we avoid sprinkling `/NN` alpha utilities throughout component source.
 
 ✅ Tokens / Tailwind Updates (Completed)
 
@@ -97,12 +105,19 @@ We have completed:
 
 - ✅ **Phase 4.5** — ARIA invalid + disabled parity across controls (Input/Textarea/Select/Checkbox/RadioGroup/Switch/Slider)
 - ✅ **Phase 4.6** — missing shadcn components are present (Accordion/Tabs/Tooltip/Popover/Dropdown Menu, plus others)
-- ✅ **Phase 5 kickoff** — started API normalization for Figma parity:
+- ✅ **Phase 5 (in progress)** — API normalization + “binding signals” for Figma parity + Code Connect readiness:
   - `SelectTrigger`: renamed `type` → `variant` and added `decoration` (“none/leftIcon/rightIcon/both”)
   - `Input`: replaced boolean icon flags with `decoration` (“none/leftIcon/rightIcon/both”)
-  - Added `data-*` attributes for future Code Connect mapping (`data-variant`, `data-size`, `data-roundness`, `data-decoration`)
+  - Added `data-*` attributes for Code Connect mapping/debugging (`data-variant`, `data-size`, `data-roundness`, `data-decoration`)
+  - Added `data-disabled="true"` for non-native disabled semantics where `aria-disabled` is used (e.g. Pagination)
+  - Expanded Phase 5 mapping coverage (see `PHASE5_MAPPINGS.md`) for:
+    - Pagination (`PaginationLink` active/disabled)
+    - Calendar (navigation disabled semantics)
+    - Dropdown menu (item highlighted/disabled, sub trigger/content, content placement)
+    - Menubar (content placement, submenu trigger/content)
+    - Navigation menu (trigger open state, content motion, viewport sizing, indicator visibility)
 
-ComponentGallery has been updated with new examples (Input + Select decoration, plus state/validation matrices).
+ComponentGallery has been updated with new examples and DevTools verification notes, so drift and missing `data-*` signals are visually obvious.
 
 Note: `pnpm --filter ui lint` includes an existing Fast Refresh rule (`react-refresh/only-export-components`) that flags shadcn-style exports like `buttonVariants`. This is not part of the design-system work; we can address it later if desired.
 
@@ -150,7 +165,7 @@ Add Code Connect metadata in Figma
 
 Map:
 
-component → import path
+component → import path (consumer app)
 
 variant → props
 
@@ -158,7 +173,7 @@ state → ARIA
 
 Example target:
 
-import { Button } from "@repo/ui"
+import { Button } from "@/components/ui/button"
 
 <Button variant="secondary" size="large" />
 
@@ -200,8 +215,64 @@ We are starting Phase 5 (API parity) and Phase 6 (Code Connect) for the anchor c
 
 Immediate next steps:
 
-1) Continue Phase 5 API alignment for remaining “high-impact” controls (Checkbox, Switch, RadioGroupItem, Slider)
+1) Continue Phase 5 API alignment + mapping for remaining “high-impact” components (overlays like Dialog/Sheet/Popover/Tooltip, plus any remaining controls)
 2) Lock naming conventions across the library (`variant`, `size`, `roundness`, `decoration`, optional `density`)
-3) Begin Phase 6 Code Connect wiring for Button/Input/Select using `data-*` attributes + aria states for mapping
+3) Begin Phase 6 Code Connect wiring for a small anchor set (Button/Input/Select) using the documented `data-*` and ARIA/Radix state signals
 
 Good stopping point — you’re doing this the right way.
+
+---
+
+## ✅ Today’s summary (what changed)
+
+### Phase 5 parity + Code Connect “signals”
+
+- Expanded `PHASE5_MAPPINGS.md` coverage for additional components and Radix-driven state signals (menus/nav/pagination/calendar).
+- Hardened “disabled” and state signaling where relevant:
+  - Pagination now supports `aria-disabled` + emits `data-disabled="true"` for mapping/debugging.
+  - NavigationMenu demo now renders an indicator and documents viewport/content motion signals for DevTools checks.
+- Added/expanded ComponentGallery DevTools verification notes so drift is easy to spot.
+
+### UI fix
+
+- Fixed Select “left icon decoration” layout issue:
+  - Root cause was `justify-between` spreading space between the icon/value/chevron when the icon was injected as a sibling.
+  - Updated `SelectTrigger` to support `leftIcon` / `rightIcon` props and keep layout stable.
+
+### Tokens publishing direction (docs only, no automation yet)
+
+- Confirmed the strategy: publish `@fdb/tokens` to an internal registry; selected **GitHub Packages**.
+- Added publish docs and clarified constraints:
+  - `PUBLISH_TOKENS.md` (GitHub Packages checklist + `.npmrc` template + npm scope constraint).
+  - Updated `packages/tokens/README.md` to reference GitHub Packages publishing.
+  - Updated `packages/tokens/package.json` to be publish-ready and to set `publishConfig.registry`.
+
+---
+
+## 🗓️ Tomorrow plan (start here)
+
+### 1) Resolve the GitHub Packages naming constraint
+
+GitHub Packages (npm) requires the package scope to match your GitHub org/user.
+
+- Decide whether the publishing org/user will actually be `fdb` (to keep `@fdb/tokens`), or whether we need to rename to `@<org>/tokens`.
+- If renaming is required, update:
+  - `packages/ui` dependency on tokens
+  - docs (`CONSUME_IN_APP.md`, `PUBLISH_TOKENS.md`, token README)
+  - any CSS imports that reference `@fdb/tokens/dist/*`
+
+### 2) Do a first manual publish dry-run (still no CI)
+
+- Build tokens locally: `pnpm --filter @fdb/tokens tokens:build`
+- Publish to GitHub Packages from `packages/tokens` (per `PUBLISH_TOKENS.md`)
+- Smoke-test in a tiny consumer app:
+  - install the package
+  - import `@fdb/tokens/dist/*.css`
+  - render a `Button` + `Select` copied from this repo
+
+### 3) Resume Phase 5 “high impact” coverage
+
+- Continue API/mapping alignment for remaining overlays (Dialog/Sheet/Popover/Tooltip) and any remaining controls.
+- Keep using the pattern:
+  - update component → update `PHASE5_MAPPINGS.md` → update `ComponentGallery` matrix + DevTools note
+

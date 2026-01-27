@@ -44,10 +44,14 @@ const PaginationLink = ({
   className,
   isActive,
   size = "mini",
+  "aria-disabled": ariaDisabled,
   ...props
 }: PaginationLinkProps) => (
   <a
     aria-current={isActive ? "page" : undefined}
+    aria-disabled={ariaDisabled}
+    data-active={isActive ? "true" : undefined}
+    data-disabled={ariaDisabled ? "true" : undefined}
     className={cn(
       buttonVariants({
         variant: isActive ? "outline" : "ghost",

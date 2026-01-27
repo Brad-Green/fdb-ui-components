@@ -12,7 +12,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
 import {
   Dialog,
   DialogContent,
@@ -24,6 +33,9 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {
@@ -51,11 +63,15 @@ import {
   MenubarContent,
   MenubarItem,
   MenubarMenu,
+  MenubarSub,
+  MenubarSubContent,
+  MenubarSubTrigger,
   MenubarTrigger,
 } from "@/components/ui/menubar"
 import {
   NavigationMenu,
   NavigationMenuContent,
+  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
@@ -63,6 +79,8 @@ import {
 } from "@/components/ui/navigation-menu"
 import { ChevronRight, Plus } from "lucide-react"
 import { FormField } from "@/components/ui/form-field"
+import { Toaster } from "@/components/ui/toaster"
+import { toast } from "@/hooks/use-toast"
 
 export function ComponentGallery() {
   const [isDark, setIsDark] = React.useState(() => {
@@ -122,13 +140,46 @@ export function ComponentGallery() {
           </div>
 
           <div className="flex flex-wrap gap-4 items-center">
-            <Button leftIcon={<Plus />}>Left icon</Button>
-            <Button rightIcon={<ChevronRight />}>Right icon</Button>
-            <Button leftIcon={<Plus />} rightIcon={<ChevronRight />}>
+            <Button decoration="leftIcon" leftIcon={<Plus />}>
+              Left icon
+            </Button>
+            <Button decoration="rightIcon" rightIcon={<ChevronRight />}>
+              Right icon
+            </Button>
+            <Button
+              decoration="both"
+              leftIcon={<Plus />}
+              rightIcon={<ChevronRight />}
+            >
               Both
             </Button>
           </div>
+
+          <div className="flex flex-wrap gap-4 items-center">
+            <Button aria-invalid variant="outline">
+              aria-invalid
+            </Button>
+            <Button disabled variant="outline">
+              Disabled
+            </Button>
+            <Button aria-invalid disabled variant="outline">
+              aria-invalid + Disabled
+            </Button>
+          </div>
           
+        </div>
+      </section>
+
+      <Separator />
+
+      {/* Badges */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Badges</h2>
+        <div className="flex flex-wrap items-center gap-3">
+          <Badge>Default</Badge>
+          <Badge variant="secondary">Secondary</Badge>
+          <Badge variant="destructive">Destructive</Badge>
+          <Badge variant="outline">Outline</Badge>
         </div>
       </section>
 
@@ -216,15 +267,45 @@ export function ComponentGallery() {
         </Select>
 
         <Select>
-          <SelectTrigger decoration="leftIcon">
-            <span className="inline-flex items-center gap-2">
-              <Plus className="h-4 w-4 text-muted-foreground" />
-              <SelectValue placeholder="Left icon decoration" />
-            </span>
+          <SelectTrigger roundness="round">
+            <SelectValue placeholder="Round trigger" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="r1">Round 1</SelectItem>
+            <SelectItem value="r2">Round 2</SelectItem>
+          </SelectContent>
+        </Select>
+
+        <Select>
+          <SelectTrigger
+            decoration="leftIcon"
+            leftIcon={<Plus className="h-4 w-4 text-muted-foreground" />}
+          >
+            <SelectValue placeholder="Left icon decoration" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="x">X</SelectItem>
             <SelectItem value="y">Y</SelectItem>
+          </SelectContent>
+        </Select>
+
+        <Select>
+          <SelectTrigger aria-invalid>
+            <SelectValue placeholder="aria-invalid on trigger" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="i1">Invalid 1</SelectItem>
+            <SelectItem value="i2">Invalid 2</SelectItem>
+          </SelectContent>
+        </Select>
+
+        <Select>
+          <SelectTrigger disabled>
+            <SelectValue placeholder="Disabled trigger" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="d1">Disabled 1</SelectItem>
+            <SelectItem value="d2">Disabled 2</SelectItem>
           </SelectContent>
         </Select>
       </section>
@@ -294,42 +375,93 @@ export function ComponentGallery() {
             <CardContent className="space-y-6">
               <div className="space-y-3">
                 <div className="text-sm font-medium">Checkbox</div>
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="demo-checkbox"
-                    checked={demoCheckboxChecked}
-                    onCheckedChange={(v) => setDemoCheckboxChecked(v === true)}
-                  />
-                  <Label htmlFor="demo-checkbox">Interactive (normal)</Label>
+                <div className="grid gap-3">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Checkbox
+                      id="demo-checkbox"
+                      checked={demoCheckboxChecked}
+                      onCheckedChange={(v) => setDemoCheckboxChecked(v === true)}
+                    />
+                    <Label htmlFor="demo-checkbox">Interactive (normal)</Label>
+                  </div>
+
+                  <div className="grid gap-2 sm:grid-cols-2">
+                    <FormField label="Regular (invalid)" error="Required">
+                      <Checkbox />
+                    </FormField>
+                    <FormField label="Large (invalid)" error="Required">
+                      <Checkbox size="large" />
+                    </FormField>
+                  </div>
+
+                  <div className="grid gap-2 sm:grid-cols-2">
+                    <FormField label="Round (invalid)" error="Required">
+                      <Checkbox roundness="round" />
+                    </FormField>
+                    <FormField label="Large + Round (invalid)" error="Required">
+                      <Checkbox size="large" roundness="round" />
+                    </FormField>
+                  </div>
+
+                  <div className="grid gap-2 sm:grid-cols-2">
+                    <FormField label="Regular (aria-invalid)" description="Direct aria-invalid on control">
+                      <Checkbox aria-invalid />
+                    </FormField>
+                    <FormField label="Large + Round (aria-invalid)" description="Direct aria-invalid on control">
+                      <Checkbox aria-invalid size="large" roundness="round" />
+                    </FormField>
+                  </div>
+
+                  <div className="grid gap-2 sm:grid-cols-2">
+                    <FormField label="Regular (invalid + disabled)" error="Required" disabled>
+                      <Checkbox />
+                    </FormField>
+                    <FormField label="Large (invalid + disabled)" error="Required" disabled>
+                      <Checkbox size="large" />
+                    </FormField>
+                  </div>
                 </div>
-
-                <FormField error="Required">
-                  <Checkbox />
-                </FormField>
-
-                <FormField error="Required" disabled>
-                  <Checkbox />
-                </FormField>
               </div>
 
               <div className="space-y-3">
                 <div className="text-sm font-medium">Switch</div>
-                <div className="flex items-center gap-3">
-                  <Switch
-                    id="demo-switch"
-                    checked={demoSwitchChecked}
-                    onCheckedChange={setDemoSwitchChecked}
-                  />
-                  <Label htmlFor="demo-switch">Interactive (normal)</Label>
+                <div className="grid gap-3">
+                  <div className="flex flex-wrap items-center gap-3">
+                    <Switch
+                      id="demo-switch"
+                      checked={demoSwitchChecked}
+                      onCheckedChange={setDemoSwitchChecked}
+                    />
+                    <Label htmlFor="demo-switch">Interactive (normal)</Label>
+                  </div>
+
+                  <div className="grid gap-2 sm:grid-cols-2">
+                    <FormField label="Regular (invalid)" error="Required">
+                      <Switch />
+                    </FormField>
+                    <FormField label="Large (invalid)" error="Required">
+                      <Switch size="large" />
+                    </FormField>
+                  </div>
+
+                  <div className="grid gap-2 sm:grid-cols-2">
+                    <FormField label="Regular (aria-invalid)" description="Direct aria-invalid on control">
+                      <Switch aria-invalid />
+                    </FormField>
+                    <FormField label="Large (aria-invalid)" description="Direct aria-invalid on control">
+                      <Switch aria-invalid size="large" />
+                    </FormField>
+                  </div>
+
+                  <div className="grid gap-2 sm:grid-cols-2">
+                    <FormField label="Regular (invalid + disabled)" error="Required" disabled>
+                      <Switch />
+                    </FormField>
+                    <FormField label="Large (invalid + disabled)" error="Required" disabled>
+                      <Switch size="large" />
+                    </FormField>
+                  </div>
                 </div>
-
-                <FormField error="Required">
-                  <Switch />
-                </FormField>
-
-                <FormField error="Required" disabled>
-                  <Switch />
-                </FormField>
               </div>
             </CardContent>
           </Card>
@@ -374,6 +506,11 @@ export function ComponentGallery() {
             </div>
 
             <div className="space-y-2">
+              <div className="text-sm font-medium">Invalid (aria-invalid on root)</div>
+              <Slider defaultValue={[50]} aria-invalid />
+            </div>
+
+            <div className="space-y-2">
               <div className="text-sm font-medium">Disabled</div>
               <Slider defaultValue={[50]} disabled />
             </div>
@@ -395,6 +532,11 @@ export function ComponentGallery() {
                 fromMonth={new Date(2026, 0, 1)}
                 toMonth={new Date(2026, 0, 1)}
               />
+              <p className="text-xs text-muted-foreground">
+                Verify disabled navigation sets{" "}
+                <code className="rounded bg-muted px-1 py-0.5">aria-disabled</code>{" "}
+                on the previous/next month buttons and prevents interaction.
+              </p>
             </CardContent>
           </Card>
 
@@ -424,6 +566,16 @@ export function ComponentGallery() {
                   </PaginationItem>
                 </PaginationContent>
               </Pagination>
+              <p className="text-xs text-muted-foreground">
+                Verify the active link sets{" "}
+                <code className="rounded bg-muted px-1 py-0.5">aria-current="page"</code>{" "}
+                and{" "}
+                <code className="rounded bg-muted px-1 py-0.5">data-active="true"</code>.
+                Also verify the disabled previous link sets{" "}
+                <code className="rounded bg-muted px-1 py-0.5">aria-disabled</code>{" "}
+                and{" "}
+                <code className="rounded bg-muted px-1 py-0.5">data-disabled="true"</code>.
+              </p>
             </CardContent>
           </Card>
         </div>
@@ -439,6 +591,19 @@ export function ComponentGallery() {
                   <MenubarTrigger>File</MenubarTrigger>
                   <MenubarContent>
                     <MenubarItem>New</MenubarItem>
+                    <MenubarSub>
+                      <MenubarSubTrigger>More</MenubarSubTrigger>
+                      <MenubarSubContent>
+                        <MenubarItem>Sub item A</MenubarItem>
+                        <MenubarItem>Sub item B</MenubarItem>
+                      </MenubarSubContent>
+                    </MenubarSub>
+                    <MenubarSub>
+                      <MenubarSubTrigger disabled>Disabled submenu</MenubarSubTrigger>
+                      <MenubarSubContent>
+                        <MenubarItem>Should not open</MenubarItem>
+                      </MenubarSubContent>
+                    </MenubarSub>
                     <MenubarItem disabled>Disabled item</MenubarItem>
                   </MenubarContent>
                 </MenubarMenu>
@@ -450,8 +615,17 @@ export function ComponentGallery() {
                 </MenubarMenu>
               </Menubar>
               <p className="text-xs text-muted-foreground">
-                Tab to the triggers to verify focus ring; disabled trigger should
-                look/behave disabled.
+                Tab to the triggers to verify focus ring; open a menu to confirm{" "}
+                <code className="rounded bg-muted px-1 py-0.5">data-state="open"</code>{" "}
+                styling. In DevTools, verify the menu content has{" "}
+                <code className="rounded bg-muted px-1 py-0.5">data-side</code> and{" "}
+                <code className="rounded bg-muted px-1 py-0.5">data-state</code>. Open the
+                “More” submenu and verify the sub-trigger gets{" "}
+                <code className="rounded bg-muted px-1 py-0.5">data-state="open"</code>{" "}
+                and the submenu content has{" "}
+                <code className="rounded bg-muted px-1 py-0.5">data-side</code> +{" "}
+                <code className="rounded bg-muted px-1 py-0.5">data-state</code>. Disabled
+                trigger/submenu should not open.
               </p>
             </CardContent>
           </Card>
@@ -479,10 +653,25 @@ export function ComponentGallery() {
                     </NavigationMenuTrigger>
                   </NavigationMenuItem>
                 </NavigationMenuList>
+                <NavigationMenuIndicator />
               </NavigationMenu>
               <p className="text-xs text-muted-foreground">
-                Tab to the triggers to verify focus ring; disabled trigger should
-                look/behave disabled.
+                Tab to the triggers to verify focus ring; open the menu to confirm{" "}
+                <code className="rounded bg-muted px-1 py-0.5">data-state="open"</code>{" "}
+                styling and chevron rotation. In DevTools, verify the content panel
+                uses{" "}
+                <code className="rounded bg-muted px-1 py-0.5">data-motion</code>{" "}
+                for enter/exit animation, and the viewport uses{" "}
+                <code className="rounded bg-muted px-1 py-0.5">data-state</code>{" "}
+                plus CSS vars like{" "}
+                <code className="rounded bg-muted px-1 py-0.5">
+                  --radix-navigation-menu-viewport-height
+                </code>{" "}
+                for sizing. Also verify the indicator toggles{" "}
+                <code className="rounded bg-muted px-1 py-0.5">data-state="visible"</code>
+                /{" "}
+                <code className="rounded bg-muted px-1 py-0.5">data-state="hidden"</code>.
+                Disabled trigger should look/behave disabled.
               </p>
             </CardContent>
           </Card>
@@ -505,7 +694,10 @@ export function ComponentGallery() {
             </DropdownMenu>
             <p className="text-xs text-muted-foreground">
               Open the menu, then use arrow keys / tab to move focus and confirm the
-              focused item shows a subtle ring.
+              focused item shows a subtle ring. In DevTools, verify the active item
+              gets <code className="rounded bg-muted px-1 py-0.5">data-highlighted</code>{" "}
+              and the disabled item has{" "}
+              <code className="rounded bg-muted px-1 py-0.5">data-disabled</code>.
             </p>
           </CardContent>
         </Card>
@@ -542,11 +734,20 @@ export function ComponentGallery() {
             </div>
 
             <div className="space-y-2">
-              <div className="text-sm font-medium">Disabled + Invalid</div>
+              <div className="text-sm font-medium">Disabled + Invalid (group disabled)</div>
               <RadioGroup defaultValue="one" className="flex gap-4" disabled>
                 <RadioGroupItem value="one" aria-invalid />
                 <RadioGroupItem value="two" aria-invalid />
                 <RadioGroupItem value="three" aria-invalid size="large" />
+              </RadioGroup>
+            </div>
+
+            <div className="space-y-2">
+              <div className="text-sm font-medium">Disabled + Invalid (item disabled)</div>
+              <RadioGroup defaultValue="one" className="flex gap-4">
+                <RadioGroupItem value="one" aria-invalid disabled />
+                <RadioGroupItem value="two" aria-invalid disabled />
+                <RadioGroupItem value="three" aria-invalid disabled size="large" />
               </RadioGroup>
             </div>
           </CardContent>
@@ -570,6 +771,40 @@ export function ComponentGallery() {
 
       <Separator />
 
+      {/* Sheet */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Sheet</h2>
+        <div className="flex flex-wrap gap-3">
+          {(
+            [
+              ["right", "Right"],
+              ["left", "Left"],
+              ["top", "Top"],
+              ["bottom", "Bottom"],
+            ] as const
+          ).map(([side, label]) => (
+            <Sheet key={side}>
+              <SheetTrigger asChild>
+                <Button variant="outline">{label} sheet</Button>
+              </SheetTrigger>
+              <SheetContent side={side}>
+                <SheetHeader>
+                  <SheetTitle>{label} Sheet</SheetTitle>
+                  <SheetDescription>
+                    This verifies <code className="rounded bg-muted px-1 py-0.5">side=&quot;{side}&quot;</code> and tokenized overlay/surface.
+                  </SheetDescription>
+                </SheetHeader>
+                <div className="mt-6 text-sm text-muted-foreground">
+                  Content area (layout handled outside components).
+                </div>
+              </SheetContent>
+            </Sheet>
+          ))}
+        </div>
+      </section>
+
+      <Separator />
+
       {/* Dialog */}
       <section className="space-y-4">
         <h2 className="text-xl font-semibold">Dialog</h2>
@@ -584,6 +819,45 @@ export function ComponentGallery() {
             Modal surface + overlay should match tokens.
           </DialogContent>
         </Dialog>
+        <p className="text-xs text-muted-foreground">
+          Verify overlay uses <code className="rounded bg-muted px-1 py-0.5">bg-backdrop</code>, focus is trapped, and
+          the close button shows a focus ring.
+        </p>
+      </section>
+
+      <Separator />
+
+      {/* Toast */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Toast</h2>
+        <div className="flex flex-wrap gap-3">
+          <Button
+            variant="outline"
+            onClick={() =>
+              toast({
+                title: "Toast",
+                description: "Default variant toast (tokenized surface).",
+              })
+            }
+          >
+            Show toast
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() =>
+              toast({
+                variant: "destructive",
+                title: "Toast (destructive)",
+                description: "Destructive variant toast (tokenized surface).",
+              })
+            }
+          >
+            Show destructive toast
+          </Button>
+        </div>
+        <p className="text-xs text-muted-foreground">
+          This verifies toast <code className="rounded bg-muted px-1 py-0.5">variant</code> mapping and focus/close styles.
+        </p>
       </section>
 
       <Separator />
@@ -598,8 +872,35 @@ export function ComponentGallery() {
           <DropdownMenuContent>
             <DropdownMenuItem>Item One</DropdownMenuItem>
             <DropdownMenuItem>Item Two</DropdownMenuItem>
+            <DropdownMenuItem disabled>Disabled item</DropdownMenuItem>
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>Submenu</DropdownMenuSubTrigger>
+              <DropdownMenuSubContent>
+                <DropdownMenuItem>Sub item A</DropdownMenuItem>
+                <DropdownMenuItem>Sub item B</DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger disabled>Disabled submenu</DropdownMenuSubTrigger>
+              <DropdownMenuSubContent>
+                <DropdownMenuItem>Should not open</DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
           </DropdownMenuContent>
         </DropdownMenu>
+        <p className="text-xs text-muted-foreground">
+          Open the menu and use arrow keys to verify the focused item shows a subtle ring (focus-visible), and the disabled
+          item cannot be selected. Hover/focus “Submenu” and verify it gets{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-state="open"</code>. In DevTools, verify the main menu content
+          has{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-side</code> and{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-state</code>, and the submenu content
+          has{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-side</code> and{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-state</code> for placement/animation. The disabled submenu
+          trigger should have{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-disabled</code> and never open.
+        </p>
       </section>
 
       <Separator />
@@ -669,10 +970,16 @@ export function ComponentGallery() {
           <TabsList>
             <TabsTrigger value="one">One</TabsTrigger>
             <TabsTrigger value="two">Two</TabsTrigger>
+            <TabsTrigger value="three" disabled>
+              Disabled
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="one">Tab one content</TabsContent>
           <TabsContent value="two">Tab two content</TabsContent>
         </Tabs>
+        <p className="text-xs text-muted-foreground">
+          Verify active tab styling is driven by <code className="rounded bg-muted px-1 py-0.5">data-state=&quot;active&quot;</code>, focus shows a ring, and the disabled trigger is not interactive.
+        </p>
       </section>
 
       <Separator />
@@ -680,12 +987,21 @@ export function ComponentGallery() {
       {/* Alert */}
       <section className="space-y-4 max-w-md">
         <h2 className="text-xl font-semibold">Alert</h2>
-        <Alert>
-          <AlertTitle>Heads up</AlertTitle>
-          <AlertDescription>
-            This uses muted foreground and surface tokens.
-          </AlertDescription>
-        </Alert>
+        <div className="space-y-3">
+          <Alert>
+            <AlertTitle>Heads up</AlertTitle>
+            <AlertDescription>
+              This uses muted foreground and surface tokens.
+            </AlertDescription>
+          </Alert>
+
+          <Alert variant="destructive">
+            <AlertTitle>Something went wrong</AlertTitle>
+            <AlertDescription>
+              This verifies the destructive variant styling.
+            </AlertDescription>
+          </Alert>
+        </div>
       </section>
 
       <Separator />
@@ -726,6 +1042,7 @@ export function ComponentGallery() {
         </FormField>
       </section>
 
+      <Toaster />
     </div>
   )
 }

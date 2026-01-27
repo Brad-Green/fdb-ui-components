@@ -5,7 +5,14 @@ Single source of truth for FDB design tokens (Tokens Studio JSON) and generated 
 ## Source of truth
 
 - **Source tokens file**: `tokens/tokens.json` (Tokens Studio export synced from GitHub)
-- **Generated outputs**: `dist/` (committed? typically no; generated in CI/local)
+- **Generated outputs**: `dist/` (generated locally/CI; not intended to be committed)
+  - When using the **internal registry publish** strategy, CI generates `dist/` and publishes it as part of the `@fdb/tokens` package.
+
+## Publishing (GitHub Packages)
+
+This package is intended to be published to **GitHub Packages (npm)** so consuming apps can `pnpm add @fdb/tokens`.
+
+See `PUBLISH_TOKENS.md` at the repo root for the GitHub Packages publish checklist and consumer `.npmrc` scope mapping (including the npm scope constraint).
 
 ## Scripts
 

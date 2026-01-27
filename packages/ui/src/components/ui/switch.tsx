@@ -49,6 +49,7 @@ const Switch = React.forwardRef<
   <SwitchPrimitives.Root
     ref={ref}
     className={cn(switchVariants({ size }), className)}
+    data-size={size}
     {...props}
   >
     <SwitchPrimitives.Thumb

@@ -4,14 +4,14 @@ import { Check, ChevronDown, ChevronUp } from "lucide-react"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
+import type { FieldDecoration } from "@/lib/types"
+export type { FieldDecoration } from "@/lib/types"
 
 const Select = SelectPrimitive.Root
 
 const SelectGroup = SelectPrimitive.Group
 
 const SelectValue = SelectPrimitive.Value
-
-export type FieldDecoration = "none" | "leftIcon" | "rightIcon" | "both"
 
 const selectTriggerVariants = cva(
   "flex w-full items-center justify-between border border-input bg-background text-sm shadow-sm transition-colors " +
@@ -31,9 +31,9 @@ const selectTriggerVariants = cva(
       },
       decoration: {
         none: "",
-        leftIcon: "pl-9",
-        rightIcon: "pr-9",
-        both: "pl-9 pr-9",
+        leftIcon: "",
+        rightIcon: "",
+        both: "",
       },
       roundness: {
         default: "rounded-md",
@@ -51,7 +51,11 @@ const selectTriggerVariants = cva(
 
 interface SelectTriggerProps
   extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>,
-    VariantProps<typeof selectTriggerVariants> {}
+    VariantProps<typeof selectTriggerVariants> {
+  leftIcon?: React.ReactNode
+  rightIcon?: React.ReactNode
+  decoration?: FieldDecoration
+}
 
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
@@ -64,34 +68,54 @@ const SelectTrigger = React.forwardRef<
       variant,
       decoration,
       roundness,
+      leftIcon,
+      rightIcon,
       children,
       ...props
     },
     ref
-  ) => (
-    <SelectPrimitive.Trigger
-      ref={ref}
-      className={cn(
-        selectTriggerVariants({
-          size,
-          variant,
-          decoration,
-          roundness,
-        }),
-        className
-      )}
-      data-size={size}
-      data-variant={variant}
-      data-roundness={roundness}
-      data-decoration={decoration}
-      {...props}
-    >
-      {children}
-      <SelectPrimitive.Icon asChild>
-        <ChevronDown className="h-4 w-4 opacity-50" />
-      </SelectPrimitive.Icon>
-    </SelectPrimitive.Trigger>
-  )
+  ) => {
+    // If icons are provided, infer decoration unless explicitly set.
+    // This keeps Figma axes stable while allowing ergonomic usage.
+    const derivedDecoration: FieldDecoration =
+      decoration ??
+      (leftIcon && rightIcon
+        ? "both"
+        : leftIcon
+          ? "leftIcon"
+          : rightIcon
+            ? "rightIcon"
+            : "none")
+
+    return (
+      <SelectPrimitive.Trigger
+        ref={ref}
+        className={cn(
+          selectTriggerVariants({
+            size,
+            variant,
+            decoration: derivedDecoration,
+            roundness,
+          }),
+          className
+        )}
+        data-size={size}
+        data-variant={variant}
+        data-roundness={roundness}
+        data-decoration={derivedDecoration}
+        {...props}
+      >
+        <span className="flex min-w-0 flex-1 items-center gap-2">
+          {leftIcon ? <span className="shrink-0">{leftIcon}</span> : null}
+          <span className="min-w-0 flex-1">{children}</span>
+          {rightIcon ? <span className="shrink-0">{rightIcon}</span> : null}
+        </span>
+        <SelectPrimitive.Icon asChild>
+          <ChevronDown className="h-4 w-4 opacity-50" />
+        </SelectPrimitive.Icon>
+      </SelectPrimitive.Trigger>
+    )
+  }
 )
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName
 

@@ -1,6 +1,10 @@
-# @fdb/ui
+# UI (copy/paste source + demo)
 
 shadcn/ui-style React components, with a Vite demo (`src/dev/ComponentGallery.tsx`).
+
+This package is **not intended to be published/installed as a library**. The intended workflow is shadcn-style:
+copy the component files from `src/components/ui/*` (plus shared helpers in `src/lib/*` and `src/hooks/*`) into a
+consuming app that uses the standard `@/*` path alias.
 
 ## Styling + tokens
 

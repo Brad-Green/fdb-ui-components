@@ -10,7 +10,11 @@ const Slider = React.forwardRef<
   <SliderPrimitive.Root
     ref={ref}
     className={cn(
-      "relative flex w-full touch-none select-none items-center data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 aria-[invalid=true]:[&_[role=slider]]:border-destructive aria-[invalid=true]:[&_[role=slider]]:ring-ring-error",
+      "relative flex w-full touch-none select-none items-center data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 " +
+        "aria-[invalid=true]:[&_[role=slider]]:border-destructive " +
+        "aria-[invalid=true]:[&_[role=slider]]:ring-ring-error " +
+        // Ensure invalid focus rings are error-colored even when the thumb sets `focus-visible:ring-ring`.
+        "aria-[invalid=true]:[&_[role=slider]]:focus-visible:ring-ring-error",
       className
     )}
     {...props}

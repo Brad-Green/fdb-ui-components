@@ -15,15 +15,23 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
     { className, label, description, error, required, disabled, children, ...props },
     ref
   ) => {
+    const reactId = React.useId()
+
     const child = React.Children.only(children) as React.ReactElement<
       React.HTMLAttributes<HTMLElement> & { disabled?: boolean }
     >
 
+    const controlId =
+      (child.props as { id?: string }).id ?? `form-field-${reactId}-control`
+    const descriptionId = `form-field-${reactId}-description`
+    const errorId = `form-field-${reactId}-error`
+
     const describedByIds: string[] = []
-    if (description) describedByIds.push("form-field-description")
-    if (error) describedByIds.push("form-field-error")
+    if (error) describedByIds.push(errorId)
+    else if (description) describedByIds.push(descriptionId)
 
     const control = React.cloneElement(child, {
+      id: controlId,
       "aria-invalid": !!error || undefined,
       "aria-describedby": describedByIds.length
         ? describedByIds.join(" ")
@@ -39,6 +47,7 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
       >
         {label && (
           <label
+            htmlFor={controlId}
             className={cn(
               "text-sm font-medium leading-none",
               disabled && "opacity-60"
@@ -53,7 +62,7 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
 
         {description && !error && (
           <p
-            id="form-field-description"
+            id={descriptionId}
             className="text-xs text-muted-foreground"
           >
             {description}
@@ -62,7 +71,7 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
 
         {error && (
           <p
-            id="form-field-error"
+            id={errorId}
             className="text-xs text-destructive"
           >
             {error}

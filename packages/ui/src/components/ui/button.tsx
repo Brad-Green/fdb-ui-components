@@ -3,6 +3,7 @@ import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
+import type { FieldDecoration } from "@/lib/types"
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all " +
@@ -47,6 +48,13 @@ export interface ButtonProps
   extends React.ComponentProps<"button">,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
+  /**
+   * Standardized “decoration” axis for Figma/Code Connect parity.
+   *
+   * This controls the value of `data-decoration` and should map 1:1 to a Figma
+   * variant axis. Icon content is still provided via `leftIcon` / `rightIcon`.
+   */
+  decoration?: FieldDecoration
   leftIcon?: React.ReactNode
   rightIcon?: React.ReactNode
 }
@@ -59,6 +67,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       size,
       roundness,
       asChild = false,
+      decoration,
       leftIcon,
       rightIcon,
       children,
@@ -67,6 +76,15 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const Comp = asChild ? Slot : "button"
+    const derivedDecoration: FieldDecoration =
+      decoration ??
+      (leftIcon && rightIcon
+        ? "both"
+        : leftIcon
+          ? "leftIcon"
+          : rightIcon
+            ? "rightIcon"
+            : "none")
 
     return (
       <Comp
@@ -74,6 +92,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         data-slot="button"
         data-variant={variant}
         data-size={size}
+        data-roundness={roundness}
+        data-decoration={derivedDecoration}
         className={cn(buttonVariants({ variant, size, roundness }), className)}
         {...props}
       >

@@ -2,8 +2,7 @@ import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
-
-export type FieldDecoration = "none" | "leftIcon" | "rightIcon" | "both"
+export type { FieldDecoration } from "@/lib/types"
 
 const inputVariants = cva(
   "flex w-full bg-transparent px-3 py-1 text-base shadow-sm transition-colors md:text-sm " +
