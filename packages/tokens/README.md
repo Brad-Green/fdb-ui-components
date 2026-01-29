@@ -17,6 +17,8 @@ See `PUBLISH_TOKENS.md` at the repo root for the GitHub Packages publish checkli
 ## Scripts
 
 - `pnpm tokens:sync`: download the latest Tokens Studio JSON into `tokens/tokens.json` and apply reference fixes
+  - Uses a Node/PowerShell hybrid script on Windows for better proxy/cert resilience.
+  - Optional override: set `FDB_TOKENS_URL` to point at a different JSON source.
 - `pnpm tokens:fix`: apply reference fixes to the current `tokens/tokens.json`
 - `pnpm tokens:build`: generate CSS artifacts into `dist/`
 

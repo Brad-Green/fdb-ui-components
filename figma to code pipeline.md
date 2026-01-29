@@ -225,54 +225,53 @@ Good stopping point — you’re doing this the right way.
 
 ## ✅ Today’s summary (what changed)
 
-### Phase 5 parity + Code Connect “signals”
+### Tokens publishing (completed)
 
-- Expanded `PHASE5_MAPPINGS.md` coverage for additional components and Radix-driven state signals (menus/nav/pagination/calendar).
-- Hardened “disabled” and state signaling where relevant:
-  - Pagination now supports `aria-disabled` + emits `data-disabled="true"` for mapping/debugging.
-  - NavigationMenu demo now renders an indicator and documents viewport/content motion signals for DevTools checks.
-- Added/expanded ComponentGallery DevTools verification notes so drift is easy to spot.
+- Published **`@brad-green/tokens@0.1.0`** to **GitHub Packages** and verified install + artifacts (`dist/tokens.css`, `dist/shadcn-theme.css`) in a clean consumer smoke test.
+- Updated the repo to consistently use the correct GitHub Packages scope (`@brad-green/*`) and removed stale references.
+- Hardened token sync on Windows:
+  - Replaced `curl` with `scripts/sync-tokens.js` (Node fetch + PowerShell fallbacks, retries, optional `FDB_TOKENS_URL` override).
 
-### UI fix
+### Dev + lint quality-of-life (completed)
 
-- Fixed Select “left icon decoration” layout issue:
-  - Root cause was `justify-between` spreading space between the icon/value/chevron when the icon was injected as a sibling.
-  - Updated `SelectTrigger` to support `leftIcon` / `rightIcon` props and keep layout stable.
+- Made `pnpm --filter ui lint` pass by scoping off `react-refresh/only-export-components` for shadcn-style `src/components/ui/*` and `src/hooks/*`.
+- Fixed `use-toast.ts` to use `actionTypes` at runtime (removes the unused-vars lint).
+- Updated publish docs + release checklist to match the working Windows workflow (and removed outdated `always-auth` guidance).
 
-### Tokens publishing direction (docs only, no automation yet)
+### Phase 5 parity + Code Connect “signals” (continued)
 
-- Confirmed the strategy: publish `@brad-green/tokens` to an internal registry; selected **GitHub Packages**.
-- Added publish docs and clarified constraints:
-  - `PUBLISH_TOKENS.md` (GitHub Packages checklist + `.npmrc` template + npm scope constraint).
-  - Updated `packages/tokens/README.md` to reference GitHub Packages publishing.
-  - Updated `packages/tokens/package.json` to be publish-ready and to set `publishConfig.registry`.
+- Expanded `PHASE5_MAPPINGS.md` with mappings for additional components and state/placement signals.
+- Added stable `data-slot` (and where relevant `data-align`, etc.) for Code Connect mapping/debugging:
+  - Dialog / Sheet / Popover / Tooltip
+  - AlertDialog / HoverCard / ContextMenu / Accordion
+  - ScrollArea / Collapsible / Resizable
+- Updated `ComponentGallery` with new sections and DevTools verification notes for the above.
 
 ---
 
 ## 🗓️ Tomorrow plan (start here)
 
-### 1) Resolve the GitHub Packages naming constraint
+### 1) Finish Phase 5 coverage for remaining components
 
-GitHub Packages (npm) requires the package scope to match your GitHub org/user.
+Goal: every component in `packages/ui/src/components/ui/*` has:
+- documented mapping entry (axes + state + required signals)
+- stable `data-slot` (and axis data like `data-align`, `data-side`, etc. where meaningful)
+- a small `ComponentGallery` demo that makes drift obvious
 
-- Publish under your GitHub org/user scope (e.g. `@brad-green/tokens` for the `Brad-Green` user), and update any imports/docs accordingly.
-- If renaming is required, update:
-  - `packages/ui` dependency on tokens
-  - docs (`CONSUME_IN_APP.md`, `PUBLISH_TOKENS.md`, token README)
-  - any CSS imports that reference `@brad-green/tokens/dist/*`
+Suggested order:
+- Layout/display primitives: `Card`, `Table`, `Separator`, `Progress`, `Skeleton`, `AspectRatio`, `Avatar`, `Breadcrumb`, `Label`
+- Interaction primitives: `Carousel`, `ScrollArea` (done), `Collapsible` (done), `Resizable` (done)
 
-### 2) Do a first manual publish dry-run (still no CI)
+### 2) Start Phase 6 Code Connect on an anchor set
 
-- Build tokens locally: `pnpm --filter @brad-green/tokens tokens:build`
-- Publish to GitHub Packages from `packages/tokens` (per `PUBLISH_TOKENS.md`)
-- Smoke-test in a tiny consumer app:
-  - install the package
-  - import `@brad-green/tokens/dist/*.css`
-  - render a `Button` + `Select` copied from this repo
+Pick 3–5 anchor components and wire them end-to-end in Figma Code Connect:
+- Button / Input / Select (anchors)
+- plus one overlay: Dialog or Sheet
 
-### 3) Resume Phase 5 “high impact” coverage
+Goal: designers can copy production-accurate code from Figma with correct props/state mapping.
 
-- Continue API/mapping alignment for remaining overlays (Dialog/Sheet/Popover/Tooltip) and any remaining controls.
-- Keep using the pattern:
-  - update component → update `PHASE5_MAPPINGS.md` → update `ComponentGallery` matrix + DevTools note
+### 3) Optional automation (only if time)
+
+- Add CI automation to publish `@brad-green/tokens` on tag/release and run a smoke install check.
+- Add Renovate/Dependabot config to bump tokens in downstream apps.
 

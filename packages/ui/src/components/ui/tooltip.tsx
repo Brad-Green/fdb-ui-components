@@ -17,6 +17,7 @@ const TooltipContent = React.forwardRef<
     <TooltipPrimitive.Content
       ref={ref}
       sideOffset={sideOffset}
+      data-slot="tooltip-content"
       className={cn(
         // Match the Obra/shadcn tooltip pattern: high-contrast surface (dark) with light text.
         // Use theme tokens instead of a hard-coded color.

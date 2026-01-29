@@ -20,4 +20,14 @@ export default defineConfig([
       globals: globals.browser,
     },
   },
+  // This repo intentionally follows shadcn-style patterns where component files
+  // often export non-component helpers (e.g. `buttonVariants`) as part of the
+  // copy/paste contract. Vite Fast Refresh still works; this rule is not a
+  // design-system quality signal for us.
+  {
+    files: ['src/components/ui/**/*.{ts,tsx}', 'src/hooks/**/*.{ts,tsx}'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
 ])

@@ -286,6 +286,7 @@ Format:
 ### Data attributes
 
 - Emits `data-side` on the sheet content root.
+- Emits `data-slot="sheet-content"` on the sheet content root.
 
 ---
 
@@ -305,7 +306,205 @@ Format:
 
 ### Data attributes
 
-- None (until an axis exists).
+- Emits `data-slot="dialog-content"` on the dialog content root.
+- `DialogOverlay` emits `data-slot="dialog-overlay"` (useful for Code Connect mapping/debugging).
+
+---
+
+## PopoverContent
+
+- **Component**: `PopoverContent` (part of `Popover`)
+- **Import**: `@/components/ui/popover`
+
+### Axes (Figma → code)
+
+- **Align** → `align: "start" | "center" | "end"` (default: `"center"`)
+
+### State (Figma → code)
+
+- **Open/close** → controlled by Radix Popover state (`<Popover>` root + `<PopoverTrigger>`).
+- **Placement** → Radix sets `data-side="top" | "right" | "bottom" | "left"` on the content (drives directional animation).
+
+### Data attributes
+
+- Emits `data-align` on the popover content root.
+- Emits `data-slot="popover-content"` on the popover content root.
+- Radix emits `data-state` and `data-side` on the content (useful for Code Connect mapping/debugging).
+
+---
+
+## TooltipContent
+
+- **Component**: `TooltipContent` (part of `Tooltip`)
+- **Import**: `@/components/ui/tooltip`
+
+### Axes (Figma → code)
+
+- None (tooltip content is primarily state/placement-driven).
+
+### State (Figma → code)
+
+- **Open/close** → controlled by Radix Tooltip state.
+- **Placement** → Radix sets `data-side="top" | "right" | "bottom" | "left"` on the content (drives directional animation).
+
+### Data attributes
+
+- Emits `data-slot="tooltip-content"` on the tooltip content root.
+- Radix emits `data-state` and `data-side` on the content (useful for Code Connect mapping/debugging).
+
+---
+
+## AlertDialogContent
+
+- **Component**: `AlertDialogContent` (part of `AlertDialog`)
+- **Import**: `@/components/ui/alert-dialog`
+
+### Axes (Figma → code)
+
+- None (modal surface).
+
+### State (Figma → code)
+
+- **Open/close** → controlled by Radix AlertDialog state (`<AlertDialog>` root + `<AlertDialogTrigger>`).
+- **Overlay/backdrop** → `AlertDialogOverlay` uses the `bg-backdrop` semantic token.
+
+### Data attributes
+
+- Emits `data-slot="alert-dialog-content"` on the alert dialog content root.
+- `AlertDialogOverlay` emits `data-slot="alert-dialog-overlay"` (useful for Code Connect mapping/debugging).
+
+---
+
+## HoverCardContent
+
+- **Component**: `HoverCardContent` (part of `HoverCard`)
+- **Import**: `@/components/ui/hover-card`
+
+### Axes (Figma → code)
+
+- **Align** → `align: "start" | "center" | "end"` (default: `"center"`)
+
+### State (Figma → code)
+
+- **Open/close** → controlled by Radix HoverCard state.
+- **Placement** → Radix sets `data-side="top" | "right" | "bottom" | "left"` on the content (drives directional animation).
+
+### Data attributes
+
+- Emits `data-align` on the hover card content root.
+- Emits `data-slot="hover-card-content"` on the hover card content root.
+- Radix emits `data-state` and `data-side` on the content (useful for Code Connect mapping/debugging).
+
+---
+
+## ContextMenuContent / ContextMenuItem
+
+- **Component**: `ContextMenuContent`, `ContextMenuItem` (part of `ContextMenu`)
+- **Import**: `@/components/ui/context-menu`
+
+### Axes (Figma → code)
+
+- None (content + items are state/placement-driven).
+
+### State (Figma → code)
+
+- **Open/close** → controlled by Radix ContextMenu state (right click trigger).
+- **Placement** → Radix sets `data-side="top" | "right" | "bottom" | "left"` on content/sub-content (drives directional animation).
+- **Focused / highlighted** → Radix sets `data-highlighted` on the active item.
+- **Disabled** → `disabled` prop on items; Radix sets `data-disabled`.
+- **Submenu open** → Radix sets `data-state="open"` on sub-triggers and `data-state` on sub-content.
+
+### Data attributes
+
+- Emits `data-slot="context-menu-content"` on the content root.
+- Emits `data-slot="context-menu-item"` on each item.
+- Emits `data-slot="context-menu-sub-trigger"` and `data-slot="context-menu-sub-content"` for submenus.
+- Emits `data-slot="context-menu-checkbox-item"` and `data-slot="context-menu-radio-item"` on those item types.
+- Radix emits `data-state`, `data-side`, `data-disabled`, and `data-highlighted` (useful for Code Connect mapping/debugging).
+
+---
+
+## AccordionTrigger / AccordionContent
+
+- **Component**: `AccordionTrigger`, `AccordionContent` (part of `Accordion`)
+- **Import**: `@/components/ui/accordion`
+
+### Axes (Figma → code)
+
+- None (styling is state-driven).
+
+### State (Figma → code)
+
+- **Open/close** → Radix sets `data-state="open" | "closed"` on trigger + content.
+
+### Data attributes
+
+- Emits `data-slot="accordion-item"`, `data-slot="accordion-trigger"`, and `data-slot="accordion-content"`.
+- Radix emits `data-state` (useful for Code Connect mapping/debugging).
+
+---
+
+## ScrollArea / ScrollBar
+
+- **Component**: `ScrollArea`, `ScrollBar`
+- **Import**: `@/components/ui/scroll-area`
+
+### Axes (Figma → code)
+
+- None (layout surface).
+
+### State (Figma → code)
+
+- Scrollbars appear based on overflow/content; Radix manages scrollbar visibility/interaction.
+
+### Data attributes
+
+- Emits `data-slot="scroll-area"` on the root.
+- Emits `data-slot="scroll-area-viewport"`, `data-slot="scroll-area-scrollbar"`, `data-slot="scroll-area-thumb"`, and `data-slot="scroll-area-corner"`.
+
+---
+
+## Collapsible / CollapsibleTrigger / CollapsibleContent
+
+- **Component**: `Collapsible`, `CollapsibleTrigger`, `CollapsibleContent`
+- **Import**: `@/components/ui/collapsible`
+
+### Axes (Figma → code)
+
+- None (state-driven).
+
+### State (Figma → code)
+
+- **Open/close** → controlled by Radix Collapsible state (`open`, `defaultOpen`, `onOpenChange`).
+- Radix sets `data-state="open" | "closed"` on trigger/content.
+
+### Data attributes
+
+- Emits `data-slot="collapsible"`, `data-slot="collapsible-trigger"`, and `data-slot="collapsible-content"`.
+- Radix emits `data-state` (useful for Code Connect mapping/debugging).
+
+---
+
+## ResizablePanelGroup / ResizableHandle
+
+- **Component**: `ResizablePanelGroup`, `ResizableHandle` (part of `Resizable`)
+- **Import**: `@/components/ui/resizable`
+
+### Axes (Figma → code)
+
+- None (layout primitive).
+
+### State (Figma → code)
+
+- Direction and sizing are managed by `react-resizable-panels` and exposed via `data-panel-group-direction` on the handle.
+
+### Data attributes
+
+- `ResizablePanelGroup` emits `data-slot="resizable-panel-group"`.
+- `ResizableHandle` emits:
+  - `data-slot="resizable-handle"`
+  - `data-with-handle="true"` when `withHandle` is enabled
+  - `data-slot="resizable-handle-grip"` on the grip element when enabled
 
 ---
 

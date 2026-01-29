@@ -30,6 +30,17 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -44,12 +55,31 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { Separator } from "@/components/ui/separator"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Slider } from "@/components/ui/slider"
 import { Calendar } from "@/components/ui/calendar"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable"
 import {
   Pagination,
   PaginationContent,
@@ -92,6 +122,7 @@ export function ComponentGallery() {
   const [demoSwitchChecked, setDemoSwitchChecked] = React.useState(false)
   const [demoRadioValue, setDemoRadioValue] = React.useState("one")
   const [demoSliderValue, setDemoSliderValue] = React.useState<number[]>([50])
+  const [collapsibleOpen, setCollapsibleOpen] = React.useState(false)
 
   React.useEffect(() => {
     document.documentElement.classList.toggle("dark", isDark)
@@ -827,6 +858,192 @@ export function ComponentGallery() {
 
       <Separator />
 
+      {/* Alert Dialog */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Alert Dialog</h2>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="outline">Open AlertDialog</Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This verifies overlay/content tokens and `data-slot` signals.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction>Continue</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+        <p className="text-xs text-muted-foreground">
+          In DevTools, verify overlay/content emit{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-slot</code> values{" "}
+          <code className="rounded bg-muted px-1 py-0.5">alert-dialog-overlay</code>{" "}
+          and{" "}
+          <code className="rounded bg-muted px-1 py-0.5">alert-dialog-content</code>.
+        </p>
+      </section>
+
+      <Separator />
+
+      {/* Hover Card */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Hover Card</h2>
+        <HoverCard>
+          <HoverCardTrigger asChild>
+            <Button variant="outline">Hover me</Button>
+          </HoverCardTrigger>
+          <HoverCardContent align="start">
+            <div className="text-sm">HoverCard content (align=start)</div>
+          </HoverCardContent>
+        </HoverCard>
+        <p className="text-xs text-muted-foreground">
+          In DevTools, verify hover card content emits{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-slot="hover-card-content"</code>{" "}
+          and{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-align="start"</code>.
+        </p>
+      </section>
+
+      <Separator />
+
+      {/* Context Menu */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Context Menu</h2>
+        <ContextMenu>
+          <ContextMenuTrigger asChild>
+            <div className="w-fit rounded-md border bg-background px-4 py-2 text-sm">
+              Right click me
+            </div>
+          </ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuItem>Item One</ContextMenuItem>
+            <ContextMenuSub>
+              <ContextMenuSubTrigger>Submenu</ContextMenuSubTrigger>
+              <ContextMenuSubContent>
+                <ContextMenuItem>Sub item A</ContextMenuItem>
+                <ContextMenuItem>Sub item B</ContextMenuItem>
+              </ContextMenuSubContent>
+            </ContextMenuSub>
+            <ContextMenuItem disabled>Disabled item</ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>
+        <p className="text-xs text-muted-foreground">
+          In DevTools, verify content emits{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-slot="context-menu-content"</code>{" "}
+          and items emit{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-slot="context-menu-item"</code>.
+          Also verify Radix{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-side</code>,{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-state</code>, and{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-disabled</code>.
+        </p>
+      </section>
+
+      <Separator />
+
+      {/* Accordion */}
+      <section className="space-y-4 max-w-md">
+        <h2 className="text-xl font-semibold">Accordion</h2>
+        <Accordion type="single" collapsible className="w-full rounded-md border">
+          <AccordionItem value="one">
+            <AccordionTrigger>Item one</AccordionTrigger>
+            <AccordionContent>Accordion content one</AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="two">
+            <AccordionTrigger>Item two</AccordionTrigger>
+            <AccordionContent>Accordion content two</AccordionContent>
+          </AccordionItem>
+        </Accordion>
+        <p className="text-xs text-muted-foreground">
+          In DevTools, verify{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-slot</code> on item/trigger/content and Radix{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-state</code> toggling.
+        </p>
+      </section>
+
+      <Separator />
+
+      {/* Scroll Area */}
+      <section className="space-y-4 max-w-md">
+        <h2 className="text-xl font-semibold">Scroll Area</h2>
+        <ScrollArea className="h-36 rounded-md border">
+          <div className="p-4 space-y-2">
+            {Array.from({ length: 20 }).map((_, i) => (
+              <div key={i} className="text-sm text-muted-foreground">
+                Scroll row {i + 1}
+              </div>
+            ))}
+          </div>
+        </ScrollArea>
+        <p className="text-xs text-muted-foreground">
+          In DevTools, verify the root emits{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-slot="scroll-area"</code>{" "}
+          and the viewport/scrollbar/thumb emit their respective{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-slot</code> values.
+        </p>
+      </section>
+
+      <Separator />
+
+      {/* Collapsible */}
+      <section className="space-y-4 max-w-md">
+        <h2 className="text-xl font-semibold">Collapsible</h2>
+        <Collapsible open={collapsibleOpen} onOpenChange={setCollapsibleOpen}>
+          <div className="flex items-center justify-between rounded-md border px-4 py-3">
+            <div className="text-sm font-medium">Details</div>
+            <CollapsibleTrigger asChild>
+              <Button variant="outline" size="mini">
+                {collapsibleOpen ? "Hide" : "Show"}
+              </Button>
+            </CollapsibleTrigger>
+          </div>
+          <CollapsibleContent className="rounded-b-md border border-t-0 px-4 py-3 text-sm text-muted-foreground">
+            Collapsible content. Check{" "}
+            <code className="rounded bg-muted px-1 py-0.5">data-state</code> and{" "}
+            <code className="rounded bg-muted px-1 py-0.5">data-slot</code> in
+            DevTools.
+          </CollapsibleContent>
+        </Collapsible>
+      </section>
+
+      <Separator />
+
+      {/* Resizable */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Resizable</h2>
+        <ResizablePanelGroup
+          direction="horizontal"
+          className="h-36 w-full max-w-2xl rounded-md border"
+        >
+          <ResizablePanel defaultSize={50} minSize={25}>
+            <div className="h-full p-4 text-sm text-muted-foreground">
+              Left panel
+            </div>
+          </ResizablePanel>
+          <ResizableHandle withHandle />
+          <ResizablePanel defaultSize={50} minSize={25}>
+            <div className="h-full p-4 text-sm text-muted-foreground">
+              Right panel
+            </div>
+          </ResizablePanel>
+        </ResizablePanelGroup>
+        <p className="text-xs text-muted-foreground">
+          In DevTools, verify{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-slot="resizable-panel-group"</code>{" "}
+          and{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-slot="resizable-handle"</code>{" "}
+          (plus{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-with-handle="true"</code>
+          ). Drag the handle to verify behavior.
+        </p>
+      </section>
+
+      <Separator />
+
       {/* Toast */}
       <section className="space-y-4">
         <h2 className="text-xl font-semibold">Toast</h2>
@@ -959,6 +1176,37 @@ export function ComponentGallery() {
             </Tooltip>
           </div>
         </TooltipProvider>
+        <p className="text-xs text-muted-foreground">
+          In DevTools, verify the tooltip content emits{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-slot="tooltip-content"</code>{" "}
+          and Radix placement/state attributes like{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-side</code> and{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-state</code>.
+        </p>
+      </section>
+
+      <Separator />
+
+      {/* Popover */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Popover</h2>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="outline">Open popover</Button>
+          </PopoverTrigger>
+          <PopoverContent align="start">
+            <div className="text-sm">Popover content (align=start)</div>
+          </PopoverContent>
+        </Popover>
+        <p className="text-xs text-muted-foreground">
+          In DevTools, verify popover content emits{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-slot="popover-content"</code>{" "}
+          and{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-align="start"</code>.
+          Also verify Radix placement/state attributes like{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-side</code> and{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-state</code>.
+        </p>
       </section>
 
       <Separator />

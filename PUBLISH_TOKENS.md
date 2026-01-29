@@ -39,6 +39,62 @@ For publishing from a GitHub user account `Brad-Green`, the scope must match the
 
 ## Manual publish (human-driven)
 
+## Release checklist (copy/paste)
+
+Use this sequence for each release.
+
+1) **Ensure auth is available in this terminal**
+
+- `GITHUB_TOKEN` must be set (PAT with at least `write:packages` + `read:packages`).
+
+2) **Bump version**
+
+- Edit `packages/tokens/package.json` `"version"` (semver).
+
+3) **Sync + build tokens (from repo root)**
+
+```bash
+pnpm install
+pnpm --filter @brad-green/tokens tokens:sync
+pnpm --filter @brad-green/tokens tokens:build
+```
+
+4) **Publish (from tokens package folder)**
+
+```bash
+cd packages/tokens
+pnpm publish --registry "https://npm.pkg.github.com" --access public --no-git-checks
+```
+
+5) **Smoke test install (from any other folder)**
+
+```bash
+mkdir -p /tmp/tokens-smoke-test && cd /tmp/tokens-smoke-test
+pnpm init
+pnpm add @brad-green/tokens
+```
+
+Then confirm the artifacts exist:
+
+```bash
+ls node_modules/@brad-green/tokens/dist
+```
+
+### Windows (PowerShell) smoke test
+
+```powershell
+$testDir = "C:\temp\tokens-smoke-test"
+Remove-Item -Recurse -Force $testDir -ErrorAction SilentlyContinue
+New-Item -ItemType Directory -Force $testDir | Out-Null
+Set-Location $testDir
+
+# pnpm init doesn't support -y; use npm for non-interactive init
+npm init -y | Out-Null
+pnpm add @brad-green/tokens
+
+Get-ChildItem ".\node_modules\@brad-green\tokens\dist" | Format-Table Name, Length
+```
+
 1) **Build the artifacts**
 
 From repo root:
@@ -63,27 +119,28 @@ Update `packages/tokens/package.json` `"version"` using semver:
 - **minor**: additive tokens / new semantics
 - **major**: breaking token contract changes (renames/removals or meaning changes)
 
-3) **Publish to your internal registry**
+3) **Publish to GitHub Packages**
 
 Run publish from `packages/tokens`:
 
 ```bash
-pnpm -C packages/tokens publish --registry "https://npm.pkg.github.com"
+cd packages/tokens
+pnpm publish --registry "https://npm.pkg.github.com" --access public --no-git-checks
 ```
 
 Notes:
 
-- Keep publishes **restricted/private** within your org, using your registry’s access controls.
+- If you want this package to be public, publish with `--access public` (as shown above).
+- If you want this package to be private, publish with `--access restricted` and ensure consumers have access + `read:packages`.
 - `dist/` should be generated during publish time; it is **not intended to be committed** in git.
 
 ## Consumer `.npmrc` example (scope mapping)
 
-Add this to your consumer repo’s `.npmrc` (or a shared org template). Replace `@fdb` with your actual GitHub org/user scope if different.
+Add this to your consumer repo’s `.npmrc` (or your user-level `~/.npmrc`) so installs from GitHub Packages can authenticate.
 
 ```ini
 @brad-green:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
-always-auth=true
 ```
 
 ## Recommended next automation (later)

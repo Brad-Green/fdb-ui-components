@@ -20,7 +20,7 @@ Why:
 - **Reproducible builds**: consumers depend on `@brad-green/tokens@x.y.z` rather than a moving git target.
 - **Controlled rollout**: semver + lockfiles prevent accidental breaking theme changes.
 
-At a minimum, your app must be able to resolve the `@fdb/*` scope from your registry (via `.npmrc` / org config). This repo does not configure registry auth for you.
+At a minimum, your app must be able to resolve the `@brad-green/*` scope from GitHub Packages (via `.npmrc` / org config). This repo does not configure registry auth for you.
 
 ## 1) Install required packages
 
