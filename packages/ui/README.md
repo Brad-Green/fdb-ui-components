@@ -8,10 +8,10 @@ consuming app that uses the standard `@/*` path alias.
 
 ## Styling + tokens
 
-This package does **not** maintain its own theme colors. It imports generated CSS artifacts from `@fdb/tokens`:
+This package does **not** maintain its own theme colors. It imports generated CSS artifacts from `@brad-green/tokens`:
 
-- `@fdb/tokens/dist/tokens.css`: full token set as CSS variables
-- `@fdb/tokens/dist/shadcn-theme.css`: shadcn contract vars (`--background`, `--primary`, etc.)
+- `@brad-green/tokens/dist/tokens.css`: full token set as CSS variables
+- `@brad-green/tokens/dist/shadcn-theme.css`: shadcn contract vars (`--background`, `--primary`, etc.)
 
 Those are imported in `src/index.css`, and Tailwind maps the shadcn color keys to `hsl(var(--...))`.
 
@@ -37,7 +37,7 @@ pnpm --filter ui build
 
 ## Token updates
 
-This package delegates token operations to `@fdb/tokens`:
+This package delegates token operations to `@brad-green/tokens`:
 
 ```bash
 pnpm --filter ui tokens:sync

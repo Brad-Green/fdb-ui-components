@@ -1,5 +1,5 @@
-@import "@fdb/tokens/dist/tokens.css";
-@import "@fdb/tokens/dist/shadcn-theme.css";
+@import "@brad-green/tokens/dist/tokens.css";
+@import "@brad-green/tokens/dist/shadcn-theme.css";
 
 @tailwind base;
 @tailwind components;

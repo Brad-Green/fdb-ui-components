@@ -1,4 +1,4 @@
-# Consumer contract (shadcn-style copy/paste + `@fdb/tokens`)
+# Consumer contract (shadcn-style copy/paste + `@brad-green/tokens`)
 
 This repo is the **canonical source** for UI components, but the intended consumption model is **shadcn-style copy/paste** into a consuming app.
 
@@ -9,15 +9,15 @@ This doc defines the **minimum contract** a consuming app must follow so copied 
 - React + TypeScript
 - Tailwind CSS
 - Path alias `@/*` → `src/*`
-- The consuming app can install `@fdb/tokens` from an **internal npm registry** (preferred; see below)
+- The consuming app can install `@brad-green/tokens` from an **internal npm registry** (preferred; see below)
 
 ## 0) Internal registry requirement (recommended)
 
-The intended model is that `@fdb/tokens` is **published to your internal registry** (GitHub Packages / Azure Artifacts / Nexus / Artifactory).
+The intended model is that `@brad-green/tokens` is **published to your internal registry** (GitHub Packages / Azure Artifacts / Nexus / Artifactory).
 
 Why:
 
-- **Reproducible builds**: consumers depend on `@fdb/tokens@x.y.z` rather than a moving git target.
+- **Reproducible builds**: consumers depend on `@brad-green/tokens@x.y.z` rather than a moving git target.
 - **Controlled rollout**: semver + lockfiles prevent accidental breaking theme changes.
 
 At a minimum, your app must be able to resolve the `@fdb/*` scope from your registry (via `.npmrc` / org config). This repo does not configure registry auth for you.
@@ -27,7 +27,7 @@ At a minimum, your app must be able to resolve the `@fdb/*` scope from your regi
 Install tokens (source of truth):
 
 ```bash
-pnpm add @fdb/tokens
+pnpm add @brad-green/tokens
 ```
 
 Install runtime deps required by the components you copy (safe default: install all used by `packages/ui`):
@@ -61,8 +61,8 @@ From this repo:
 In your app’s global CSS (commonly `src/index.css`), add these **before** the Tailwind directives:
 
 ```css
-@import "@fdb/tokens/dist/tokens.css";
-@import "@fdb/tokens/dist/shadcn-theme.css";
+@import "@brad-green/tokens/dist/tokens.css";
+@import "@brad-green/tokens/dist/shadcn-theme.css";
 
 @tailwind base;
 @tailwind components;
@@ -123,7 +123,7 @@ export function Smoke() {
 
 ## Common failure modes
 
-- **Styles look unthemed**: `@fdb/tokens/dist/*.css` imports missing or placed after `@tailwind` directives.
+- **Styles look unthemed**: `@brad-green/tokens/dist/*.css` imports missing or placed after `@tailwind` directives.
 - **“Cannot find module '@/…'”**: TS alias (`paths`) and/or bundler alias not configured.
 - **Missing Radix module**: install the Radix package referenced by the component you copied.
 

@@ -1,7 +1,7 @@
 {
-  "name": "@fdb/tokens",
+  "name": "@brad-green/tokens",
   "private": false,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "files": [
     "dist",
@@ -11,9 +11,10 @@
     "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
-    "tokens:sync": "curl -L https://raw.githubusercontent.com/Brad-Green/FDB-Design-Tokens/refs/heads/main/fdb-design-tokens.json -o tokens/tokens.json && node scripts/fix-tokens.js",
+    "tokens:sync": "node scripts/sync-tokens.js",
     "tokens:fix": "node scripts/fix-tokens.js",
-    "tokens:build": "style-dictionary build --config style-dictionary.config.js"
+    "tokens:build": "style-dictionary build --config style-dictionary.config.js",
+    "prepack": "pnpm tokens:build"
   },
   "devDependencies": {
     "@tokens-studio/sd-transforms": "^2.0.3",

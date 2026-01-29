@@ -7,9 +7,9 @@
     "dev": "pnpm --filter ui dev",
     "build": "pnpm --filter ui build",
     "lint": "pnpm --filter ui lint",
-    "tokens:sync": "pnpm --filter @fdb/tokens tokens:sync",
-    "tokens:fix": "pnpm --filter @fdb/tokens tokens:fix",
-    "tokens:build": "pnpm --filter @fdb/tokens tokens:build"
+    "tokens:sync": "pnpm --filter @brad-green/tokens tokens:sync",
+    "tokens:fix": "pnpm --filter @brad-green/tokens tokens:fix",
+    "tokens:build": "pnpm --filter @brad-green/tokens tokens:build"
   },
   "keywords": [],
   "author": "",

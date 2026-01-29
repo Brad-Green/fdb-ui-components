@@ -19,7 +19,7 @@ importers:
 
   packages/ui:
     dependencies:
-      '@fdb/tokens':
+      '@brad-green/tokens':
         specifier: workspace:*
         version: link:../tokens
       '@radix-ui/react-accordion':

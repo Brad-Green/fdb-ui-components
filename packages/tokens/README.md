@@ -1,4 +1,4 @@
-# @fdb/tokens
+# @brad-green/tokens
 
 Single source of truth for FDB design tokens (Tokens Studio JSON) and generated token artifacts used by UI packages.
 
@@ -6,11 +6,11 @@ Single source of truth for FDB design tokens (Tokens Studio JSON) and generated 
 
 - **Source tokens file**: `tokens/tokens.json` (Tokens Studio export synced from GitHub)
 - **Generated outputs**: `dist/` (generated locally/CI; not intended to be committed)
-  - When using the **internal registry publish** strategy, CI generates `dist/` and publishes it as part of the `@fdb/tokens` package.
+  - When using the **internal registry publish** strategy, CI generates `dist/` and publishes it as part of the `@brad-green/tokens` package.
 
 ## Publishing (GitHub Packages)
 
-This package is intended to be published to **GitHub Packages (npm)** so consuming apps can `pnpm add @fdb/tokens`.
+This package is intended to be published to **GitHub Packages (npm)** so consuming apps can `pnpm add @brad-green/tokens`.
 
 See `PUBLISH_TOKENS.md` at the repo root for the GitHub Packages publish checklist and consumer `.npmrc` scope mapping (including the npm scope constraint).
 
@@ -23,8 +23,8 @@ See `PUBLISH_TOKENS.md` at the repo root for the GitHub Packages publish checkli
 From the workspace root, you can also run:
 
 ```bash
-pnpm --filter @fdb/tokens tokens:sync
-pnpm --filter @fdb/tokens tokens:build
+pnpm --filter @brad-green/tokens tokens:sync
+pnpm --filter @brad-green/tokens tokens:build
 ```
 
 ## Outputs

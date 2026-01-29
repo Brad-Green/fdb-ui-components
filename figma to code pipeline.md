@@ -241,7 +241,7 @@ Good stopping point — you’re doing this the right way.
 
 ### Tokens publishing direction (docs only, no automation yet)
 
-- Confirmed the strategy: publish `@fdb/tokens` to an internal registry; selected **GitHub Packages**.
+- Confirmed the strategy: publish `@brad-green/tokens` to an internal registry; selected **GitHub Packages**.
 - Added publish docs and clarified constraints:
   - `PUBLISH_TOKENS.md` (GitHub Packages checklist + `.npmrc` template + npm scope constraint).
   - Updated `packages/tokens/README.md` to reference GitHub Packages publishing.
@@ -255,19 +255,19 @@ Good stopping point — you’re doing this the right way.
 
 GitHub Packages (npm) requires the package scope to match your GitHub org/user.
 
-- Decide whether the publishing org/user will actually be `fdb` (to keep `@fdb/tokens`), or whether we need to rename to `@<org>/tokens`.
+- Publish under your GitHub org/user scope (e.g. `@brad-green/tokens` for the `Brad-Green` user), and update any imports/docs accordingly.
 - If renaming is required, update:
   - `packages/ui` dependency on tokens
   - docs (`CONSUME_IN_APP.md`, `PUBLISH_TOKENS.md`, token README)
-  - any CSS imports that reference `@fdb/tokens/dist/*`
+  - any CSS imports that reference `@brad-green/tokens/dist/*`
 
 ### 2) Do a first manual publish dry-run (still no CI)
 
-- Build tokens locally: `pnpm --filter @fdb/tokens tokens:build`
+- Build tokens locally: `pnpm --filter @brad-green/tokens tokens:build`
 - Publish to GitHub Packages from `packages/tokens` (per `PUBLISH_TOKENS.md`)
 - Smoke-test in a tiny consumer app:
   - install the package
-  - import `@fdb/tokens/dist/*.css`
+  - import `@brad-green/tokens/dist/*.css`
   - render a `Button` + `Select` copied from this repo
 
 ### 3) Resume Phase 5 “high impact” coverage

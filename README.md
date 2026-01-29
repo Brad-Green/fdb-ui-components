@@ -54,8 +54,8 @@ pnpm tokens:build
 ## How styling is wired
 
 - Style Dictionary generates:
-  - `@fdb/tokens/dist/tokens.css`: full token set as CSS custom properties
-  - `@fdb/tokens/dist/shadcn-theme.css`: shadcn contract variables (`--background`, `--primary`, etc.)
+  - `@brad-green/tokens/dist/tokens.css`: full token set as CSS custom properties
+  - `@brad-green/tokens/dist/shadcn-theme.css`: shadcn contract variables (`--background`, `--primary`, etc.)
 - `packages/ui/src/index.css` imports both, and Tailwind maps colors to `hsl(var(--...))`.
 
 ## Code Connect readiness checklist
@@ -76,7 +76,7 @@ Use this to keep a **tight 1:1 mapping** between Figma components and code compo
 - **Stable exports**: Keep exports stable (e.g. `export { Button }` from `@/components/ui/button`).
 - **Prop parity**: Props/variants in code should match Figma variant axes (including defaults).
 - **Token contract usage**: Components should use shadcn/Tailwind tokens (`bg-primary`, `text-foreground`, `border-border`, etc.) rather than hard-coded colors.
-- **No local theme CSS**: Theme variables come from `@fdb/tokens/dist/shadcn-theme.css` (don’t reintroduce per-package theme files).
+- **No local theme CSS**: Theme variables come from `@brad-green/tokens/dist/shadcn-theme.css` (don’t reintroduce per-package theme files).
 
 ### Build + sync checklist
 
