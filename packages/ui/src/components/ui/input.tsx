@@ -55,17 +55,26 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     },
     ref
   ) => {
+    const resolvedSize = size ?? "regular"
+    const resolvedRoundness = roundness ?? "default"
+    const resolvedDecoration = decoration ?? "none"
+
     return (
       <input
         type={type}
         className={cn(
-          inputVariants({ size, roundness, decoration }),
+          inputVariants({
+            size: resolvedSize,
+            roundness: resolvedRoundness,
+            decoration: resolvedDecoration,
+          }),
           className
         )}
         ref={ref}
-        data-size={size}
-        data-roundness={roundness}
-        data-decoration={decoration}
+        data-slot="input"
+        data-size={resolvedSize}
+        data-roundness={resolvedRoundness}
+        data-decoration={resolvedDecoration}
         {...props}
       />
     )

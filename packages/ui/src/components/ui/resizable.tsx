@@ -9,14 +9,19 @@ import { cn } from "@/lib/utils"
 
 const ResizablePanelGroup = ({
   className,
+  orientation,
   ...props
 }: React.ComponentProps<typeof Group>) => (
   <Group
     data-slot="resizable-panel-group"
+    data-orientation={orientation}
     className={cn(
-      "flex h-full w-full data-[panel-group-direction=vertical]:flex-col",
+      // Tailwind doesn't know about react-resizable-panels internals, so we
+      // expose our own stable orientation signal for styling.
+      "group/resizable flex h-full w-full data-[orientation=vertical]:flex-col",
       className
     )}
+    orientation={orientation}
     {...props}
   />
 )
@@ -34,7 +39,7 @@ const ResizableHandle = ({
     data-slot="resizable-handle"
     data-with-handle={withHandle ? "true" : undefined}
     className={cn(
-      "relative flex w-px items-center justify-center bg-border after:absolute after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 data-[panel-group-direction=vertical]:h-px data-[panel-group-direction=vertical]:w-full data-[panel-group-direction=vertical]:after:left-0 data-[panel-group-direction=vertical]:after:h-1 data-[panel-group-direction=vertical]:after:w-full data-[panel-group-direction=vertical]:after:-translate-y-1/2 data-[panel-group-direction=vertical]:after:translate-x-0 [&[data-panel-group-direction=vertical]>div]:rotate-90",
+      "relative flex w-px items-center justify-center bg-border after:absolute after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 group-data-[orientation=vertical]/resizable:h-px group-data-[orientation=vertical]/resizable:w-full group-data-[orientation=vertical]/resizable:after:left-0 group-data-[orientation=vertical]/resizable:after:h-1 group-data-[orientation=vertical]/resizable:after:w-full group-data-[orientation=vertical]/resizable:after:-translate-y-1/2 group-data-[orientation=vertical]/resizable:after:translate-x-0 group-data-[orientation=vertical]/resizable:[&>div]:rotate-90",
       className
     )}
     {...props}

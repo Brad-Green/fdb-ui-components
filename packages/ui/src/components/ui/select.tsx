@@ -23,6 +23,12 @@ const selectTriggerVariants = cva(
       size: {
         regular: "h-10 px-3",
         large: "h-12 px-4 text-base",
+        small: "h-9 px-2 text-sm",
+        mini: "h-8 px-2 text-xs",
+      },
+      lines: {
+        one: "",
+        two: "",
       },
       variant: {
         default: "",
@@ -42,10 +48,18 @@ const selectTriggerVariants = cva(
     },
     defaultVariants: {
       size: "regular",
+      lines: "one",
       variant: "default",
       decoration: "none",
       roundness: "default",
     },
+    compoundVariants: [
+      // 2-line variants need additional height + vertical padding.
+      { size: "mini", lines: "two", className: "h-12 py-1.5 items-start" },
+      { size: "small", lines: "two", className: "h-[52px] py-2 items-start" },
+      { size: "regular", lines: "two", className: "h-14 py-2 items-start" },
+      { size: "large", lines: "two", className: "h-16 py-3 items-start" },
+    ],
   }
 )
 
@@ -54,6 +68,7 @@ interface SelectTriggerProps
     VariantProps<typeof selectTriggerVariants> {
   leftIcon?: React.ReactNode
   rightIcon?: React.ReactNode
+  prepend?: React.ReactNode
   decoration?: FieldDecoration
 }
 
@@ -65,16 +80,23 @@ const SelectTrigger = React.forwardRef<
     {
       className,
       size,
+      lines,
       variant,
       decoration,
       roundness,
       leftIcon,
       rightIcon,
+      prepend,
       children,
       ...props
     },
     ref
   ) => {
+    const resolvedSize = size ?? "regular"
+    const resolvedLines = lines ?? "one"
+    const resolvedVariant = variant ?? "default"
+    const resolvedRoundness = roundness ?? "default"
+
     // If icons are provided, infer decoration unless explicitly set.
     // This keeps Figma axes stable while allowing ergonomic usage.
     const derivedDecoration: FieldDecoration =
@@ -90,23 +112,34 @@ const SelectTrigger = React.forwardRef<
     return (
       <SelectPrimitive.Trigger
         ref={ref}
+        data-slot="select-trigger"
         className={cn(
           selectTriggerVariants({
-            size,
-            variant,
+            size: resolvedSize,
+            lines: resolvedLines,
+            variant: resolvedVariant,
             decoration: derivedDecoration,
-            roundness,
+            roundness: resolvedRoundness,
           }),
           className
         )}
-        data-size={size}
-        data-variant={variant}
-        data-roundness={roundness}
+        data-size={resolvedSize}
+      data-lines={resolvedLines}
+        data-variant={resolvedVariant}
+        data-roundness={resolvedRoundness}
         data-decoration={derivedDecoration}
         {...props}
       >
         <span className="flex min-w-0 flex-1 items-center gap-2">
           {leftIcon ? <span className="shrink-0">{leftIcon}</span> : null}
+          {prepend ? (
+            <span
+              data-slot="select-prepend"
+              className="shrink-0 whitespace-nowrap text-muted-foreground"
+            >
+              {prepend}
+            </span>
+          ) : null}
           <span className="min-w-0 flex-1">{children}</span>
           {rightIcon ? <span className="shrink-0">{rightIcon}</span> : null}
         </span>
@@ -125,6 +158,7 @@ const SelectScrollUpButton = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.ScrollUpButton
     ref={ref}
+    data-slot="select-scroll-up-button"
     className={cn(
       "flex cursor-default items-center justify-center py-1",
       className
@@ -143,6 +177,7 @@ const SelectScrollDownButton = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.ScrollDownButton
     ref={ref}
+    data-slot="select-scroll-down-button"
     className={cn(
       "flex cursor-default items-center justify-center py-1",
       className
@@ -162,6 +197,7 @@ const SelectContent = React.forwardRef<
   <SelectPrimitive.Portal>
     <SelectPrimitive.Content
       ref={ref}
+      data-slot="select-content"
       className={cn(
         "relative z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md",
         position === "popper" &&
@@ -173,6 +209,7 @@ const SelectContent = React.forwardRef<
     >
       <SelectScrollUpButton />
       <SelectPrimitive.Viewport
+        data-slot="select-viewport"
         className={cn(
           "p-1",
           position === "popper" &&
@@ -193,6 +230,7 @@ const SelectLabel = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.Label
     ref={ref}
+    data-slot="select-label"
     className={cn("px-2 py-1.5 text-sm font-semibold", className)}
     {...props}
   />
@@ -205,6 +243,7 @@ const SelectItem = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <SelectPrimitive.Item
     ref={ref}
+    data-slot="select-item"
     className={cn(
       "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       className
@@ -227,6 +266,7 @@ const SelectSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.Separator
     ref={ref}
+    data-slot="select-separator"
     className={cn("-mx-1 my-1 h-px bg-muted", className)}
     {...props}
   />

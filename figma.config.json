@@ -1,0 +1,17 @@
+{
+  "codeConnect": {
+    "parser": "react",
+    "label": "React",
+    "interactiveSetupFigmaFileUrl": "https://www.figma.com/design/YfHPTyArBQBSpLmaPlZyUk/FDB-Shadcn",
+    "paths": {
+      "@/*": ["packages/ui/src/*"]
+    },
+    "include": [
+      "packages/ui/src/figma/**/*.figma.tsx",
+      "packages/ui/src/**/*.ts",
+      "packages/ui/src/**/*.tsx"
+    ],
+    "exclude": ["**/dist/**", "**/build/**", "**/node_modules/**"]
+  }
+}
+

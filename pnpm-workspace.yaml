@@ -1,2 +1,4 @@
 packages:
-  - "packages/*"
+  - packages/*
+
+storeDir: c:\Users\WilkinsoBr01\source\repos\fdb-ui-components\.pnpm-store\v10

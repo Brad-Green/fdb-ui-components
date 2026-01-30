@@ -76,6 +76,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const Comp = asChild ? Slot : "button"
+    const resolvedVariant = variant ?? "primary"
+    const resolvedSize = size ?? "regular"
+    const resolvedRoundness = roundness ?? "default"
+
     const derivedDecoration: FieldDecoration =
       decoration ??
       (leftIcon && rightIcon
@@ -90,11 +94,18 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <Comp
         ref={ref}
         data-slot="button"
-        data-variant={variant}
-        data-size={size}
-        data-roundness={roundness}
+        data-variant={resolvedVariant}
+        data-size={resolvedSize}
+        data-roundness={resolvedRoundness}
         data-decoration={derivedDecoration}
-        className={cn(buttonVariants({ variant, size, roundness }), className)}
+        className={cn(
+          buttonVariants({
+            variant: resolvedVariant,
+            size: resolvedSize,
+            roundness: resolvedRoundness,
+          }),
+          className
+        )}
         {...props}
       >
         {leftIcon && (

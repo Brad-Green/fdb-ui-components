@@ -1016,7 +1016,7 @@ export function ComponentGallery() {
       <section className="space-y-4">
         <h2 className="text-xl font-semibold">Resizable</h2>
         <ResizablePanelGroup
-          direction="horizontal"
+          orientation="horizontal"
           className="h-36 w-full max-w-2xl rounded-md border"
         >
           <ResizablePanel defaultSize={50} minSize={25}>
@@ -1034,6 +1034,8 @@ export function ComponentGallery() {
         <p className="text-xs text-muted-foreground">
           In DevTools, verify{" "}
           <code className="rounded bg-muted px-1 py-0.5">data-slot="resizable-panel-group"</code>{" "}
+          and{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-orientation="horizontal"</code>{" "}
           and{" "}
           <code className="rounded bg-muted px-1 py-0.5">data-slot="resizable-handle"</code>{" "}
           (plus{" "}

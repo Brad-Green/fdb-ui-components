@@ -9,7 +9,9 @@
     "lint": "pnpm --filter ui lint",
     "tokens:sync": "pnpm --filter @brad-green/tokens tokens:sync",
     "tokens:fix": "pnpm --filter @brad-green/tokens tokens:fix",
-    "tokens:build": "pnpm --filter @brad-green/tokens tokens:build"
+    "tokens:build": "pnpm --filter @brad-green/tokens tokens:build",
+    "codeconnect:dry-run": "pnpm -s dlx @figma/code-connect@latest connect publish --dry-run",
+    "codeconnect:publish": "pnpm -s dlx @figma/code-connect@latest connect publish"
   },
   "keywords": [],
   "author": "",

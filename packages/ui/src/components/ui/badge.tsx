@@ -28,10 +28,13 @@ export interface BadgeProps
     VariantProps<typeof badgeVariants> {}
 
 function Badge({ className, variant, ...props }: BadgeProps) {
+  const resolvedVariant = variant ?? "default"
+
   return (
     <div
-      data-variant={variant}
-      className={cn(badgeVariants({ variant }), className)}
+      data-slot="badge"
+      data-variant={resolvedVariant}
+      className={cn(badgeVariants({ variant: resolvedVariant }), className)}
       {...props}
     />
   )

@@ -42,12 +42,14 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
     return (
       <div
         ref={ref}
+        data-slot="form-field"
         className={cn("grid gap-1.5", className)}
         {...props}
       >
         {label && (
           <label
             htmlFor={controlId}
+            data-slot="form-field-label"
             className={cn(
               "text-sm font-medium leading-none",
               disabled && "opacity-60"
@@ -63,6 +65,7 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
         {description && !error && (
           <p
             id={descriptionId}
+            data-slot="form-field-description"
             className="text-xs text-muted-foreground"
           >
             {description}
@@ -72,6 +75,7 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
         {error && (
           <p
             id={errorId}
+            data-slot="form-field-error"
             className="text-xs text-destructive"
           >
             {error}

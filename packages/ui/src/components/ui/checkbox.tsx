@@ -36,21 +36,28 @@ export interface CheckboxProps
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
   CheckboxProps
->(({ className, size, roundness, ...props }, ref) => (
-  <CheckboxPrimitive.Root
-    ref={ref}
-    className={cn(checkboxVariants({ size, roundness }), className)}
-    data-size={size}
-    data-roundness={roundness}
-    {...props}
-  >
-    <CheckboxPrimitive.Indicator
-      className="flex items-center justify-center text-current"
+>(({ className, size, roundness, ...props }, ref) => {
+  const resolvedSize = size ?? "regular"
+  const resolvedRoundness = roundness ?? "default"
+
+  return (
+    <CheckboxPrimitive.Root
+      ref={ref}
+      data-slot="checkbox"
+      className={cn(
+        checkboxVariants({ size: resolvedSize, roundness: resolvedRoundness }),
+        className
+      )}
+      data-size={resolvedSize}
+      data-roundness={resolvedRoundness}
+      {...props}
     >
-      <Check className="h-3.5 w-3.5" />
-    </CheckboxPrimitive.Indicator>
-  </CheckboxPrimitive.Root>
-))
+      <CheckboxPrimitive.Indicator className="flex items-center justify-center text-current">
+        <Check className="h-3.5 w-3.5" />
+      </CheckboxPrimitive.Indicator>
+    </CheckboxPrimitive.Root>
+  )
+})
 Checkbox.displayName = CheckboxPrimitive.Root.displayName
 
 export { Checkbox, checkboxVariants }

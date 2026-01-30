@@ -45,18 +45,24 @@ export interface SwitchProps
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,
   SwitchProps
->(({ className, size, ...props }, ref) => (
-  <SwitchPrimitives.Root
-    ref={ref}
-    className={cn(switchVariants({ size }), className)}
-    data-size={size}
-    {...props}
-  >
-    <SwitchPrimitives.Thumb
-      className={cn(thumbVariants({ size }))}
-    />
-  </SwitchPrimitives.Root>
-))
+>(({ className, size, ...props }, ref) => {
+  const resolvedSize = size ?? "regular"
+
+  return (
+    <SwitchPrimitives.Root
+      ref={ref}
+      data-slot="switch"
+      className={cn(switchVariants({ size: resolvedSize }), className)}
+      data-size={resolvedSize}
+      {...props}
+    >
+      <SwitchPrimitives.Thumb
+        data-slot="switch-thumb"
+        className={cn(thumbVariants({ size: resolvedSize }))}
+      />
+    </SwitchPrimitives.Root>
+  )
+})
 
 Switch.displayName = SwitchPrimitives.Root.displayName
 

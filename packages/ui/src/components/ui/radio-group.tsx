@@ -5,7 +5,18 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 
-const RadioGroup = RadioGroupPrimitive.Root
+const RadioGroup = React.forwardRef<
+  React.ElementRef<typeof RadioGroupPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
+>(({ className, ...props }, ref) => (
+  <RadioGroupPrimitive.Root
+    ref={ref}
+    data-slot="radio-group"
+    className={cn(className)}
+    {...props}
+  />
+))
+RadioGroup.displayName = RadioGroupPrimitive.Root.displayName
 
 const radioItemVariants = cva(
   "aspect-square shrink-0 rounded-full border border-input text-primary shadow-sm transition-colors " +
@@ -34,14 +45,20 @@ const RadioGroupItem = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Item>,
   RadioGroupItemProps
 >(({ className, size, ...props }, ref) => {
+  const resolvedSize = size ?? "regular"
+
   return (
     <RadioGroupPrimitive.Item
       ref={ref}
-      className={cn(radioItemVariants({ size }), className)}
-      data-size={size}
+      data-slot="radio-group-item"
+      className={cn(radioItemVariants({ size: resolvedSize }), className)}
+      data-size={resolvedSize}
       {...props}
     >
-      <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
+      <RadioGroupPrimitive.Indicator
+        data-slot="radio-group-indicator"
+        className="flex items-center justify-center"
+      >
         <Circle className="h-2.5 w-2.5 fill-current text-primary" />
       </RadioGroupPrimitive.Indicator>
     </RadioGroupPrimitive.Item>

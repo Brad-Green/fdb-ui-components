@@ -9,6 +9,7 @@ const Slider = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SliderPrimitive.Root
     ref={ref}
+    data-slot="slider"
     className={cn(
       "relative flex w-full touch-none select-none items-center data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 " +
         "aria-[invalid=true]:[&_[role=slider]]:border-destructive " +
@@ -19,10 +20,17 @@ const Slider = React.forwardRef<
     )}
     {...props}
   >
-    <SliderPrimitive.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-primary-soft data-[disabled]:opacity-50">
-      <SliderPrimitive.Range className="absolute h-full bg-primary" />
+    <SliderPrimitive.Track
+      data-slot="slider-track"
+      className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-primary-soft data-[disabled]:opacity-50"
+    >
+      <SliderPrimitive.Range
+        data-slot="slider-range"
+        className="absolute h-full bg-primary"
+      />
     </SliderPrimitive.Track>
     <SliderPrimitive.Thumb
+      data-slot="slider-thumb"
       className="block h-4 w-4 rounded-full border border-primary-border-subtle bg-background shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
     />
   </SliderPrimitive.Root>

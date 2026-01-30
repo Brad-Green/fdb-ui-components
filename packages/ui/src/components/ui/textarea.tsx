@@ -37,12 +37,19 @@ export interface TextareaProps
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ className, size, roundness, ...props }, ref) => {
+    const resolvedSize = size ?? "regular"
+    const resolvedRoundness = roundness ?? "default"
+
     return (
       <textarea
         ref={ref}
-        className={cn(textareaVariants({ size, roundness }), className)}
-        data-size={size}
-        data-roundness={roundness}
+        data-slot="textarea"
+        className={cn(
+          textareaVariants({ size: resolvedSize, roundness: resolvedRoundness }),
+          className
+        )}
+        data-size={resolvedSize}
+        data-roundness={resolvedRoundness}
         {...props}
       />
     )

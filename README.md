@@ -17,6 +17,63 @@ Install:
 pnpm install
 ```
 
+## Baseline runbook (known-good checks)
+
+Use these commands to quickly confirm the repo is in a healthy state.
+
+- Note: This repo’s package.json lives in `fdb-ui-components/` (this folder). If you run `pnpm` from the parent folder, it will fail with “No package.json found”.
+
+- Install deps (should be fast when lockfile is unchanged):
+
+```bash
+pnpm install
+```
+
+- Build tokens (writes `packages/tokens/dist/*`):
+
+```bash
+pnpm tokens:build
+```
+
+- Run the UI dev gallery (Vite app):
+
+```bash
+pnpm dev
+```
+
+- Typecheck + production build (includes a prebuild tokens step):
+
+```bash
+pnpm --filter ui build
+```
+
+- Lint:
+
+```bash
+pnpm --filter ui lint
+```
+
+## Code Connect (local validation + publish)
+
+Code Connect validation requires a Figma access token (even for `--dry-run`) so the CLI can validate node IDs.
+
+- PowerShell:
+
+```powershell
+cd fdb-ui-components
+$env:FIGMA_ACCESS_TOKEN = "<your token>"
+pnpm codeconnect:dry-run
+# optional:
+pnpm codeconnect:publish
+Remove-Item Env:FIGMA_ACCESS_TOKEN
+```
+
+**Expected outcomes**
+
+- `pnpm tokens:build` prints `✔︎ dist/tokens.css` and `✔︎ dist/shadcn-theme.css`.
+- `pnpm --filter ui build` completes with `✓ built in ...` and produces `packages/ui/dist/`.
+- `pnpm --filter ui lint` completes with no errors.
+
 Consuming these components in an app (copy/paste contract):
 
 - See `CONSUME_IN_APP.md`

@@ -253,6 +253,7 @@ Format:
 
 - **Component**: `Toast` (rendered via `Toaster` store)
 - **Import**:
+  - `Toast` primitives: `@/components/ui/toast`
   - `Toaster`: `@/components/ui/toaster`
   - API: `toast()` / `useToast()` from `@/hooks/use-toast`
 
@@ -496,11 +497,12 @@ Format:
 
 ### State (Figma → code)
 
-- Direction and sizing are managed by `react-resizable-panels` and exposed via `data-panel-group-direction` on the handle.
+- Orientation and sizing are managed by `react-resizable-panels` via the `orientation` prop on `ResizablePanelGroup`.
 
 ### Data attributes
 
 - `ResizablePanelGroup` emits `data-slot="resizable-panel-group"`.
+- `ResizablePanelGroup` emits `data-orientation="horizontal" | "vertical"` (for Code Connect mapping/debugging).
 - `ResizableHandle` emits:
   - `data-slot="resizable-handle"`
   - `data-with-handle="true"` when `withHandle` is enabled
@@ -795,4 +797,341 @@ Format:
 
 - Emits `data-active="true"` when active (for Code Connect mapping/debugging).
 - Emits `data-disabled="true"` when `aria-disabled` is set (for Code Connect mapping/debugging).
+
+---
+
+## PaginationPrevious / PaginationNext
+
+- **Component**: `PaginationPrevious`, `PaginationNext` (part of `Pagination`)
+- **Import**: `@/components/ui/pagination`
+
+### Axes (Figma → code)
+
+- Inherit from `PaginationLink`:
+  - `size` (defaults to `"regular"` in these wrappers)
+
+### State (Figma → code)
+
+- **Disabled** → via `aria-disabled` passed through to the underlying `PaginationLink`.
+
+### Data attributes
+
+- Inherit from `PaginationLink`: `data-active`, `data-disabled`.
+
+---
+
+## Pagination
+
+- **Component**: `Pagination` (nav container)
+- **Import**: `@/components/ui/pagination`
+
+### Axes (Figma → code)
+
+- None.
+
+### State (Figma → code)
+
+- None (layout container).
+
+### Data attributes
+
+- None.
+
+---
+
+## RadioGroup
+
+- **Component**: `RadioGroup` (root)
+- **Import**: `@/components/ui/radio-group`
+
+### Axes (Figma → code)
+
+- None (axes live on `RadioGroupItem`).
+
+### State (Figma → code)
+
+- **Disabled** → `disabled` on the group root (`<RadioGroup disabled />`)
+
+### Data attributes
+
+- None.
+
+---
+
+## Select / SelectContent / SelectItem
+
+- **Component**: `Select`, `SelectContent`, `SelectItem` (part of `Select`)
+- **Import**: `@/components/ui/select`
+
+### Axes (Figma → code)
+
+- `Select` (root): none (state-driven).
+- `SelectContent`: none (placement-driven).
+- `SelectItem`: none (state-driven).
+
+### State (Figma → code)
+
+- **Open/close** → controlled by Radix Select state.
+- **Placement** → Radix sets `data-side` and `data-state` on `SelectContent`.
+- **Focused/highlighted** → Radix sets `data-highlighted` on the active item.
+- **Disabled item** → `disabled` on `SelectItem`; Radix sets `data-disabled`.
+
+### Data attributes
+
+- `SelectTrigger` emits axis `data-*` (documented above).
+- `SelectContent`: currently relies on Radix `data-side` / `data-state` for placement/animation.
+- `SelectItem`: currently relies on Radix `data-disabled` / `data-highlighted` for state.
+
+---
+
+## Card / CardHeader / CardContent / CardFooter / CardTitle / CardDescription
+
+- **Component**: `Card` family (layout surfaces)
+- **Import**: `@/components/ui/card`
+
+### Axes (Figma → code)
+
+- None.
+
+### State (Figma → code)
+
+- None.
+
+### Data attributes
+
+- Recommend emitting stable `data-slot` values on each exported subcomponent (e.g. `card`, `card-header`, `card-content`, etc.) for Code Connect targeting/debugging.
+
+---
+
+## Table / TableHeader / TableBody / TableFooter / TableRow / TableHead / TableCell / TableCaption
+
+- **Component**: `Table` family (data display)
+- **Import**: `@/components/ui/table`
+
+### Axes (Figma → code)
+
+- None.
+
+### State (Figma → code)
+
+- `TableRow` supports `data-state="selected"` (consumer-managed) to style selected rows.
+
+### Data attributes
+
+- Recommend emitting stable `data-slot` values on exported subcomponents for Code Connect targeting/debugging.
+- `TableRow` uses `data-state` when provided (useful for mapping selected state).
+
+---
+
+## Separator
+
+- **Component**: `Separator`
+- **Import**: `@/components/ui/separator`
+
+### Axes (Figma → code)
+
+- **Orientation** → `orientation: "horizontal" | "vertical"` (default: `"horizontal"`)
+
+### State (Figma → code)
+
+- None.
+
+### Data attributes
+
+- Recommend emitting `data-orientation` when the axis is meaningful for Code Connect mapping/debugging.
+
+---
+
+## Progress
+
+- **Component**: `Progress`
+- **Import**: `@/components/ui/progress`
+
+### Axes (Figma → code)
+
+- None.
+
+### State (Figma → code)
+
+- **Value** → `value?: number` (0–100); drives the indicator translate.
+- **Disabled** → if needed, use native `disabled`/`aria-disabled` patterns outside; component does not define a disabled axis today.
+
+### Data attributes
+
+- Recommend `data-slot="progress"` on the root and `data-slot="progress-indicator"` on the indicator for Code Connect targeting/debugging.
+
+---
+
+## Skeleton
+
+- **Component**: `Skeleton`
+- **Import**: `@/components/ui/skeleton`
+
+### Axes (Figma → code)
+
+- None.
+
+### State (Figma → code)
+
+- None.
+
+### Data attributes
+
+- Recommend `data-slot="skeleton"` for Code Connect targeting/debugging.
+
+---
+
+## Avatar / AvatarImage / AvatarFallback
+
+- **Component**: `Avatar` family
+- **Import**: `@/components/ui/avatar`
+
+### Axes (Figma → code)
+
+- None today (size/shape are class-driven by consumers).
+
+### State (Figma → code)
+
+- **Image loaded vs fallback** → driven by Radix Avatar behavior and image loading.
+
+### Data attributes
+
+- Recommend emitting stable `data-slot` values on avatar root/image/fallback for Code Connect targeting/debugging.
+
+---
+
+## AspectRatio
+
+- **Component**: `AspectRatio`
+- **Import**: `@/components/ui/aspect-ratio`
+
+### Axes (Figma → code)
+
+- **Ratio** → `ratio?: number` (Radix prop)
+
+### State (Figma → code)
+
+- None.
+
+### Data attributes
+
+- Recommend emitting `data-ratio` (or at least `data-slot="aspect-ratio"`) for Code Connect mapping/debugging when ratio is a meaningful design axis.
+
+---
+
+## Breadcrumb / BreadcrumbList / BreadcrumbItem / BreadcrumbLink / BreadcrumbPage / BreadcrumbSeparator / BreadcrumbEllipsis
+
+- **Component**: `Breadcrumb` family
+- **Import**: `@/components/ui/breadcrumb`
+
+### Axes (Figma → code)
+
+- None.
+
+### State (Figma → code)
+
+- `BreadcrumbPage` uses `aria-current="page"` + `aria-disabled="true"` semantics.
+- `BreadcrumbSeparator`/`BreadcrumbEllipsis` are presentational (`aria-hidden`, `role="presentation"`).
+
+### Data attributes
+
+- Recommend emitting stable `data-slot` values across the breadcrumb subcomponents for Code Connect targeting/debugging.
+
+---
+
+## Carousel / CarouselContent / CarouselItem / CarouselPrevious / CarouselNext
+
+- **Component**: `Carousel` family
+- **Import**: `@/components/ui/carousel`
+
+### Axes (Figma → code)
+
+- **Orientation** → `orientation: "horizontal" | "vertical"` (default: `"horizontal"`)
+
+### State (Figma → code)
+
+- **Can scroll prev/next** → derived from Embla; previous/next buttons set `disabled` when scrolling isn’t possible.
+- **Keyboard** → arrow keys trigger scroll (handled by `Carousel` root).
+
+### Data attributes
+
+- Recommend emitting `data-orientation` and stable `data-slot` values across carousel parts for Code Connect targeting/debugging.
+
+---
+
+## Label
+
+- **Component**: `Label`
+- **Import**: `@/components/ui/label`
+
+### Axes (Figma → code)
+
+- None (styling is base only today).
+
+### State (Figma → code)
+
+- `peer-disabled:*` styles apply when associated control is disabled.
+
+### Data attributes
+
+- None.
+
+---
+
+## FormField (layout wrapper)
+
+- **Component**: `FormField` (simple label/description/error wrapper in `form-field.tsx`)
+- **Import**: `@/components/ui/form-field`
+
+### Axes (Figma → code)
+
+- None (this is a composition wrapper).
+
+### State (Figma → code)
+
+- **Invalid** → driven by `error?: string`; wrapper injects `aria-invalid` and `aria-describedby` onto its single child control.
+- **Disabled** → driven by `disabled?: boolean`; wrapper injects `disabled` onto its single child control and dims the label.
+
+### Data attributes
+
+- None today (recommend `data-slot="form-field"` for mapping/debugging if this becomes a Code Connect target).
+
+---
+
+## Form (react-hook-form primitives)
+
+- **Component**: `Form`, `FormItem`, `FormLabel`, `FormControl`, `FormDescription`, `FormMessage`, `FormField`
+- **Import**: `@/components/ui/form`
+
+### Axes (Figma → code)
+
+- None.
+
+### State (Figma → code)
+
+- **Invalid** → derived from `react-hook-form` field state; `FormControl` sets `aria-invalid` and `aria-describedby` accordingly.
+- `FormLabel` changes styling when the field has an error.
+
+### Data attributes
+
+- None today (if Code Connect needs to target these wrappers, add stable `data-slot` values and document them here).
+
+---
+
+## Toaster
+
+- **Component**: `Toaster` (toast renderer)
+- **Import**: `@/components/ui/toaster`
+
+### Axes (Figma → code)
+
+- None.
+
+### State (Figma → code)
+
+- Renders active toast items from `useToast()` store.
+
+### Data attributes
+
+- Inherits toast `data-variant` on each `Toast` (documented above).
 

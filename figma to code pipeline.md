@@ -225,53 +225,54 @@ Good stopping point — you’re doing this the right way.
 
 ## ✅ Today’s summary (what changed)
 
-### Tokens publishing (completed)
+### Session summary (2026-01-30)
 
-- Published **`@brad-green/tokens@0.1.0`** to **GitHub Packages** and verified install + artifacts (`dist/tokens.css`, `dist/shadcn-theme.css`) in a clean consumer smoke test.
-- Updated the repo to consistently use the correct GitHub Packages scope (`@brad-green/*`) and removed stale references.
-- Hardened token sync on Windows:
-  - Replaced `curl` with `scripts/sync-tokens.js` (Node fetch + PowerShell fallbacks, retries, optional `FDB_TOKENS_URL` override).
+#### Figma Code Connect — Button
 
-### Dev + lint quality-of-life (completed)
+- Fixed icon toggles not emitting in Dev Mode by expanding boolean enum handling:
+  - `Show left icon` / `Show right icon` now handle both `True/False` and `true/false` values.
+- Kept icon identity intentionally as a placeholder (`SquareDashed`) in generated code:
+  - This validates slot parity without overfitting to Figma instance-swapped icon names.
 
-- Made `pnpm --filter ui lint` pass by scoping off `react-refresh/only-export-components` for shadcn-style `src/components/ui/*` and `src/hooks/*`.
-- Fixed `use-toast.ts` to use `actionTypes` at runtime (removes the unused-vars lint).
-- Updated publish docs + release checklist to match the working Windows workflow (and removed outdated `always-auth` guidance).
+#### Figma Code Connect — Select & Combobox
 
-### Phase 5 parity + Code Connect “signals” (continued)
+- Wired missing Figma axes into code so snippets actually change:
+  - `Lines` axis now maps to `lines: "one" | "two"` on `SelectTrigger`.
+- Extended `SelectTrigger` to support the full Figma `Size` axis:
+  - Added `mini` and `small` size variants (previously only `regular`/`large`).
+- Fixed parity for the toggles shown in Figma:
+  - `Show Prepend` now emits `prepend="Prepend:"` (text prefix)
+  - `Show Decoration` now emits `leftIcon={<SquareDashed className="size-4" />}` (left icon)
+- Added mapping/debug signals:
+  - `SelectTrigger` now emits `data-lines` (in addition to existing axis `data-*`).
+- Fixed a styling bug introduced during the 2-line work:
+  - Replaced invalid Tailwind class `h-13` with `h-[52px]`.
 
-- Expanded `PHASE5_MAPPINGS.md` with mappings for additional components and state/placement signals.
-- Added stable `data-slot` (and where relevant `data-align`, etc.) for Code Connect mapping/debugging:
-  - Dialog / Sheet / Popover / Tooltip
-  - AlertDialog / HoverCard / ContextMenu / Accordion
-  - ScrollArea / Collapsible / Resizable
-- Updated `ComponentGallery` with new sections and DevTools verification notes for the above.
+#### Validation + publish
+
+- Verified TypeScript build + Code Connect validity before each publish:
+  - `pnpm --filter ui build`
+  - `pnpm codeconnect:dry-run`
+  - `pnpm codeconnect:publish`
 
 ---
 
-## 🗓️ Tomorrow plan (start here)
+## 🗓️ What’s next (tomorrow)
 
-### 1) Finish Phase 5 coverage for remaining components
+### 1) Golden Test the remaining anchor components
 
-Goal: every component in `packages/ui/src/components/ui/*` has:
-- documented mapping entry (axes + state + required signals)
-- stable `data-slot` (and axis data like `data-align`, `data-side`, etc. where meaningful)
-- a small `ComponentGallery` demo that makes drift obvious
+- Dialog:
+  - Confirm Dev Mode snippet changes correctly for the `Type` axis (desktop/mobile) and structure is idiomatic (no inline conditional logic in strings).
+- Input:
+  - Validate `size`, `roundness`, `decoration`, `disabled`, and `aria-invalid` mappings in Dev Mode.
 
-Suggested order:
-- Layout/display primitives: `Card`, `Table`, `Separator`, `Progress`, `Skeleton`, `AspectRatio`, `Avatar`, `Breadcrumb`, `Label`
-- Interaction primitives: `Carousel`, `ScrollArea` (done), `Collapsible` (done), `Resizable` (done)
+### 2) Tighten Select parity (only if needed)
 
-### 2) Start Phase 6 Code Connect on an anchor set
+- If Figma exposes more meaningful Select properties (nested decorations, right-side variants), decide whether to:
+  - map as additional props (preferred), or
+  - intentionally treat as out-of-scope for the snippet (documented).
 
-Pick 3–5 anchor components and wire them end-to-end in Figma Code Connect:
-- Button / Input / Select (anchors)
-- plus one overlay: Dialog or Sheet
+### 3) Optional: lock in CI reliability
 
-Goal: designers can copy production-accurate code from Figma with correct props/state mapping.
-
-### 3) Optional automation (only if time)
-
-- Add CI automation to publish `@brad-green/tokens` on tag/release and run a smoke install check.
-- Add Renovate/Dependabot config to bump tokens in downstream apps.
+- Add `FIGMA_ACCESS_TOKEN` as a GitHub Actions secret so PRs can run `pnpm codeconnect:dry-run` automatically.
 
