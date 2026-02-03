@@ -131,6 +131,11 @@ import { ButtonGroup, ButtonGroupSeparator } from "@/components/ui/button-group"
 import { Toggle } from "@/components/ui/toggle"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { FormField } from "@/components/ui/form-field"
+import { RichCheckboxGroup, RichCheckboxItem } from "@/components/ui/rich-checkbox-group"
+import { RichSwitchGroup, RichSwitchItem } from "@/components/ui/rich-switch-group"
+import { RichRadioGroup, RichRadioItem } from "@/components/ui/rich-radio-group"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { AvatarStack } from "@/components/ui/avatar-stack"
 import { Toaster } from "@/components/ui/toaster"
 import { toast } from "@/hooks/use-toast"
 import {
@@ -1842,6 +1847,209 @@ export function ComponentGallery() {
             </DialogFooter>
           </DialogContent>
         </Dialog>
+      </section>
+
+      <Separator />
+
+      {/* Rich Checkbox Group */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Rich Checkbox Group</h2>
+        <p className="text-sm text-muted-foreground">
+          Card-style checkboxes with titles and descriptions.
+        </p>
+        <RichCheckboxGroup className="max-w-md">
+          <RichCheckboxItem
+            title="Push Notifications"
+            description="Receive push notifications on your device"
+            defaultChecked
+          />
+          <RichCheckboxItem
+            title="Email Updates"
+            description="Get weekly digest emails"
+          />
+          <RichCheckboxItem
+            title="Marketing Communications"
+            description="Receive news about products and features"
+            disabled
+          />
+        </RichCheckboxGroup>
+      </section>
+
+      <Separator />
+
+      {/* Rich Switch Group */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Rich Switch Group</h2>
+        <p className="text-sm text-muted-foreground">
+          Card-style switches with titles and descriptions.
+        </p>
+        <RichSwitchGroup className="max-w-md">
+          <RichSwitchItem
+            title="Airplane Mode"
+            description="Disable all wireless connections"
+          />
+          <RichSwitchItem
+            title="Wi-Fi"
+            description="Connect to wireless networks"
+            defaultChecked
+          />
+          <RichSwitchItem
+            title="Bluetooth"
+            description="Connect to Bluetooth devices"
+            defaultChecked
+          />
+        </RichSwitchGroup>
+      </section>
+
+      <Separator />
+
+      {/* Rich Radio Group */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Rich Radio Group</h2>
+        <p className="text-sm text-muted-foreground">
+          Card-style radio buttons with titles and descriptions.
+        </p>
+        <RichRadioGroup defaultValue="standard" className="max-w-md">
+          <RichRadioItem
+            value="free"
+            title="Free"
+            description="Basic features for personal use"
+          />
+          <RichRadioItem
+            value="standard"
+            title="Standard"
+            description="Advanced features for small teams"
+          />
+          <RichRadioItem
+            value="enterprise"
+            title="Enterprise"
+            description="Custom solutions for large organizations"
+          />
+        </RichRadioGroup>
+      </section>
+
+      <Separator />
+
+      {/* Form Field */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Form Field</h2>
+        <p className="text-sm text-muted-foreground">
+          Consistent form field layouts with label, input, description, and error.
+        </p>
+        <div className="grid gap-8 max-w-lg">
+          <div className="space-y-2">
+            <h3 className="text-sm font-medium">Vertical (default)</h3>
+            <FormField
+              label="Email"
+              htmlFor="demo-email"
+              description="We'll never share your email"
+              required
+            >
+              <Input id="demo-email" type="email" placeholder="Enter your email" />
+            </FormField>
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-sm font-medium">Horizontal</h3>
+            <FormField
+              orientation="horizontal"
+              label="Username"
+              htmlFor="demo-username"
+            >
+              <Input id="demo-username" placeholder="Enter username" />
+            </FormField>
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-sm font-medium">With Error</h3>
+            <FormField
+              label="Password"
+              htmlFor="demo-password"
+              error="Password must be at least 8 characters"
+              required
+            >
+              <Input id="demo-password" type="password" placeholder="Enter password" aria-invalid="true" />
+            </FormField>
+          </div>
+        </div>
+      </section>
+
+      <Separator />
+
+      {/* Avatar Stack */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Avatar Stack</h2>
+        <p className="text-sm text-muted-foreground">
+          Overlapping avatars with an optional +N indicator.
+        </p>
+        <div className="flex flex-col gap-6">
+          <div className="space-y-2">
+            <h3 className="text-sm font-medium">Default Stack</h3>
+            <AvatarStack>
+              <Avatar>
+                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                <AvatarFallback>SC</AvatarFallback>
+              </Avatar>
+              <Avatar>
+                <AvatarImage src="https://github.com/vercel.png" alt="@vercel" />
+                <AvatarFallback>VC</AvatarFallback>
+              </Avatar>
+              <Avatar>
+                <AvatarFallback>RX</AvatarFallback>
+              </Avatar>
+            </AvatarStack>
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-sm font-medium">With Max (max=3, 5 total)</h3>
+            <AvatarStack max={3}>
+              <Avatar>
+                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                <AvatarFallback>SC</AvatarFallback>
+              </Avatar>
+              <Avatar>
+                <AvatarImage src="https://github.com/vercel.png" alt="@vercel" />
+                <AvatarFallback>VC</AvatarFallback>
+              </Avatar>
+              <Avatar>
+                <AvatarFallback>RX</AvatarFallback>
+              </Avatar>
+              <Avatar>
+                <AvatarFallback>AB</AvatarFallback>
+              </Avatar>
+              <Avatar>
+                <AvatarFallback>CD</AvatarFallback>
+              </Avatar>
+            </AvatarStack>
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-sm font-medium">Small Size</h3>
+            <AvatarStack size="sm">
+              <Avatar className="h-8 w-8">
+                <AvatarFallback className="text-xs">A</AvatarFallback>
+              </Avatar>
+              <Avatar className="h-8 w-8">
+                <AvatarFallback className="text-xs">B</AvatarFallback>
+              </Avatar>
+              <Avatar className="h-8 w-8">
+                <AvatarFallback className="text-xs">C</AvatarFallback>
+              </Avatar>
+            </AvatarStack>
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-sm font-medium">Large Size</h3>
+            <AvatarStack size="lg">
+              <Avatar className="h-12 w-12">
+                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                <AvatarFallback>SC</AvatarFallback>
+              </Avatar>
+              <Avatar className="h-12 w-12">
+                <AvatarImage src="https://github.com/vercel.png" alt="@vercel" />
+                <AvatarFallback>VC</AvatarFallback>
+              </Avatar>
+              <Avatar className="h-12 w-12">
+                <AvatarFallback>RX</AvatarFallback>
+              </Avatar>
+            </AvatarStack>
+          </div>
+        </div>
       </section>
 
       <Toaster />

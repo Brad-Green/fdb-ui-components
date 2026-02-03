@@ -1,92 +1,98 @@
 import * as React from "react"
-import { cn } from "@/lib/utils"
+import { cva, type VariantProps } from "class-variance-authority"
 
-interface FormFieldProps extends React.HTMLAttributes<HTMLDivElement> {
+import { cn } from "@/lib/utils"
+import { Label } from "@/components/ui/label"
+
+const formFieldVariants = cva("grid gap-2", {
+  variants: {
+    orientation: {
+      vertical: "grid-cols-1",
+      horizontal: "grid-cols-[auto_1fr] items-center gap-x-4",
+    },
+  },
+  defaultVariants: {
+    orientation: "vertical",
+  },
+})
+
+export interface FormFieldProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof formFieldVariants> {
   label?: string
+  htmlFor?: string
   description?: string
   error?: string
   required?: boolean
   disabled?: boolean
-  children: React.ReactElement
 }
 
 const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
   (
-    { className, label, description, error, required, disabled, children, ...props },
+    {
+      className,
+      orientation,
+      label,
+      htmlFor,
+      description,
+      error,
+      required,
+      disabled,
+      children,
+      ...props
+    },
     ref
   ) => {
-    const reactId = React.useId()
-
-    const child = React.Children.only(children) as React.ReactElement<
-      React.HTMLAttributes<HTMLElement> & { disabled?: boolean }
-    >
-
-    const controlId =
-      (child.props as { id?: string }).id ?? `form-field-${reactId}-control`
-    const descriptionId = `form-field-${reactId}-description`
-    const errorId = `form-field-${reactId}-error`
-
-    const describedByIds: string[] = []
-    if (error) describedByIds.push(errorId)
-    else if (description) describedByIds.push(descriptionId)
-
-    const control = React.cloneElement(child, {
-      id: controlId,
-      "aria-invalid": !!error || undefined,
-      "aria-describedby": describedByIds.length
-        ? describedByIds.join(" ")
-        : undefined,
-      disabled: disabled || child.props.disabled,
-    })
-
     return (
       <div
         ref={ref}
         data-slot="form-field"
-        className={cn("grid gap-1.5", className)}
+        data-orientation={orientation ?? "vertical"}
+        data-disabled={disabled || undefined}
+        className={cn(
+          formFieldVariants({ orientation }),
+          disabled && "opacity-50 pointer-events-none",
+          className
+        )}
         {...props}
       >
         {label && (
-          <label
-            htmlFor={controlId}
-            data-slot="form-field-label"
+          <Label
+            htmlFor={htmlFor}
             className={cn(
-              "text-sm font-medium leading-none",
-              disabled && "opacity-60"
+              "text-sm font-medium",
+              error && "text-destructive",
+              orientation === "horizontal" && "justify-self-end"
             )}
           >
             {label}
-            {required && <span className="text-destructive"> *</span>}
-          </label>
+            {required && <span className="text-destructive ml-1">*</span>}
+          </Label>
         )}
-
-        {control}
-
-        {description && !error && (
-          <p
-            id={descriptionId}
-            data-slot="form-field-description"
-            className="text-xs text-muted-foreground"
-          >
-            {description}
-          </p>
-        )}
-
-        {error && (
-          <p
-            id={errorId}
-            data-slot="form-field-error"
-            className="text-xs text-destructive"
-          >
-            {error}
-          </p>
-        )}
+        <div className="grid gap-1.5">
+          {children}
+          {description && !error && (
+            <p
+              data-slot="form-field-description"
+              className="text-sm text-muted-foreground"
+            >
+              {description}
+            </p>
+          )}
+          {error && (
+            <p
+              data-slot="form-field-error"
+              className="text-sm text-destructive"
+              role="alert"
+            >
+              {error}
+            </p>
+          )}
+        </div>
       </div>
     )
   }
 )
-
 FormField.displayName = "FormField"
 
-export { FormField }
-export type { FormFieldProps }
+export { FormField, formFieldVariants }
