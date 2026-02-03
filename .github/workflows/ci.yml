@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      FIGMA_ACCESS_TOKEN: ${{ secrets.FIGMA_ACCESS_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,8 +35,6 @@ jobs:
         run: pnpm lint
 
       - name: Code Connect dry-run (optional)
-        if: ${{ secrets.FIGMA_ACCESS_TOKEN != '' }}
-        env:
-          FIGMA_ACCESS_TOKEN: ${{ secrets.FIGMA_ACCESS_TOKEN }}
+        if: ${{ env.FIGMA_ACCESS_TOKEN != '' }}
         run: pnpm codeconnect:dry-run
 
