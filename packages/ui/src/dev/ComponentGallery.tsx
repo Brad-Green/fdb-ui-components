@@ -1778,7 +1778,12 @@ export function ComponentGallery() {
               sonnerToast.promise(
                 new Promise((resolve) => setTimeout(resolve, 2000)),
                 {
-                  loading: "Loading...",
+                  loading: (
+                    <div className="flex items-center gap-2">
+                      <Spinner size="small" />
+                      <span>Loading...</span>
+                    </div>
+                  ),
                   success: "Data loaded successfully!",
                   error: "Failed to load data.",
                 }
