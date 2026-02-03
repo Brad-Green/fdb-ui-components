@@ -14,14 +14,8 @@ figma.connect(
   // Note: connect to the Sonner Content component node.
   "https://www.figma.com/design/YfHPTyArBQBSpLmaPlZyUk/FDB-Shadcn?node-id=139-11366",
   {
-    props: {
-      variant: figma.enum("Variant", {
-        Default: "default",
-        Destructive: "destructive",
-      }),
-    },
-    example: ({ variant }) => (
-      <Toast variant={variant}>
+    example: () => (
+      <Toast>
         <div className="grid gap-1">
           <ToastTitle>Toast Title</ToastTitle>
           <ToastDescription>Toast description message.</ToastDescription>

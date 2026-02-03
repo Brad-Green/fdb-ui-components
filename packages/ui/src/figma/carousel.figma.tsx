@@ -17,14 +17,8 @@ figma.connect(
   // Note: connect to the top-level node that contains all variants.
   "https://www.figma.com/design/YfHPTyArBQBSpLmaPlZyUk/FDB-Shadcn?node-id=164-18293",
   {
-    props: {
-      orientation: figma.enum("Orientation", {
-        Horizontal: "horizontal",
-        Vertical: "vertical",
-      }),
-    },
-    example: ({ orientation }) => (
-      <Carousel orientation={orientation} className="w-full max-w-xs">
+    example: () => (
+      <Carousel className="w-full max-w-xs">
         <CarouselContent>
           <CarouselItem>
             <Card>

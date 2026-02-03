@@ -15,21 +15,13 @@ figma.connect(
   // Note: connect to the top-level node that contains all variants.
   "https://www.figma.com/design/YfHPTyArBQBSpLmaPlZyUk/FDB-Shadcn?node-id=301-243831",
   {
-    props: {
-      side: figma.enum("Side", {
-        Top: "top",
-        Right: "right",
-        Bottom: "bottom",
-        Left: "left",
-      }),
-    },
-    example: ({ side }) => (
+    example: () => (
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="outline">Open sheet</Button>
         </SheetTrigger>
 
-        <SheetContent side={side}>
+        <SheetContent side="right">
           <SheetHeader>
             <SheetTitle>Title</SheetTitle>
             <SheetDescription>Description</SheetDescription>

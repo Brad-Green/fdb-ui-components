@@ -10,40 +10,8 @@ figma.connect(
   // Note: connect to the Toggle Button component set.
   "https://www.figma.com/design/YfHPTyArBQBSpLmaPlZyUk/FDB-Shadcn?node-id=816-112827",
   {
-    props: {
-      variant: figma.enum("Variant", {
-        Primary: "primary",
-        Secondary: "secondary",
-        Outline: "outline",
-        Ghost: "ghost",
-        GhostMuted: "ghostMuted",
-        "Ghost Muted": "ghostMuted",
-        Destructive: "destructive",
-      }),
-      size: figma.enum("Size", {
-        Mini: "mini",
-        Small: "small",
-        Regular: "regular",
-        Large: "large",
-      }),
-      roundness: figma.enum("Roundness", {
-        Default: "default",
-        Round: "round",
-      }),
-      pressed: figma.enum("State", {
-        Pressed: true,
-        Default: false,
-      }),
-      disabled: figma.enum("State", { Disabled: true }),
-    },
-    example: ({ variant, size, roundness, pressed, disabled }) => (
-      <Button
-        variant={variant}
-        size={size}
-        roundness={roundness}
-        disabled={disabled}
-        aria-pressed={pressed}
-      >
+    example: () => (
+      <Button variant="outline" aria-pressed="false">
         Toggle
       </Button>
     ),

@@ -14,14 +14,8 @@ figma.connect(
   // Note: connect to the Accordion Trigger component node.
   "https://www.figma.com/design/YfHPTyArBQBSpLmaPlZyUk/FDB-Shadcn?node-id=66-5034",
   {
-    props: {
-      type: figma.enum("Type", {
-        Single: "single",
-        Multiple: "multiple",
-      }),
-    },
-    example: ({ type }) => (
-      <Accordion type={type} collapsible className="w-full">
+    example: () => (
+      <Accordion type="single" collapsible className="w-full">
         <AccordionItem value="item-1">
           <AccordionTrigger>Is it accessible?</AccordionTrigger>
           <AccordionContent>
