@@ -80,7 +80,7 @@ const DialogFooter = ({
     data-slot="dialog-footer"
     className={cn(
       "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
-      sticky && "sticky bottom-0 bg-background pt-4 -mb-6 pb-6 -mx-6 px-6 border-t",
+      sticky && "mt-auto shrink-0 border-t bg-background pt-4 -mb-6 pb-6 -mx-6 px-6",
       className
     )}
     {...props}
@@ -94,7 +94,7 @@ const DialogBody = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     data-slot="dialog-body"
-    className={cn("flex-1 overflow-y-auto", className)}
+    className={cn("flex-1 min-h-0 overflow-y-auto", className)}
     {...props}
   />
 )
