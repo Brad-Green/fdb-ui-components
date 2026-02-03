@@ -1080,21 +1080,105 @@ Format:
 
 ## FormField (layout wrapper)
 
-- **Component**: `FormField` (simple label/description/error wrapper in `form-field.tsx`)
+- **Component**: `FormField` (label/description/error wrapper)
 - **Import**: `@/components/ui/form-field`
 
 ### Axes (Figma → code)
 
-- None (this is a composition wrapper).
+- **Orientation** → `orientation: "vertical" | "horizontal"` (default: `"vertical"`)
 
 ### State (Figma → code)
 
-- **Invalid** → driven by `error?: string`; wrapper injects `aria-invalid` and `aria-describedby` onto its single child control.
-- **Disabled** → driven by `disabled?: boolean`; wrapper injects `disabled` onto its single child control and dims the label.
+- **Invalid** → driven by `error?: string`; displays error message.
+- **Disabled** → driven by `disabled?: boolean`; dims the entire field.
 
 ### Data attributes
 
-- None today (recommend `data-slot="form-field"` for mapping/debugging if this becomes a Code Connect target).
+- Emits `data-slot="form-field"` and `data-orientation` on the root.
+
+---
+
+## RichCheckboxGroup / RichCheckboxItem
+
+- **Component**: `RichCheckboxGroup`, `RichCheckboxItem`
+- **Import**: `@/components/ui/rich-checkbox-group`
+
+### Axes (Figma → code)
+
+- **Orientation** → `orientation: "vertical" | "horizontal"` (default: `"vertical"`)
+
+### State (Figma → code)
+
+- **Checked** → Radix `checked` / `defaultChecked` on each item
+- **Disabled** → `disabled` on each item
+
+### Data attributes
+
+- `RichCheckboxGroup` emits `data-slot="rich-checkbox-group"` and `data-orientation`.
+- `RichCheckboxItem` emits `data-slot="rich-checkbox-item"`.
+
+---
+
+## RichSwitchGroup / RichSwitchItem
+
+- **Component**: `RichSwitchGroup`, `RichSwitchItem`
+- **Import**: `@/components/ui/rich-switch-group`
+
+### Axes (Figma → code)
+
+- **Orientation** → `orientation: "vertical" | "horizontal"` (default: `"vertical"`)
+
+### State (Figma → code)
+
+- **Checked** → Radix `checked` / `defaultChecked` on each item
+- **Disabled** → `disabled` on each item
+
+### Data attributes
+
+- `RichSwitchGroup` emits `data-slot="rich-switch-group"` and `data-orientation`.
+- `RichSwitchItem` emits `data-slot="rich-switch-item"`.
+
+---
+
+## RichRadioGroup / RichRadioItem
+
+- **Component**: `RichRadioGroup`, `RichRadioItem`
+- **Import**: `@/components/ui/rich-radio-group`
+
+### Axes (Figma → code)
+
+- **Orientation** → `orientation: "vertical" | "horizontal"` (default: `"vertical"`)
+
+### State (Figma → code)
+
+- **Selected** → controlled by Radix RadioGroup `value` / `defaultValue`
+- **Disabled** → `disabled` on each item
+
+### Data attributes
+
+- `RichRadioGroup` emits `data-slot="rich-radio-group"` and `data-orientation`.
+- `RichRadioItem` emits `data-slot="rich-radio-item"`.
+
+---
+
+## AvatarStack
+
+- **Component**: `AvatarStack`
+- **Import**: `@/components/ui/avatar-stack`
+
+### Axes (Figma → code)
+
+- **Size** → `size: "sm" | "default" | "lg"` (default: `"default"`)
+- **Max** → `max?: number` (optional; limits visible avatars and shows +N indicator)
+
+### State (Figma → code)
+
+- None (display component).
+
+### Data attributes
+
+- Emits `data-slot="avatar-stack"` on the root.
+- Overflow indicator emits `data-slot="avatar-stack-overflow"`.
 
 ---
 
@@ -1139,6 +1223,8 @@ Format:
 
 ## Code Connect Status
 
+**Coverage: 100%** — All 67 Figma component sets have Code Connect mappings (60 files).
+
 The following components have Figma Code Connect files (`packages/ui/src/figma/*.figma.tsx`):
 
 ### Core Controls
@@ -1150,43 +1236,67 @@ The following components have Figma Code Connect files (`packages/ui/src/figma/*
 - **RadioGroup** (`radio-group.figma.tsx`) - size, disabled, aria-invalid
 - **Switch** (`switch.figma.tsx`) - size, disabled, aria-invalid
 - **Slider** (`slider.figma.tsx`, `slider-vertical.figma.tsx`) - disabled, aria-invalid
+- **Spinner** (`spinner.figma.tsx`) - size variants
+
+### Button Variants
+- **Icon Button** (`icon-button.figma.tsx`) - Button with icon only
+- **Link Button** (`link-button.figma.tsx`) - Button with asChild wrapping anchor
+- **Toggle Button** (`toggle-button.figma.tsx`) - Button with aria-pressed state
+- **Loading Button** (`loading-button.figma.tsx`) - Button with Spinner
+- **Button Group** (`button-group.figma.tsx`) - grouped action buttons
+- **Toggle** (`toggle.figma.tsx`) - two-state toggle button
+- **Toggle Group** (`toggle-group.figma.tsx`) - grouped toggle buttons
 
 ### Overlays and Dialogs
-- **Dialog** (`dialog.figma.tsx`) - Type axis → contentClassName
+- **Dialog** (`dialog.figma.tsx`) - standard dialog
+- **Dialog Footer** (`dialog-footer.figma.tsx`) - sticky footer variant
 - **Sheet** (`sheet.figma.tsx`) - side axis
 - **AlertDialog** (`alert-dialog.figma.tsx`) - standard structure
 - **Tooltip** (`tooltip.figma.tsx`) - side axis
 - **Toast** (`toast.figma.tsx`) - variant axis
+- **Sonner** (`sonner.figma.tsx`) - toast notifications (success/error/warning/info/action)
+- **Popover** (`popover.figma.tsx`) - popover content
+- **HoverCard** (`hover-card.figma.tsx`) - hover card content
+- **Command** (`command.figma.tsx`) - command palette
+
+### Menus
+- **DropdownMenu** (`dropdown-menu.figma.tsx`) - dropdown menu
+- **ContextMenu** (`context-menu.figma.tsx`) - right-click context menu
+- **Menubar** (`menubar.figma.tsx`) - horizontal menu bar
+- **NavigationMenu** (`navigation-menu.figma.tsx`) - site navigation
 
 ### Data Display
 - **Tabs** (`tabs.figma.tsx`) - standard structure
-- **Accordion** (`accordion.figma.tsx`) - type axis
+- **Accordion** (`accordion.figma.tsx`) - collapsible sections
+- **Collapsible** (`collapsible.figma.tsx`) - single collapsible
 - **Table** (`table.figma.tsx`) - standard structure
 - **Pagination** (`pagination.figma.tsx`) - standard structure
 - **Card** (`card.figma.tsx`) - standard structure
 - **Badge** (`badge.figma.tsx`) - variant axis
 - **Alert** (`alert.figma.tsx`) - variant axis
 - **Avatar** (`avatar.figma.tsx`) - standard structure
+- **Avatar Stack** (`avatar-stack.figma.tsx`) - overlapping avatars
 - **Progress** (`progress.figma.tsx`) - standard structure
 - **Separator** (`separator.figma.tsx`) - orientation axis
+- **Skeleton** (`skeleton.figma.tsx`) - loading placeholder
+- **Breadcrumb** (`breadcrumb.figma.tsx`) - navigation breadcrumbs
 
 ### Layout Components
-- **Calendar** (`calendar.figma.tsx`) - mode (single)
+- **Calendar** (`calendar.figma.tsx`) - date selection
+- **Date Picker** (`date-picker.figma.tsx`) - popover + calendar composition
 - **Carousel** (`carousel.figma.tsx`) - orientation axis
 - **Resizable** (`resizable.figma.tsx`) - orientation axis
 - **ScrollArea** (`scroll-area.figma.tsx`) - standard structure
+- **AspectRatio** (`aspect-ratio.figma.tsx`) - ratio container
+- **Sidebar** (`sidebar.figma.tsx`) - composable sidebar
 - **Label** (`label.figma.tsx`) - standard structure
 
-### Button Variants
-- **Icon Button** (`icon-button.figma.tsx`) - Button with icon only, square aspect
-- **Link Button** (`link-button.figma.tsx`) - Button with asChild wrapping anchor
-- **Toggle Button** (`toggle-button.figma.tsx`) - Button with aria-pressed state
-
-### Components without Code Connect (out of scope or layout helpers)
-- Loading Button (needs loading prop/state on Button component)
-- Button Group (layout pattern, needs ButtonGroup component)
-- DropdownMenu, ContextMenu, Menubar, NavigationMenu (complex nested menus)
-- Form, FormField (react-hook-form wrappers)
-- Breadcrumb, Collapsible, HoverCard, Popover (may be added later)
-- Skeleton, AspectRatio (utility components)
+### Form Components
+- **Input OTP** (`input-otp.figma.tsx`) - one-time password input
+- **Input File** (`input-file.figma.tsx`) - file input
+- **Form Field** (`form-field.figma.tsx`) - vertical field layout
+- **Horizontal Field** (`horizontal-field.figma.tsx`) - horizontal field layout
+- **Rich Checkbox Group** (`rich-checkbox-group.figma.tsx`) - card-style checkboxes
+- **Rich Switch Group** (`rich-switch-group.figma.tsx`) - card-style switches
+- **Rich Radio Group** (`rich-radio-group.figma.tsx`) - card-style radios
 

@@ -2,12 +2,15 @@
 
 Monorepo for **shadcn/ui React components** styled from a **Tokens Studio (Figma) design tokens JSON** file.
 
+**Status:** Code Connect pipeline complete — 60 mapping files covering 100% of Figma component sets.
+
 ## Repo structure
 
 - `packages/tokens`: **source of truth** for tokens + generated artifacts
   - Source: `packages/tokens/tokens/tokens.json`
   - Outputs (generated): `packages/tokens/dist/`
 - `packages/ui`: shadcn/ui component set + Vite demo that **imports generated token CSS** (intended for shadcn-style copy/paste into consuming apps)
+- `packages/ui/src/figma`: Code Connect mapping files (`*.figma.tsx`)
 
 ## Quick start
 
@@ -74,13 +77,13 @@ Remove-Item Env:FIGMA_ACCESS_TOKEN
 - `pnpm --filter ui build` completes with `✓ built in ...` and produces `packages/ui/dist/`.
 - `pnpm --filter ui lint` completes with no errors.
 
-Consuming these components in an app (copy/paste contract):
+## Documentation
 
-- See `CONSUME_IN_APP.md`
-- API conventions checklist (for contributors / AI agents):
-  - See `API_CONVENTIONS.md`
-- Phase 5 Figma → props mappings (source of truth for prop/state/data-* contracts):
-  - See `PHASE5_MAPPINGS.md`
+- `CONSUME_IN_APP.md` — How to copy components into a consuming app
+- `API_CONVENTIONS.md` — Component API conventions checklist
+- `PHASE5_MAPPINGS.md` — Figma → props mapping reference (source of truth)
+- `PUBLISH_TOKENS.md` — Publishing tokens to npm registry
+- `figma to code pipeline.md` — Architecture and session log
 
 Run the component gallery:
 

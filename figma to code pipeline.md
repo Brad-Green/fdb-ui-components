@@ -1,337 +1,130 @@
-🎯 Design System → Code System (Shadcn + Tokens + Figma Code Connect)
-✅ Goal
+# Design System → Code System (Shadcn + Tokens + Figma Code Connect)
 
-Create a single monorepo containing the canonical shadcn/ui-style component implementations, fully:
+## Goal
 
-Styled via design tokens exported from Figma
+A single monorepo containing canonical shadcn/ui-style component implementations, fully:
 
-Using semantic Tailwind variables (not hardcoded colors)
+- Styled via design tokens exported from Figma
+- Using semantic Tailwind variables (not hardcoded colors)
+- With component APIs that map 1:1 to Figma component variants
+- Ready for Figma Code Connect bindings
 
-With component APIs that map 1:1 to Figma component variants
+This repo is the **source of truth design system**.
 
-Ready for Figma Code Connect bindings
+## Architecture
 
-This repo will become the source of truth design system.
-
-🧱 Current Architecture (Completed)
-Monorepo
+```
 packages/
-  tokens/                ← token source + generated artifacts
-    tokens/tokens.json   ← Tokens Studio export (synced)
+  tokens/                  ← token source + generated artifacts
+    tokens/tokens.json     ← Tokens Studio export (synced from Figma)
     dist/
-      tokens.css         ← generated CSS custom properties
-      shadcn-theme.css   ← shadcn contract vars (e.g. --background, --primary, --border)
-  ui/                    ← component source + Vite demo
+      tokens.css           ← generated CSS custom properties
+      shadcn-theme.css     ← shadcn contract vars (--background, --primary, etc.)
+  ui/                      ← component source + Vite demo
     src/
-      components/ui/     ← all shadcn components live here
+      components/ui/       ← all shadcn components
+      figma/               ← Code Connect mapping files (*.figma.tsx)
+      dev/                 ← ComponentGallery for visual testing
       lib/utils.ts
-      lib/types.ts       ← shared UI types (e.g. FieldDecoration)
+      lib/types.ts         ← shared UI types (e.g. FieldDecoration)
+      hooks/               ← custom hooks (use-toast, use-mobile, etc.)
     tailwind.config.js
-    postcss.config.js
-
-Tokens
-
-Tokens exported from Figma → JSON
-
-Transformed via Style Dictionary
-
-Output to:
-
-- `packages/tokens/dist/tokens.css`
-- `packages/tokens/dist/shadcn-theme.css`
-
-Tailwind uses semantic CSS variables:
-
---border
---input
---primary
---destructive
-etc.
-
-
-Mapped in Tailwind:
-
-colors: {
-  border: "hsl(var(--border))",
-  input: "hsl(var(--input))",
-  primary: ...
-}
-
-✅ Components Already Implemented / Modified
-
-All using semantic tokens + ARIA states (no custom error props):
-
-✅ Button (variants, size, roundness)
-
-✅ Input (size, roundness, decoration, ARIA error)
-
-✅ Textarea (ARIA error, disabled)
-
-✅ Select (Trigger updated for aria-invalid + disabled; `variant` prop for destructive; decoration support)
-
-✅ Checkbox
-
-✅ RadioGroup
-
-✅ Switch (basic)
-
-Form system:
-
-✅ Form, FormField, FormItem, FormLabel, FormControl, FormMessage
-
-Uses aria-invalid="true" for visual error states
-
-Component gallery page exists for visual testing.
-
-✅ Drift / Token Purity Audits (Completed)
-
-- ✅ **Hardcoded color audit**: replaced any Tailwind palette colors / hardcoded colors found in UI components (ex: toast destructive close/action styles)
-- ✅ **Opacity “drift” audit (Option B)**: removed all `bg-*/NN`, `text-*/NN`, `border-*/NN`, `ring-*/NN` alpha utilities from `packages/ui/src/components/ui`
-  - Added explicit semantic/theme-backed values instead (ex: `bg-backdrop`, `bg-primary-subtle`, `bg-primary-soft`, `border-primary-border-subtle`, `bg-muted-soft`)
-  - Note: we still allow defining *semantic* colors that include alpha in `tailwind.config.js` (e.g. `primary-subtle`), but we avoid sprinkling `/NN` alpha utilities throughout component source.
-
-✅ Tokens / Tailwind Updates (Completed)
-
-- ✅ Added explicit error ring token mapping (`--ring-error` → `ring-ring-error`)
-- ✅ Added explicit semantic vars + Tailwind colors for hover/subtle/backdrop:
-  - `--primary-hover`, `--secondary-hover`
-  - `--ghost-hover`, `--outline-hover`
-  - `--destructive-border`
-  - `--backdrop` (used for modal overlays)
-
-🛑 Where We Paused (Updated)
-
-We have completed:
-
-- ✅ **Phase 4.5** — ARIA invalid + disabled parity across controls (Input/Textarea/Select/Checkbox/RadioGroup/Switch/Slider)
-- ✅ **Phase 4.6** — missing shadcn components are present (Accordion/Tabs/Tooltip/Popover/Dropdown Menu, plus others)
-- ✅ **Phase 5 (in progress)** — API normalization + “binding signals” for Figma parity + Code Connect readiness:
-  - `SelectTrigger`: renamed `type` → `variant` and added `decoration` (“none/leftIcon/rightIcon/both”)
-  - `Input`: replaced boolean icon flags with `decoration` (“none/leftIcon/rightIcon/both”)
-  - Added `data-*` attributes for Code Connect mapping/debugging (`data-variant`, `data-size`, `data-roundness`, `data-decoration`)
-  - Added `data-disabled="true"` for non-native disabled semantics where `aria-disabled` is used (e.g. Pagination)
-  - Expanded Phase 5 mapping coverage (see `PHASE5_MAPPINGS.md`) for:
-    - Pagination (`PaginationLink` active/disabled)
-    - Calendar (navigation disabled semantics)
-    - Dropdown menu (item highlighted/disabled, sub trigger/content, content placement)
-    - Menubar (content placement, submenu trigger/content)
-    - Navigation menu (trigger open state, content motion, viewport sizing, indicator visibility)
-
-ComponentGallery has been updated with new examples and DevTools verification notes, so drift and missing `data-*` signals are visually obvious.
-
-Note: `pnpm --filter ui lint` includes an existing Fast Refresh rule (`react-refresh/only-export-components`) that flags shadcn-style exports like `buttonVariants`. This is not part of the design-system work; we can address it later if desired.
-
-🚀 Next Roadmap (In Order)
-🔹 Phase 5 — Align Component APIs with Figma Variants
-
-For each component:
-
-Compare Figma properties to component props
-
-Normalize names and values
-
-Examples:
-
-Figma	Code
-Size: Regular/Large	`size="regular"
-Variant: Destructive	variant="destructive"
-Roundness	roundness="round"
-
-Add one standardized pattern for icon/decorations:
-
-- `decoration="none" | "leftIcon" | "rightIcon" | "both"` (instead of multiple booleans)
-
-Use cva() for:
-
-variant
-
-size
-
-roundness
-
-density
-
-Avoid:
-
-boolean visual props
-
-visual-only state props
-
-🔹 Phase 6 — Figma Code Connect Wiring
-
-For each mapped component:
-
-Add Code Connect metadata in Figma
-
-Map:
-
-component → import path (consumer app)
-
-variant → props
-
-state → ARIA
-
-Example target:
-
-import { Button } from "@/components/ui/button"
-
-<Button variant="secondary" size="large" />
-
-
-Goal:
-Designers can copy exact production components from Figma.
-
-✅ Architectural Rules Going Forward
-
-❌ No hardcoded hex colors
-
-❌ No visual-only props (error, focused)
-
-✅ All error state via aria-invalid
-
-✅ Layout handled outside components
-
-✅ Variants via CVA only
-
-✅ Tokens → Tailwind → Components
-
-🧭 Ultimate End State
-
-You will have:
-
-A production-ready design system package
-
-Fully token-driven theming
-
-Exact Figma → code component parity
-
-Zero design drift
-
-AI agents (Cursor) able to generate correct code from Figma designs
-
-If you want, when you start the new session you can open with:
-
-We are starting Phase 5 (API parity) and Phase 6 (Code Connect) for the anchor components: Button, Input, Select.
-
-Immediate next steps:
-
-1) Continue Phase 5 API alignment + mapping for remaining “high-impact” components (overlays like Dialog/Sheet/Popover/Tooltip, plus any remaining controls)
-2) Lock naming conventions across the library (`variant`, `size`, `roundness`, `decoration`, optional `density`)
-3) Begin Phase 6 Code Connect wiring for a small anchor set (Button/Input/Select) using the documented `data-*` and ARIA/Radix state signals
-
-Good stopping point — you’re doing this the right way.
+```
+
+## Token Pipeline
+
+1. Tokens exported from Figma → Tokens Studio → JSON
+2. Transformed via Style Dictionary
+3. Output to `packages/tokens/dist/`
+4. Tailwind uses semantic CSS variables (`--border`, `--primary`, `--destructive`, etc.)
+
+## Architectural Rules
+
+- No hardcoded hex colors in components
+- No visual-only props (error, focused) — use `aria-invalid` instead
+- All error state via `aria-invalid`
+- Layout handled outside components
+- Variants via CVA only
+- Tokens → Tailwind → Components
 
 ---
 
-## ✅ Today’s summary (what changed)
+## Session Log
 
-### Session summary (2026-01-30)
+### 2026-02-03 (Final Session)
 
-#### Figma Code Connect — Button
+#### Code Connect Pipeline Complete
 
-- Fixed icon toggles not emitting in Dev Mode by expanding boolean enum handling:
-  - `Show left icon` / `Show right icon` now handle both `True/False` and `true/false` values.
-- Kept icon identity intentionally as a placeholder (`SquareDashed`) in generated code:
-  - This validates slot parity without overfitting to Figma instance-swapped icon names.
+Achieved **100% Code Connect coverage** (60 mapping files covering all 67 Figma component sets).
 
-#### Figma Code Connect — Select & Combobox
+**New Components Implemented:**
+- `Spinner` — loading indicator with size variants
+- `ButtonGroup` — groups related action buttons (horizontal/vertical)
+- `Toggle` / `ToggleGroup` — two-state toggle buttons
+- `InputOTP` — one-time password input
+- `Command` — command palette / search (cmdk)
+- `Sonner` — toast notifications with variants (success, error, warning, info, promise, action)
+- `Sidebar` — composable sidebar navigation
+- `FormField` — form field wrapper (vertical/horizontal orientation)
+- `RichCheckboxGroup` — card-style checkboxes with descriptions
+- `RichSwitchGroup` — card-style switches with descriptions
+- `RichRadioGroup` — card-style radios with descriptions
+- `AvatarStack` — overlapping avatars with +N indicator
+- `DialogFooter` with `sticky` prop — sticky footer for scrollable dialogs
 
-- Wired missing Figma axes into code so snippets actually change:
-  - `Lines` axis now maps to `lines: "one" | "two"` on `SelectTrigger`.
-- Extended `SelectTrigger` to support the full Figma `Size` axis:
-  - Added `mini` and `small` size variants (previously only `regular`/`large`).
-- Fixed parity for the toggles shown in Figma:
-  - `Show Prepend` now emits `prepend="Prepend:"` (text prefix)
-  - `Show Decoration` now emits `leftIcon={<SquareDashed className="size-4" />}` (left icon)
-- Added mapping/debug signals:
-  - `SelectTrigger` now emits `data-lines` (in addition to existing axis `data-*`).
-- Fixed a styling bug introduced during the 2-line work:
-  - Replaced invalid Tailwind class `h-13` with `h-[52px]`.
+**New Code Connect Files (26 new):**
+- Core: `spinner`, `button-group`, `toggle`, `toggle-group`, `loading-button`
+- Inputs: `input-otp`, `input-file`, `date-picker`
+- Overlays: `sonner`, `command`, `sidebar`, `dialog-footer`, `collapsible`
+- Menus: `dropdown-menu`, `context-menu`, `menubar`, `navigation-menu`, `popover`, `hover-card`
+- Display: `skeleton`, `breadcrumb`, `aspect-ratio`
+- Forms: `form-field`, `horizontal-field`, `rich-checkbox-group`, `rich-switch-group`, `rich-radio-group`, `avatar-stack`
 
-#### Validation + publish
+**CI/Validation:**
+- All 60 Code Connect files parse successfully
+- `pnpm codeconnect:dry-run` validates against Figma API
+- CI workflow runs Code Connect validation on every push
 
-- Verified TypeScript build + Code Connect validity before each publish:
-  - `pnpm --filter ui build`
-  - `pnpm codeconnect:dry-run`
-  - `pnpm codeconnect:publish`
+### 2026-02-03 (Earlier)
 
----
+- Expanded Code Connect from 17 to 29 components
+- Added overlays: Sheet, AlertDialog, Tooltip, Toast
+- Added data display: Pagination, Table, Accordion, Label
+- Added layout: Calendar, Carousel, Resizable, ScrollArea
 
-## 🗓️ What’s next (tomorrow)
+### 2026-01-30
 
-### 1) Golden Test the remaining anchor components
-
-- Dialog:
-  - Confirm Dev Mode snippet changes correctly for the `Type` axis (desktop/mobile) and structure is idiomatic (no inline conditional logic in strings).
-- Input:
-  - Validate `size`, `roundness`, `decoration`, `disabled`, and `aria-invalid` mappings in Dev Mode.
-
-### 2) Tighten Select parity (only if needed)
-
-- If Figma exposes more meaningful Select properties (nested decorations, right-side variants), decide whether to:
-  - map as additional props (preferred), or
-  - intentionally treat as out-of-scope for the snippet (documented).
-
-### 3) Optional: lock in CI reliability
-
-- Add `FIGMA_ACCESS_TOKEN` as a GitHub Actions secret so PRs can run `pnpm codeconnect:dry-run` automatically.
+- Fixed Figma Code Connect for Button (icon toggles)
+- Wired Select & Combobox axes (Lines, Size, Show Prepend, Show Decoration)
+- Extended SelectTrigger with `mini` and `small` sizes
 
 ---
 
-## ✅ Session summary (2026-02-03)
+## Validation Commands
 
-### Code Connect Coverage Expansion
+```bash
+# Build everything
+pnpm build
 
-Expanded Code Connect coverage from 17 to 29 components (~41% of Figma components):
+# Lint
+pnpm lint
 
-#### Golden Testing Completed
-- **Dialog**: Verified `Type` axis (Desktop/Mobile/Scrollable) correctly maps to `contentClassName`.
-- **Input**: Added missing `decoration` axis mapping (none/leftIcon/rightIcon/both).
+# Code Connect dry-run (requires FIGMA_ACCESS_TOKEN)
+pnpm codeconnect:dry-run
 
-#### New Code Connect Files Created
+# Code Connect publish
+pnpm codeconnect:publish
 
-**Overlays and Dialogs:**
-- `sheet.figma.tsx` - Maps `Side` axis (top/right/bottom/left)
-- `alert-dialog.figma.tsx` - Standard AlertDialog structure
-- `tooltip.figma.tsx` - Maps `Side` axis for placement
-- `toast.figma.tsx` - Maps `Variant` axis (default/destructive)
-
-**Data Display:**
-- `pagination.figma.tsx` - Standard Pagination structure with isActive/disabled
-- `table.figma.tsx` - Standard Table structure with TableRow data-state
-- `accordion.figma.tsx` - Maps `Type` axis (single/multiple)
-- `label.figma.tsx` - Basic Label component
-
-**Layout Components:**
-- `calendar.figma.tsx` - Calendar/DatePicker component
-- `carousel.figma.tsx` - Maps `Orientation` axis (horizontal/vertical)
-- `resizable.figma.tsx` - Maps `Orientation` axis
-- `scroll-area.figma.tsx` - Standard ScrollArea structure
-
-#### CI Integration
-- CI workflow already configured with optional `FIGMA_ACCESS_TOKEN` secret
-- Code Connect validation runs automatically when secret is available
-
-#### Documentation Updates
-- Updated `PHASE5_MAPPINGS.md` with Code Connect status section
-- Lists all components with/without Code Connect files
-
-### Validation
-- ✅ TypeScript build passes: `pnpm --filter ui build`
-- ✅ Lint passes: `pnpm --filter ui lint`
-- Ready for: `pnpm codeconnect:dry-run` and `pnpm codeconnect:publish`
+# Run dev gallery
+pnpm dev
+```
 
 ---
 
-## 🗓️ Remaining Work (optional)
+## Related Documentation
 
-### Button Variants (Phase 3 from plan)
-The Figma file has separate component sets for button variants that could be wired:
-- Icon Button, Toggle Button, Loading Button, Link Button, Button Group
-
-### Additional Components
-Components that could be added later if needed:
-- DropdownMenu, ContextMenu, Menubar, NavigationMenu (complex nested menus)
-- Popover, HoverCard (additional overlays)
-- Breadcrumb, Skeleton (utility components)
-
+- `README.md` — Quick start and baseline commands
+- `CONSUME_IN_APP.md` — How to copy components into a consuming app
+- `API_CONVENTIONS.md` — Component API conventions checklist
+- `PHASE5_MAPPINGS.md` — Figma → props mapping reference
+- `PUBLISH_TOKENS.md` — Publishing tokens to npm registry
