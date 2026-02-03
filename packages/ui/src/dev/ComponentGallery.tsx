@@ -1775,19 +1775,17 @@ export function ComponentGallery() {
           <Button
             variant="outline"
             onClick={() => {
-              sonnerToast.promise(
-                new Promise((resolve) => setTimeout(resolve, 2000)),
-                {
-                  loading: (
-                    <div className="flex items-center gap-2">
-                      <Spinner size="small" />
-                      <span>Loading...</span>
-                    </div>
-                  ),
-                  success: "Data loaded successfully!",
-                  error: "Failed to load data.",
-                }
-              )
+              sonnerToast("Loading...", {
+                icon: <Spinner size="small" />,
+                duration: Infinity,
+                id: "loading-toast",
+              })
+              // Simulate async operation
+              setTimeout(() => {
+                sonnerToast.success("Data loaded successfully!", {
+                  id: "loading-toast",
+                })
+              }, 2000)
             }}
           >
             Promise
@@ -1797,10 +1795,11 @@ export function ComponentGallery() {
             onClick={() => {
               sonnerToast("Event has been created", {
                 description: "Sunday, December 03, 2023 at 9:00 AM",
-                action: {
-                  label: "Undo",
-                  onClick: () => console.log("Undo clicked"),
-                },
+                action: (
+                  <Button size="small" onClick={() => console.log("Undo clicked")}>
+                    Undo
+                  </Button>
+                ),
               })
             }}
           >
