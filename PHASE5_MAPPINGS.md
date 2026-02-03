@@ -1135,3 +1135,51 @@ Format:
 
 - Inherits toast `data-variant` on each `Toast` (documented above).
 
+---
+
+## Code Connect Status
+
+The following components have Figma Code Connect files (`packages/ui/src/figma/*.figma.tsx`):
+
+### Core Controls
+- **Button** (`button.figma.tsx`) - variant, size, roundness, disabled, leftIcon, rightIcon
+- **Input** (`input.figma.tsx`) - size, roundness, decoration, disabled, aria-invalid
+- **Textarea** (`textarea.figma.tsx`) - size, roundness, disabled, aria-invalid
+- **Select** (`select.figma.tsx`) - size, lines, leftIcon, prepend, disabled, aria-invalid
+- **Checkbox** (`checkbox.figma.tsx`) - size, roundness, disabled, aria-invalid
+- **RadioGroup** (`radio-group.figma.tsx`) - size, disabled, aria-invalid
+- **Switch** (`switch.figma.tsx`) - size, disabled, aria-invalid
+- **Slider** (`slider.figma.tsx`, `slider-vertical.figma.tsx`) - disabled, aria-invalid
+
+### Overlays and Dialogs
+- **Dialog** (`dialog.figma.tsx`) - Type axis → contentClassName
+- **Sheet** (`sheet.figma.tsx`) - side axis
+- **AlertDialog** (`alert-dialog.figma.tsx`) - standard structure
+- **Tooltip** (`tooltip.figma.tsx`) - side axis
+- **Toast** (`toast.figma.tsx`) - variant axis
+
+### Data Display
+- **Tabs** (`tabs.figma.tsx`) - standard structure
+- **Accordion** (`accordion.figma.tsx`) - type axis
+- **Table** (`table.figma.tsx`) - standard structure
+- **Pagination** (`pagination.figma.tsx`) - standard structure
+- **Card** (`card.figma.tsx`) - standard structure
+- **Badge** (`badge.figma.tsx`) - variant axis
+- **Alert** (`alert.figma.tsx`) - variant axis
+- **Avatar** (`avatar.figma.tsx`) - standard structure
+- **Progress** (`progress.figma.tsx`) - standard structure
+- **Separator** (`separator.figma.tsx`) - orientation axis
+
+### Layout Components
+- **Calendar** (`calendar.figma.tsx`) - mode (single)
+- **Carousel** (`carousel.figma.tsx`) - orientation axis
+- **Resizable** (`resizable.figma.tsx`) - orientation axis
+- **ScrollArea** (`scroll-area.figma.tsx`) - standard structure
+- **Label** (`label.figma.tsx`) - standard structure
+
+### Components without Code Connect (out of scope or layout helpers)
+- DropdownMenu, ContextMenu, Menubar, NavigationMenu (complex nested menus)
+- Form, FormField (react-hook-form wrappers)
+- Breadcrumb, Collapsible, HoverCard, Popover (may be added later)
+- Skeleton, AspectRatio (utility components)
+

@@ -19,6 +19,14 @@ figma.connect(
         Round: "round",
       }),
 
+      // Decoration axis - maps to icon slots
+      decoration: figma.enum("Decoration", {
+        None: "none",
+        "Left Icon": "leftIcon",
+        "Right Icon": "rightIcon",
+        Both: "both",
+      }),
+
       // Figma state variants represent visual states. In code we map only semantic states.
       disabled: figma.enum("State", { Disabled: true }),
       ariaInvalid: figma.enum("State", { Error: true, "Error Focus": true }),
@@ -27,10 +35,11 @@ figma.connect(
       placeholder: figma.enum("State", { Placeholder: "Value" }),
       defaultValue: figma.enum("State", { Value: "Value" }),
     },
-    example: ({ size, roundness, disabled, ariaInvalid, placeholder, defaultValue }) => (
+    example: ({ size, roundness, decoration, disabled, ariaInvalid, placeholder, defaultValue }) => (
       <Input
         size={size}
         roundness={roundness}
+        decoration={decoration}
         disabled={disabled}
         aria-invalid={ariaInvalid}
         placeholder={placeholder}

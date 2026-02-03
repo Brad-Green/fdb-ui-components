@@ -276,3 +276,62 @@ Good stopping point — you’re doing this the right way.
 
 - Add `FIGMA_ACCESS_TOKEN` as a GitHub Actions secret so PRs can run `pnpm codeconnect:dry-run` automatically.
 
+---
+
+## ✅ Session summary (2026-02-03)
+
+### Code Connect Coverage Expansion
+
+Expanded Code Connect coverage from 17 to 29 components (~41% of Figma components):
+
+#### Golden Testing Completed
+- **Dialog**: Verified `Type` axis (Desktop/Mobile/Scrollable) correctly maps to `contentClassName`.
+- **Input**: Added missing `decoration` axis mapping (none/leftIcon/rightIcon/both).
+
+#### New Code Connect Files Created
+
+**Overlays and Dialogs:**
+- `sheet.figma.tsx` - Maps `Side` axis (top/right/bottom/left)
+- `alert-dialog.figma.tsx` - Standard AlertDialog structure
+- `tooltip.figma.tsx` - Maps `Side` axis for placement
+- `toast.figma.tsx` - Maps `Variant` axis (default/destructive)
+
+**Data Display:**
+- `pagination.figma.tsx` - Standard Pagination structure with isActive/disabled
+- `table.figma.tsx` - Standard Table structure with TableRow data-state
+- `accordion.figma.tsx` - Maps `Type` axis (single/multiple)
+- `label.figma.tsx` - Basic Label component
+
+**Layout Components:**
+- `calendar.figma.tsx` - Calendar/DatePicker component
+- `carousel.figma.tsx` - Maps `Orientation` axis (horizontal/vertical)
+- `resizable.figma.tsx` - Maps `Orientation` axis
+- `scroll-area.figma.tsx` - Standard ScrollArea structure
+
+#### CI Integration
+- CI workflow already configured with optional `FIGMA_ACCESS_TOKEN` secret
+- Code Connect validation runs automatically when secret is available
+
+#### Documentation Updates
+- Updated `PHASE5_MAPPINGS.md` with Code Connect status section
+- Lists all components with/without Code Connect files
+
+### Validation
+- ✅ TypeScript build passes: `pnpm --filter ui build`
+- ✅ Lint passes: `pnpm --filter ui lint`
+- Ready for: `pnpm codeconnect:dry-run` and `pnpm codeconnect:publish`
+
+---
+
+## 🗓️ Remaining Work (optional)
+
+### Button Variants (Phase 3 from plan)
+The Figma file has separate component sets for button variants that could be wired:
+- Icon Button, Toggle Button, Loading Button, Link Button, Button Group
+
+### Additional Components
+Components that could be added later if needed:
+- DropdownMenu, ContextMenu, Menubar, NavigationMenu (complex nested menus)
+- Popover, HoverCard (additional overlays)
+- Breadcrumb, Skeleton (utility components)
+

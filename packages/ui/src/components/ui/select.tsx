@@ -130,7 +130,7 @@ const SelectTrigger = React.forwardRef<
         data-decoration={derivedDecoration}
         {...props}
       >
-        <span className="flex min-w-0 flex-1 items-center gap-2">
+        <span className="flex min-w-0 flex-1 items-center gap-2 text-left">
           {leftIcon ? <span className="shrink-0">{leftIcon}</span> : null}
           {prepend ? (
             <span
@@ -140,7 +140,7 @@ const SelectTrigger = React.forwardRef<
               {prepend}
             </span>
           ) : null}
-          <span className="min-w-0 flex-1">{children}</span>
+          <span className="min-w-0 flex-1 truncate">{children}</span>
           {rightIcon ? <span className="shrink-0">{rightIcon}</span> : null}
         </span>
         <SelectPrimitive.Icon asChild>

@@ -111,6 +111,22 @@ import { ChevronRight, Plus } from "lucide-react"
 import { FormField } from "@/components/ui/form-field"
 import { Toaster } from "@/components/ui/toaster"
 import { toast } from "@/hooks/use-toast"
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
 
 export function ComponentGallery() {
   const [isDark, setIsDark] = React.useState(() => {
@@ -1252,6 +1268,109 @@ export function ComponentGallery() {
             </AlertDescription>
           </Alert>
         </div>
+      </section>
+
+      <Separator />
+
+      {/* Table */}
+      <section className="space-y-4 max-w-2xl">
+        <h2 className="text-xl font-semibold">Table</h2>
+        <Table>
+          <TableCaption>A list of recent invoices.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[100px]">Invoice</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Method</TableHead>
+              <TableHead className="text-right">Amount</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell className="font-medium">INV001</TableCell>
+              <TableCell>Paid</TableCell>
+              <TableCell>Credit Card</TableCell>
+              <TableCell className="text-right">$250.00</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="font-medium">INV002</TableCell>
+              <TableCell>Pending</TableCell>
+              <TableCell>PayPal</TableCell>
+              <TableCell className="text-right">$150.00</TableCell>
+            </TableRow>
+            <TableRow data-state="selected">
+              <TableCell className="font-medium">INV003</TableCell>
+              <TableCell>Unpaid</TableCell>
+              <TableCell>Bank Transfer</TableCell>
+              <TableCell className="text-right">$350.00</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+        <p className="text-xs text-muted-foreground">
+          In DevTools, verify each table part emits{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-slot</code> values
+          (table, table-header, table-body, table-row, table-head, table-cell).
+          The third row has{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-state=&quot;selected&quot;</code>{" "}
+          for selected row styling.
+        </p>
+      </section>
+
+      <Separator />
+
+      {/* Carousel */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Carousel</h2>
+        <div className="grid gap-16 md:grid-cols-2">
+          <div className="space-y-2">
+            <div className="text-sm font-medium">Horizontal</div>
+            <div className="px-12">
+              <Carousel orientation="horizontal" className="w-full max-w-xs">
+                <CarouselContent>
+                  {[1, 2, 3, 4, 5].map((num) => (
+                    <CarouselItem key={num}>
+                      <Card>
+                        <CardContent className="flex aspect-square items-center justify-center p-6">
+                          <span className="text-4xl font-semibold">{num}</span>
+                        </CardContent>
+                      </Card>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <div className="text-sm font-medium">Vertical</div>
+            <div className="py-12">
+              <Carousel orientation="vertical" className="w-full max-w-xs">
+                <CarouselContent className="-mt-1 h-[200px]">
+                  {[1, 2, 3, 4, 5].map((num) => (
+                    <CarouselItem key={num} className="pt-1 md:basis-1/2">
+                      <Card>
+                        <CardContent className="flex items-center justify-center p-6">
+                          <span className="text-3xl font-semibold">{num}</span>
+                        </CardContent>
+                      </Card>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
+            </div>
+          </div>
+        </div>
+        <p className="text-xs text-muted-foreground">
+          In DevTools, verify the carousel root emits{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-slot=&quot;carousel&quot;</code>{" "}
+          and{" "}
+          <code className="rounded bg-muted px-1 py-0.5">data-orientation</code>.
+          Also verify the previous/next buttons disable when at the edges.
+        </p>
       </section>
 
       <Separator />
