@@ -81,7 +81,7 @@ Remove-Item Env:FIGMA_ACCESS_TOKEN
 
 - `CONSUME_IN_APP.md` — How to copy components into a consuming app
 - `API_CONVENTIONS.md` — Component API conventions checklist
-- `PHASE5_MAPPINGS.md` — Figma → props mapping reference (source of truth)
+- `COMPONENT_MAPPINGS.md` — Figma → props mapping reference (source of truth)
 - `PUBLISH_TOKENS.md` — Publishing tokens to npm registry
 - `figma to code pipeline.md` — Architecture and session log
 

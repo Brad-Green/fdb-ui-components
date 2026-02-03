@@ -39,7 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `README.md` - Quick start guide
 - `CONSUME_IN_APP.md` - Consumer integration guide
 - `API_CONVENTIONS.md` - Component API standards
-- `PHASE5_MAPPINGS.md` - Figma → props mapping reference
+- `COMPONENT_MAPPINGS.md` - Figma → props mapping reference
 - `PUBLISH_TOKENS.md` - Token publishing guide
 - `figma to code pipeline.md` - Architecture and session log
 

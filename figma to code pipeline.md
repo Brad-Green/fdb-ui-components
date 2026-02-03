@@ -126,5 +126,5 @@ pnpm dev
 - `README.md` — Quick start and baseline commands
 - `CONSUME_IN_APP.md` — How to copy components into a consuming app
 - `API_CONVENTIONS.md` — Component API conventions checklist
-- `PHASE5_MAPPINGS.md` — Figma → props mapping reference
+- `COMPONENT_MAPPINGS.md` — Figma → props mapping reference
 - `PUBLISH_TOKENS.md` — Publishing tokens to npm registry

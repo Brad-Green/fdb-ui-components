@@ -1,6 +1,6 @@
-# Phase 5 mappings (Figma → props)
+# Component Mappings (Figma → Props)
 
-This doc is the **source of truth for component prop contracts** during Phase 5.
+This doc is the **source of truth for component prop contracts**.
 
 Format:
 
