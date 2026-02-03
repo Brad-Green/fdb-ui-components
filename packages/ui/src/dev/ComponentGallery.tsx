@@ -107,7 +107,11 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
-import { ChevronRight, Plus } from "lucide-react"
+import { ChevronRight, Plus, Bold, Italic, Underline, Archive, Trash } from "lucide-react"
+import { Spinner } from "@/components/ui/spinner"
+import { ButtonGroup, ButtonGroupSeparator } from "@/components/ui/button-group"
+import { Toggle } from "@/components/ui/toggle"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { FormField } from "@/components/ui/form-field"
 import { Toaster } from "@/components/ui/toaster"
 import { toast } from "@/hooks/use-toast"
@@ -213,7 +217,173 @@ export function ComponentGallery() {
               aria-invalid + Disabled
             </Button>
           </div>
+
+          <div className="space-y-2">
+            <div className="text-sm font-medium">Loading Button (with Spinner)</div>
+            <div className="flex flex-wrap gap-4 items-center">
+              <Button disabled leftIcon={<Spinner />}>
+                Loading...
+              </Button>
+              <Button variant="outline" disabled leftIcon={<Spinner />}>
+                Please wait
+              </Button>
+              <Button variant="secondary" disabled leftIcon={<Spinner size="small" />}>
+                Saving
+              </Button>
+            </div>
+          </div>
           
+        </div>
+      </section>
+
+      <Separator />
+
+      {/* Spinner */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Spinner</h2>
+        <div className="flex flex-wrap items-center gap-6">
+          <div className="flex flex-col items-center gap-2">
+            <Spinner size="mini" />
+            <span className="text-xs text-muted-foreground">Mini</span>
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <Spinner size="small" />
+            <span className="text-xs text-muted-foreground">Small</span>
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <Spinner size="regular" />
+            <span className="text-xs text-muted-foreground">Regular</span>
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <Spinner size="large" />
+            <span className="text-xs text-muted-foreground">Large</span>
+          </div>
+        </div>
+      </section>
+
+      <Separator />
+
+      {/* Button Group */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Button Group</h2>
+        <p className="text-sm text-muted-foreground">
+          Use ButtonGroup when buttons perform <strong>actions</strong> (e.g., Archive, Delete).
+        </p>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <div className="text-sm font-medium">Horizontal (default)</div>
+            <ButtonGroup>
+              <Button variant="outline">Archive</Button>
+              <Button variant="outline">Report</Button>
+              <Button variant="outline">Delete</Button>
+            </ButtonGroup>
+          </div>
+
+          <div className="space-y-2">
+            <div className="text-sm font-medium">With Separator</div>
+            <ButtonGroup>
+              <Button variant="outline" leftIcon={<Archive className="size-4" />}>
+                Archive
+              </Button>
+              <ButtonGroupSeparator />
+              <Button variant="outline" leftIcon={<Trash className="size-4" />}>
+                Delete
+              </Button>
+            </ButtonGroup>
+          </div>
+
+          <div className="space-y-2">
+            <div className="text-sm font-medium">Vertical</div>
+            <ButtonGroup orientation="vertical">
+              <Button variant="outline">Top</Button>
+              <Button variant="outline">Middle</Button>
+              <Button variant="outline">Bottom</Button>
+            </ButtonGroup>
+          </div>
+        </div>
+      </section>
+
+      <Separator />
+
+      {/* Toggle */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Toggle</h2>
+        <p className="text-sm text-muted-foreground">
+          A single two-state button (on/off). For grouping toggles, see ToggleGroup below.
+        </p>
+        <div className="flex flex-wrap items-center gap-4">
+          <Toggle aria-label="Toggle bold">
+            <Bold className="size-4" />
+          </Toggle>
+          <Toggle variant="outline" aria-label="Toggle italic">
+            <Italic className="size-4" />
+          </Toggle>
+          <Toggle defaultPressed aria-label="Toggle underline (pressed)">
+            <Underline className="size-4" />
+          </Toggle>
+          <Toggle disabled aria-label="Toggle disabled">
+            <Bold className="size-4" />
+          </Toggle>
+        </div>
+      </section>
+
+      <Separator />
+
+      {/* Toggle Group */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Toggle Group</h2>
+        <p className="text-sm text-muted-foreground">
+          Use ToggleGroup when buttons toggle <strong>state</strong> (e.g., text formatting).
+          Can be "single" (one at a time) or "multiple" (any combination).
+        </p>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <div className="text-sm font-medium">Multiple selection (text formatting)</div>
+            <ToggleGroup type="multiple" variant="outline">
+              <ToggleGroupItem value="bold" aria-label="Toggle bold">
+                <Bold className="size-4" />
+              </ToggleGroupItem>
+              <ToggleGroupItem value="italic" aria-label="Toggle italic">
+                <Italic className="size-4" />
+              </ToggleGroupItem>
+              <ToggleGroupItem value="underline" aria-label="Toggle underline">
+                <Underline className="size-4" />
+              </ToggleGroupItem>
+            </ToggleGroup>
+          </div>
+
+          <div className="space-y-2">
+            <div className="text-sm font-medium">Single selection</div>
+            <ToggleGroup type="single" defaultValue="bold">
+              <ToggleGroupItem value="bold" aria-label="Toggle bold">
+                <Bold className="size-4" />
+              </ToggleGroupItem>
+              <ToggleGroupItem value="italic" aria-label="Toggle italic">
+                <Italic className="size-4" />
+              </ToggleGroupItem>
+              <ToggleGroupItem value="underline" aria-label="Toggle underline">
+                <Underline className="size-4" />
+              </ToggleGroupItem>
+            </ToggleGroup>
+          </div>
+
+          <div className="space-y-2">
+            <div className="text-sm font-medium">Sizes</div>
+            <div className="flex flex-wrap items-center gap-6">
+              <ToggleGroup type="single" size="sm" variant="outline">
+                <ToggleGroupItem value="a">Sm</ToggleGroupItem>
+                <ToggleGroupItem value="b">Sm</ToggleGroupItem>
+              </ToggleGroup>
+              <ToggleGroup type="single" size="default" variant="outline">
+                <ToggleGroupItem value="a">Default</ToggleGroupItem>
+                <ToggleGroupItem value="b">Default</ToggleGroupItem>
+              </ToggleGroup>
+              <ToggleGroup type="single" size="lg" variant="outline">
+                <ToggleGroupItem value="a">Lg</ToggleGroupItem>
+                <ToggleGroupItem value="b">Lg</ToggleGroupItem>
+              </ToggleGroup>
+            </div>
+          </div>
         </div>
       </section>
 
