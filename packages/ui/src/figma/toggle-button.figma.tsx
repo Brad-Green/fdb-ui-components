@@ -43,7 +43,6 @@ figma.connect(
         roundness={roundness}
         disabled={disabled}
         aria-pressed={pressed}
-        data-state={pressed ? "on" : "off"}
       >
         Toggle
       </Button>
