@@ -1177,7 +1177,14 @@ The following components have Figma Code Connect files (`packages/ui/src/figma/*
 - **ScrollArea** (`scroll-area.figma.tsx`) - standard structure
 - **Label** (`label.figma.tsx`) - standard structure
 
+### Button Variants
+- **Icon Button** (`icon-button.figma.tsx`) - Button with icon only, square aspect
+- **Link Button** (`link-button.figma.tsx`) - Button with asChild wrapping anchor
+- **Toggle Button** (`toggle-button.figma.tsx`) - Button with aria-pressed state
+
 ### Components without Code Connect (out of scope or layout helpers)
+- Loading Button (needs loading prop/state on Button component)
+- Button Group (layout pattern, needs ButtonGroup component)
 - DropdownMenu, ContextMenu, Menubar, NavigationMenu (complex nested menus)
 - Form, FormField (react-hook-form wrappers)
 - Breadcrumb, Collapsible, HoverCard, Popover (may be added later)

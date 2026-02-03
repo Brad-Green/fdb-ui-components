@@ -33,7 +33,7 @@ jobs:
         run: pnpm lint
 
       - name: Code Connect dry-run (optional)
-        if: ${{ env.FIGMA_ACCESS_TOKEN != '' }}
+        if: ${{ secrets.FIGMA_ACCESS_TOKEN != '' }}
         env:
           FIGMA_ACCESS_TOKEN: ${{ secrets.FIGMA_ACCESS_TOKEN }}
         run: pnpm codeconnect:dry-run
