@@ -1772,6 +1772,35 @@ export function ComponentGallery() {
           >
             Info
           </Button>
+          <Button
+            variant="outline"
+            onClick={() => {
+              sonnerToast.promise(
+                new Promise((resolve) => setTimeout(resolve, 2000)),
+                {
+                  loading: "Loading...",
+                  success: "Data loaded successfully!",
+                  error: "Failed to load data.",
+                }
+              )
+            }}
+          >
+            Promise
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => {
+              sonnerToast("Event has been created", {
+                description: "Sunday, December 03, 2023 at 9:00 AM",
+                action: {
+                  label: "Undo",
+                  onClick: () => console.log("Undo clicked"),
+                },
+              })
+            }}
+          >
+            With Action
+          </Button>
         </div>
         <SonnerToaster />
       </section>
