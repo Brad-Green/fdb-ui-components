@@ -107,7 +107,13 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
-import { ChevronRight, Plus, Bold, Italic, Underline, Archive, Trash } from "lucide-react"
+import { ChevronRight, Plus, Bold, Italic, Underline, Archive, Trash, CalendarIcon } from "lucide-react"
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+  InputOTPSeparator,
+} from "@/components/ui/input-otp"
 import { Spinner } from "@/components/ui/spinner"
 import { ButtonGroup, ButtonGroupSeparator } from "@/components/ui/button-group"
 import { Toggle } from "@/components/ui/toggle"
@@ -455,6 +461,101 @@ export function ComponentGallery() {
           <Textarea size="small" placeholder="Small" />
           <Textarea size="mini" placeholder="Mini" />
           <Textarea roundness="round" placeholder="Round" />
+        </div>
+      </section>
+
+      <Separator />
+
+      {/* Input File */}
+      <section className="space-y-4 max-w-sm">
+        <h2 className="text-xl font-semibold">Input File</h2>
+        <div className="grid w-full items-center gap-1.5">
+          <Label htmlFor="picture">Picture</Label>
+          <Input id="picture" type="file" />
+        </div>
+        <div className="grid w-full items-center gap-1.5">
+          <Label htmlFor="document">Document (disabled)</Label>
+          <Input id="document" type="file" disabled />
+        </div>
+      </section>
+
+      <Separator />
+
+      {/* Input OTP */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Input OTP</h2>
+        <p className="text-sm text-muted-foreground">
+          Accessible one-time password input with copy/paste support.
+        </p>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <div className="text-sm font-medium">6 digits with separator</div>
+            <InputOTP maxLength={6}>
+              <InputOTPGroup>
+                <InputOTPSlot index={0} />
+                <InputOTPSlot index={1} />
+                <InputOTPSlot index={2} />
+              </InputOTPGroup>
+              <InputOTPSeparator />
+              <InputOTPGroup>
+                <InputOTPSlot index={3} />
+                <InputOTPSlot index={4} />
+                <InputOTPSlot index={5} />
+              </InputOTPGroup>
+            </InputOTP>
+          </div>
+
+          <div className="space-y-2">
+            <div className="text-sm font-medium">4 digits (PIN style)</div>
+            <InputOTP maxLength={4}>
+              <InputOTPGroup>
+                <InputOTPSlot index={0} />
+                <InputOTPSlot index={1} />
+                <InputOTPSlot index={2} />
+                <InputOTPSlot index={3} />
+              </InputOTPGroup>
+            </InputOTP>
+          </div>
+
+          <div className="space-y-2">
+            <div className="text-sm font-medium">Disabled</div>
+            <InputOTP maxLength={6} disabled>
+              <InputOTPGroup>
+                <InputOTPSlot index={0} />
+                <InputOTPSlot index={1} />
+                <InputOTPSlot index={2} />
+              </InputOTPGroup>
+              <InputOTPSeparator />
+              <InputOTPGroup>
+                <InputOTPSlot index={3} />
+                <InputOTPSlot index={4} />
+                <InputOTPSlot index={5} />
+              </InputOTPGroup>
+            </InputOTP>
+          </div>
+        </div>
+      </section>
+
+      <Separator />
+
+      {/* Date Picker */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Date Picker</h2>
+        <p className="text-sm text-muted-foreground">
+          Composition of Popover + Calendar. Use date-fns format() to display dates.
+        </p>
+        <div className="flex flex-wrap gap-4">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" className="w-[280px] justify-start text-left font-normal">
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                Pick a date
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0">
+              <Calendar mode="single" />
+            </PopoverContent>
+          </Popover>
         </div>
       </section>
 
