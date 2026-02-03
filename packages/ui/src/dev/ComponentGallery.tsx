@@ -1795,11 +1795,10 @@ export function ComponentGallery() {
             onClick={() => {
               sonnerToast("Event has been created", {
                 description: "Sunday, December 03, 2023 at 9:00 AM",
-                action: (
-                  <Button size="small" onClick={() => console.log("Undo clicked")}>
-                    Undo
-                  </Button>
-                ),
+                action: {
+                  label: "Undo",
+                  onClick: () => console.log("Undo clicked"),
+                },
               })
             }}
           >
