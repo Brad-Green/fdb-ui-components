@@ -4,17 +4,18 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonGroupVariants = cva(
-  "inline-flex items-center [&>button]:rounded-none [&>button]:border-r-0 " +
-    "[&>button:first-child]:rounded-l-md [&>button:last-child]:rounded-r-md [&>button:last-child]:border-r",
+  "inline-flex [&>button]:rounded-none",
   {
     variants: {
       orientation: {
         horizontal:
-          "[&>button]:rounded-none [&>button]:border-r-0 " +
-          "[&>button:first-child]:rounded-l-md [&>button:last-child]:rounded-r-md [&>button:last-child]:border-r",
+          "flex-row items-center " +
+          "[&>button]:border-r-0 [&>button:last-child]:border-r " +
+          "[&>button:first-child]:rounded-l-md [&>button:last-child]:rounded-r-md",
         vertical:
-          "flex-col [&>button]:rounded-none [&>button]:border-b-0 " +
-          "[&>button:first-child]:rounded-t-md [&>button:last-child]:rounded-b-md [&>button:last-child]:border-b",
+          "flex-col " +
+          "[&>button]:border-b-0 [&>button:last-child]:border-b " +
+          "[&>button:first-child]:rounded-t-md [&>button:last-child]:rounded-b-md",
       },
     },
     defaultVariants: {
