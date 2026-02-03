@@ -44,6 +44,8 @@ pnpm add \
   @radix-ui/react-radio-group @radix-ui/react-scroll-area @radix-ui/react-select \
   @radix-ui/react-separator @radix-ui/react-slider @radix-ui/react-slot \
   @radix-ui/react-switch @radix-ui/react-tabs @radix-ui/react-toast @radix-ui/react-tooltip \
+  @radix-ui/react-toggle @radix-ui/react-toggle-group \
+  cmdk sonner input-otp \
   embla-carousel-react react-day-picker react-resizable-panels
 ```
 

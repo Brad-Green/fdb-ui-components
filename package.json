@@ -13,9 +13,20 @@
     "codeconnect:dry-run": "pnpm -s dlx @figma/code-connect@latest connect publish --dry-run",
     "codeconnect:publish": "pnpm -s dlx @figma/code-connect@latest connect publish"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "design-system",
+    "shadcn",
+    "tokens-studio",
+    "figma",
+    "code-connect",
+    "react",
+    "tailwindcss"
+  ],
+  "author": "Brad Green",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "packageManager": "pnpm@10.28.0",
   "private": true
 }
