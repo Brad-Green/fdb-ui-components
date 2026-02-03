@@ -107,7 +107,19 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
-import { ChevronRight, Plus, Bold, Italic, Underline, Archive, Trash, CalendarIcon } from "lucide-react"
+import { ChevronRight, Plus, Bold, Italic, Underline, Archive, Trash, CalendarIcon, Calculator, Settings, User } from "lucide-react"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "@/components/ui/command"
+import { Toaster as SonnerToaster, toast as sonnerToast } from "@/components/ui/sonner"
+import { DialogBody, DialogDescription, DialogFooter } from "@/components/ui/dialog"
 import {
   InputOTP,
   InputOTPGroup,
@@ -1680,6 +1692,124 @@ export function ComponentGallery() {
         <FormField label="Disabled" disabled>
           <Input />
         </FormField>
+      </section>
+
+      <Separator />
+
+      {/* Command */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Command</h2>
+        <p className="text-sm text-muted-foreground">
+          Command palette for search and quick actions. Built on cmdk.
+        </p>
+        <Command className="rounded-lg border shadow-md max-w-md">
+          <CommandInput placeholder="Type a command or search..." />
+          <CommandList>
+            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandGroup heading="Suggestions">
+              <CommandItem>
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                <span>Calendar</span>
+              </CommandItem>
+              <CommandItem>
+                <Calculator className="mr-2 h-4 w-4" />
+                <span>Calculator</span>
+              </CommandItem>
+            </CommandGroup>
+            <CommandSeparator />
+            <CommandGroup heading="Settings">
+              <CommandItem>
+                <User className="mr-2 h-4 w-4" />
+                <span>Profile</span>
+                <CommandShortcut>⌘P</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <Settings className="mr-2 h-4 w-4" />
+                <span>Settings</span>
+                <CommandShortcut>⌘S</CommandShortcut>
+              </CommandItem>
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </section>
+
+      <Separator />
+
+      {/* Sonner Toast */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Sonner (Toast)</h2>
+        <p className="text-sm text-muted-foreground">
+          Opinionated toast component by Emil Kowalski.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          <Button
+            variant="outline"
+            onClick={() => sonnerToast("Event has been created.")}
+          >
+            Default
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => sonnerToast.success("Successfully saved!")}
+          >
+            Success
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => sonnerToast.error("Something went wrong.")}
+          >
+            Error
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => sonnerToast.warning("Please review your input.")}
+          >
+            Warning
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => sonnerToast.info("New update available.")}
+          >
+            Info
+          </Button>
+        </div>
+        <SonnerToaster />
+      </section>
+
+      <Separator />
+
+      {/* Dialog with Sticky Footer */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Dialog with Sticky Footer</h2>
+        <p className="text-sm text-muted-foreground">
+          Footer stays visible while scrollable content overflows.
+        </p>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="outline">Open Scrollable Dialog</Button>
+          </DialogTrigger>
+          <DialogContent className="max-h-[80vh] flex flex-col">
+            <DialogHeader>
+              <DialogTitle>Terms of Service</DialogTitle>
+              <DialogDescription>
+                Please read through the terms below.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogBody className="pr-4">
+              {Array.from({ length: 15 }).map((_, i) => (
+                <p key={i} className="mb-4 text-sm text-muted-foreground">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+                  eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                  enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+                </p>
+              ))}
+            </DialogBody>
+            <DialogFooter sticky>
+              <Button variant="outline">Cancel</Button>
+              <Button>Accept</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </section>
 
       <Toaster />

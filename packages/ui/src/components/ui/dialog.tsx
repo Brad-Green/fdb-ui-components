@@ -73,18 +73,32 @@ DialogHeader.displayName = "DialogHeader"
 
 const DialogFooter = ({
   className,
+  sticky,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
+}: React.HTMLAttributes<HTMLDivElement> & { sticky?: boolean }) => (
   <div
     data-slot="dialog-footer"
     className={cn(
       "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
+      sticky && "sticky bottom-0 bg-background pt-4 -mb-6 pb-6 -mx-6 px-6 border-t",
       className
     )}
     {...props}
   />
 )
 DialogFooter.displayName = "DialogFooter"
+
+const DialogBody = ({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) => (
+  <div
+    data-slot="dialog-body"
+    className={cn("flex-1 overflow-y-auto", className)}
+    {...props}
+  />
+)
+DialogBody.displayName = "DialogBody"
 
 const DialogTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
@@ -124,6 +138,7 @@ export {
   DialogContent,
   DialogHeader,
   DialogFooter,
+  DialogBody,
   DialogTitle,
   DialogDescription,
 }
