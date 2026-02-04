@@ -79,6 +79,7 @@ Remove-Item Env:FIGMA_ACCESS_TOKEN
 
 ## Documentation
 
+- **`GET_STARTED.md`** — **Start here!** Instructions for coding agents to set up a new project
 - `QUICK_START.md` — Quick setup and verification checklist
 - `AGENTS.md` — AI governance rules for code generation
 - `CONSUME_IN_APP.md` — How to copy components into a consuming app
