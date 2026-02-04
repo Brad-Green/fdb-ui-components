@@ -79,6 +79,8 @@ Remove-Item Env:FIGMA_ACCESS_TOKEN
 
 ## Documentation
 
+- `QUICK_START.md` — Quick setup and verification checklist
+- `AGENTS.md` — AI governance rules for code generation
 - `CONSUME_IN_APP.md` — How to copy components into a consuming app
 - `API_CONVENTIONS.md` — Component API conventions checklist
 - `COMPONENT_MAPPINGS.md` — Figma → props mapping reference (source of truth)

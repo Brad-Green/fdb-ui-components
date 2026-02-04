@@ -10,6 +10,7 @@
     "tokens:sync": "pnpm --filter @brad-green/tokens tokens:sync",
     "tokens:fix": "pnpm --filter @brad-green/tokens tokens:fix",
     "tokens:build": "pnpm --filter @brad-green/tokens tokens:build",
+    "tokens:audit": "pnpm --filter ui tokens:audit",
     "codeconnect:dry-run": "pnpm -s dlx @figma/code-connect@latest connect publish --dry-run",
     "codeconnect:publish": "pnpm -s dlx @figma/code-connect@latest connect publish"
   },
