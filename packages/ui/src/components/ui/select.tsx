@@ -56,7 +56,7 @@ const selectTriggerVariants = cva(
     compoundVariants: [
       // 2-line variants need additional height + vertical padding.
       { size: "mini", lines: "two", className: "h-12 py-1.5 items-start" },
-      { size: "small", lines: "two", className: "h-[52px] py-2 items-start" },
+      { size: "small", lines: "two", className: "h-13 py-2 items-start" },
       { size: "regular", lines: "two", className: "h-14 py-2 items-start" },
       { size: "large", lines: "two", className: "h-16 py-3 items-start" },
     ],

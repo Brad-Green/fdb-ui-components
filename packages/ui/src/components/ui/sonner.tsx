@@ -21,11 +21,11 @@ const Toaster = ({ theme, ...props }: ToasterProps) => {
           error:
             "group-[.toaster]:bg-background group-[.toaster]:text-destructive group-[.toaster]:border-destructive [&_svg]:text-destructive",
           success:
-            "group-[.toaster]:bg-green-500 group-[.toaster]:text-white group-[.toaster]:border-green-500",
+            "group-[.toaster]:bg-success group-[.toaster]:text-success-foreground group-[.toaster]:border-success",
           warning:
-            "group-[.toaster]:bg-yellow-500 group-[.toaster]:text-white group-[.toaster]:border-yellow-500",
+            "group-[.toaster]:bg-warning group-[.toaster]:text-warning-foreground group-[.toaster]:border-warning",
           info:
-            "group-[.toaster]:bg-blue-500 group-[.toaster]:text-white group-[.toaster]:border-blue-500",
+            "group-[.toaster]:bg-info group-[.toaster]:text-info-foreground group-[.toaster]:border-info",
         },
       }}
       {...props}

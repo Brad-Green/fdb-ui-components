@@ -46,9 +46,22 @@ export default {
   				foreground: 'hsl(var(--accent-foreground))'
   			},
   			'accent-soft': 'hsl(var(--accent) / 0.5)',
-  			'ghost-hover': 'hsl(var(--ghost-hover))',
-  			'outline-hover': 'hsl(var(--outline-hover))',
-  			popover: {
+'ghost-hover': 'hsl(var(--ghost-hover))',
+			'outline-hover': 'hsl(var(--outline-hover))',
+			// Signal colors for toast states
+			success: {
+				DEFAULT: 'hsl(142 76% 36%)',
+				foreground: 'hsl(0 0% 100%)'
+			},
+			warning: {
+				DEFAULT: 'hsl(38 92% 50%)',
+				foreground: 'hsl(0 0% 100%)'
+			},
+			info: {
+				DEFAULT: 'hsl(217 91% 60%)',
+				foreground: 'hsl(0 0% 100%)'
+			},
+			popover: {
   				DEFAULT: 'hsl(var(--popover))',
   				foreground: 'hsl(var(--popover-foreground))'
   			},
@@ -61,6 +74,22 @@ export default {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
+  		},
+  		spacing: {
+  			// Custom spacing for component-specific sizes
+  			'13': '3.25rem',    // 52px - select two-line height
+  			'toast': '26.25rem', // 420px - toast width
+  		},
+  		minHeight: {
+  			// Textarea size variants
+  			'textarea-mini': '3rem',     // 48px
+  			'textarea-sm': '4rem',       // 64px
+  			'textarea-md': '5rem',       // 80px
+  			'textarea-lg': '7.5rem',     // 120px
+  		},
+  		maxHeight: {
+  			// Command/dropdown max heights
+  			'dropdown': '18.75rem', // 300px
   		},
   		keyframes: {
   			'accordion-down': {
