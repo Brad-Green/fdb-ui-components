@@ -149,6 +149,18 @@ function fixReferences(obj, currentPath = []) {
           scopedValue = scopedValue.replace(/\{absolute\./g, `{${root}.absolute.`)
         }
 
+        // Semantic color cross-references within the same set
+        // e.g. {general.primary foreground} -> {semantic colors/fdb.general.primary foreground}
+        if (root === "semantic colors/fdb" && scopedValue.includes("{general.")) {
+          scopedValue = scopedValue.replace(/\{general\./g, "{semantic colors/fdb.general.")
+        }
+        if (root === "semantic colors/shadcn" && scopedValue.includes("{general.")) {
+          scopedValue = scopedValue.replace(/\{general\./g, "{semantic colors/shadcn.general.")
+        }
+        if (root === "semantic colors/shadcn-dark" && scopedValue.includes("{general.")) {
+          scopedValue = scopedValue.replace(/\{general\./g, "{semantic colors/shadcn-dark.general.")
+        }
+
         // Map of short references to full paths
         const referenceMap = {
           "{white}": "{raw colors/Mode 1.white}",
