@@ -47,7 +47,7 @@ const ResizableHandle = ({
     {withHandle && (
       <div
         data-slot="resizable-handle-grip"
-        className="z-10 flex h-4 w-3 items-center justify-center rounded-sm border bg-border"
+        className="z-10 flex h-4 w-3 items-center justify-center rounded-sm border border-border bg-border"
       >
         <GripVertical className="h-2.5 w-2.5" />
       </div>
