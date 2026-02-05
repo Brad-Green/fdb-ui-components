@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils"
 export type { FieldDecoration } from "@/lib/types"
 
 const inputVariants = cva(
-  "flex w-full bg-transparent px-3 py-1 text-base shadow-sm transition-colors md:text-sm " +
+  "flex w-full bg-background px-3 py-1 text-base shadow-sm transition-colors md:text-sm " +
   "rounded-md border border-input " +
   "placeholder:text-muted-foreground " +
   "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring " +
