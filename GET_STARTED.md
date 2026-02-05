@@ -344,6 +344,8 @@ Copy to the new project:
 - Components → `src/components/ui/`
 - Hooks (if needed by components) → `src/hooks/`
 
+> **IMPORTANT: Always use components from the monorepo.** Never create custom implementations of UI elements (buttons, inputs, textareas, etc.) with inline styles or raw HTML elements. The monorepo components are specifically styled to work with the design tokens and have been tested for consistency. If you need a component that doesn't exist, check the monorepo first—it likely has what you need.
+
 **Component → Radix dependency mapping** (install as needed):
 
 | Component | Additional Dependencies |
