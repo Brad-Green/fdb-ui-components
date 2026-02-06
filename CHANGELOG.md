@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2026-02-03
+
+### Fixed
+- **Tabs**: Inactive tab text now uses `text-foreground` (was `text-muted-foreground`) to match Figma's `general/foreground` and improve accessibility contrast
+- **Toggle**: Hover state now uses `text-foreground` (was `text-muted-foreground`) for better visibility
+- **Input/Textarea**: Changed from `bg-transparent` to `bg-background` so fields have proper white background per Figma design
+- **Tailwind v4 border compatibility**: Added `border-border` to 12 components (Card, Dialog, Select, Popover, HoverCard, DropdownMenu, ContextMenu, Menubar, NavigationMenu, Toast, Resizable, AlertDialog)
+- **Token resolution**: Fixed Style Dictionary cross-references within semantic color sets (e.g., `--card` now correctly resolves)
+
+### Changed
+- `@brad-green/tokens` bumped to v1.0.2
+
+### Documentation
+- `GET_STARTED.md`: Added troubleshooting for Tailwind v4 `border` behavior, `divide-border` usage, and Input/Textarea component guidance
+
 ## [1.0.0] - 2026-02-03
 
 ### Added
@@ -43,4 +58,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `PUBLISH_TOKENS.md` - Token publishing guide
 - `figma to code pipeline.md` - Architecture and session log
 
+[1.0.1]: https://github.com/Brad-Green/fdb-ui-components/releases/tag/v1.0.1
 [1.0.0]: https://github.com/Brad-Green/fdb-ui-components/releases/tag/v1.0.0
