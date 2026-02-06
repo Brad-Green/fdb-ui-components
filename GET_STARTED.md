@@ -453,6 +453,13 @@ export default App;
   ```
 - Components like Card that use just `border` need to be updated to `border border-border`
 - For top/bottom/left/right borders, use: `border-t border-border`, `border-b border-border`, etc.
+- For dividers between children (`divide-y` or `divide-x`), use: `divide-y divide-border`
+
+**"Input/Textarea backgrounds not matching design"**
+- Never use raw `<input>` or `<textarea>` HTML elements with custom inline styles
+- Always import and use the proper components from `@/components/ui/` (Input, Textarea, etc.)
+- The monorepo components include correct token-based styling (`bg-background`, `border-input`, etc.)
+- **Fix**: Replace raw HTML elements with the corresponding design system component
 
 ---
 
