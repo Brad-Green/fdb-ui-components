@@ -190,6 +190,16 @@ export default {
 @config "../tailwind.config.js";
 ```
 
+**4b-1. Load design token fonts in `index.html`:**
+
+The FDB tokens define font families via CSS variables (`--typographyFdbFontDefinitionsFontFamilySans` for body text, `--typographyFdbFontDefinitionsFontFamilyMonospace` for code). These fonts must be loaded explicitly — the token package provides the variable names but does not load the font files.
+
+Add these lines inside `<head>` in `index.html`:
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+
 > **Note:** This uses Tailwind CSS v4 syntax. The `@import "tailwindcss"` replaces the old `@tailwind base/components/utilities` directives, and `@config` loads the JavaScript configuration file.
 
 **4c. Update `vite.config.ts`:**

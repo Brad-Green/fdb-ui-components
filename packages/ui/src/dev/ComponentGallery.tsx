@@ -486,13 +486,55 @@ export function ComponentGallery() {
       {/* Input File */}
       <section className="space-y-4 max-w-sm">
         <h2 className="text-xl font-semibold">Input File</h2>
-        <div className="grid w-full items-center gap-1.5">
-          <Label htmlFor="picture">Picture</Label>
-          <Input id="picture" type="file" />
+
+        <div className="space-y-1">
+          <div className="text-sm font-medium">Sizes</div>
+          <div className="space-y-3">
+            <div className="grid w-full items-center gap-1.5">
+              <Label htmlFor="file-mini">Mini</Label>
+              <Input id="file-mini" type="file" size="mini" />
+            </div>
+            <div className="grid w-full items-center gap-1.5">
+              <Label htmlFor="file-small">Small</Label>
+              <Input id="file-small" type="file" size="small" />
+            </div>
+            <div className="grid w-full items-center gap-1.5">
+              <Label htmlFor="file-regular">Regular (default)</Label>
+              <Input id="file-regular" type="file" />
+            </div>
+            <div className="grid w-full items-center gap-1.5">
+              <Label htmlFor="file-large">Large</Label>
+              <Input id="file-large" type="file" size="large" />
+            </div>
+          </div>
         </div>
-        <div className="grid w-full items-center gap-1.5">
-          <Label htmlFor="document">Document (disabled)</Label>
-          <Input id="document" type="file" disabled />
+
+        <div className="space-y-1">
+          <div className="text-sm font-medium">Roundness</div>
+          <div className="space-y-3">
+            <div className="grid w-full items-center gap-1.5">
+              <Label htmlFor="file-default-round">Default</Label>
+              <Input id="file-default-round" type="file" />
+            </div>
+            <div className="grid w-full items-center gap-1.5">
+              <Label htmlFor="file-round">Round</Label>
+              <Input id="file-round" type="file" roundness="round" />
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-1">
+          <div className="text-sm font-medium">States</div>
+          <div className="space-y-3">
+            <div className="grid w-full items-center gap-1.5">
+              <Label htmlFor="file-error">Error</Label>
+              <Input id="file-error" type="file" aria-invalid />
+            </div>
+            <div className="grid w-full items-center gap-1.5">
+              <Label htmlFor="file-disabled">Disabled</Label>
+              <Input id="file-disabled" type="file" disabled />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -1444,13 +1486,20 @@ export function ComponentGallery() {
       {/* Radio Group */}
       <section className="space-y-4">
         <h2 className="text-xl font-semibold">Radio Group</h2>
-        <div className="flex items-center gap-3">
-        <RadioGroup defaultValue="one" className="flex gap-4">
-          <RadioGroupItem value="one" />
-          <RadioGroupItem value="two" />
-          <RadioGroupItem value="three" size="large" />
+        <RadioGroup defaultValue="one" className="space-y-2">
+          <div className="flex items-center gap-2">
+            <RadioGroupItem value="one" id="radio-one" />
+            <Label htmlFor="radio-one">Option One</Label>
+          </div>
+          <div className="flex items-center gap-2">
+            <RadioGroupItem value="two" id="radio-two" />
+            <Label htmlFor="radio-two">Option Two</Label>
+          </div>
+          <div className="flex items-center gap-2">
+            <RadioGroupItem value="three" id="radio-three" size="large" />
+            <Label htmlFor="radio-three">Option Three (large)</Label>
+          </div>
         </RadioGroup>
-        </div>
       </section>
 
       <Separator />
